@@ -1,52 +1,60 @@
-/* styles.css */
 body {
-    font-family: 'Arial', sans-serif;
     margin: 0;
-    padding: 20px;
-    background-image: url('https://github.com/shootcat/FoodyFriday/blob/main/DA0C94~1.JPG?raw=true');
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-.container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    max-width: 800px;
-    margin: auto;
-}
-
-.menu {
-    background-color: black;
-    color: white;
-    padding: 10px;
-    display: flex;
-    justify-content: space-around;
-}
-
-.menu a {
-    color: white;
-    text-decoration: none;
-    padding: 10px;
-}
-
-.menu a:hover {
-    background-color: #333;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('https://github.com/shootcat/FoodyFriday/blob/main/DA0C94~1.JPG?raw=true'); /* Hintergrundbild */
+    background-size: cover; /* Bild so skalieren, dass es den gesamten Hintergrund abdeckt */
+    background-position: center; /* Bild zentrieren */
+    color: #333; /* Textfarbe */
 }
 
 .banner {
-    text-align: center;
-    background-color: black;
-    padding: 10px;
+    background-color: black; /* Hintergrundfarbe des Banners */
+    color: white; /* Schriftfarbe */
+    text-align: center; /* Text zentrieren */
+    padding: 20px; /* Innenabstand */
 }
 
 .banner img {
-    max-width: 100px; /* Maximalbreite des Bildes */
-    vertical-align: middle; /* Bild und Text in einer Linie */
+    max-width: 100%; /* Banner-Bild maximal 100% der Breite */
+    height: auto; /* Höhe automatisch anpassen */
 }
 
-.banner h1 {
-    color: white;
-    display: inline; /* Damit das Bild und der Text nebeneinander stehen */
+.menu {
+    text-align: center; /* Menü zentrieren */
+    margin: 20px 0; /* Abstand oben und unten */
+}
+
+.menu a {
+    margin: 0 15px; /* Abstand zwischen den Links */
+    text-decoration: none; /* Unterstreichung entfernen */
+    color: white; /* Linkfarbe */
+}
+
+.container {
+    background-color: white; /* Hintergrundfarbe des Containers */
+    padding: 20px; /* Innenabstand */
+    border-radius: 10px; /* Abgerundete Ecken */
+    max-width: 800px; /* Maximale Breite des Containers */
+    margin: 0 auto; /* Zentrieren des Containers */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Schatteneffekt */
+}
+
+h1, h2 {
+    color: #333; /* Überschrift Farbe */
+}
+
+table {
+    width: 100%; /* Tabelle auf 100% Breite */
+    border-collapse: collapse; /* Zellen zusammenfassen */
+}
+
+th, td {
+    border: 1px solid #ddd; /* Rahmen für Zellen */
+    padding: 8px; /* Innenabstand für Zellen */
+    text-align: left; /* Text linksbündig */
+}
+
+th {
+    background-color: #f2f2f2; /* Hintergrundfarbe für Tabellenkopf */
 }
