@@ -34,6 +34,14 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+        .comment-list {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
@@ -50,8 +58,7 @@
 
 <div class="comment-box">
     <h2>Hinterlasse einen Kommentar:</h2>
-    <h2>Komentare sind nicht öffentlich einsehbar:</h2>
-    <form action="https://formspree.io/f/xwpklllq" method="POST"> <!-- Dein Formspree-Link -->
+    <form id="commentForm">
         <label for="name">Name:</label><br>
         <input type="text" id="name" name="name" required><br><br>
         <label for="comment">Kommentar:</label><br>
@@ -59,6 +66,64 @@
         <input type="submit" value="Kommentar absenden">
     </form>
 </div>
+
+<div class="comment-list" id="commentList">
+    <h3>Letzte 10 Kommentare:</h3>
+    <ul id="commentsContainer"></ul>
+</div>
+
+<script>
+    // Funktion zum Hinzufügen eines Kommentars
+    document.getElementById('commentForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Verhindere das standardmäßige Formularverhalten
+
+        const name = document.getElementById('name').value;
+        const comment = document.getElementById('comment').value;
+
+        // Erstelle ein Kommentar-Objekt
+        const newComment = {
+            name: name,
+            comment: comment,
+            timestamp: new Date().toISOString()
+        };
+
+        // Hole die bestehenden Kommentare aus dem Local Storage
+        const comments = JSON.parse(localStorage.getItem('comments')) || [];
+
+        // Füge das neue Kommentar-Objekt hinzu
+        comments.push(newComment);
+
+        // Begrenze die Anzahl der Kommentare auf 10
+        if (comments.length > 10) {
+            comments.shift(); // Entferne den ältesten Kommentar
+        }
+
+        // Speichere die aktualisierte Kommentare-Liste im Local Storage
+        localStorage.setItem('comments', JSON.stringify(comments));
+
+        // Leere das Formular
+        document.getElementById('commentForm').reset();
+
+        // Aktualisiere die Anzeige der Kommentare
+        displayComments();
+    });
+
+    // Funktion zum Anzeigen der Kommentare
+    function displayComments() {
+        const comments = JSON.parse(localStorage.getItem('comments')) || [];
+        const commentsContainer = document.getElementById('commentsContainer');
+        commentsContainer.innerHTML = ''; // Leere den Container
+
+        comments.forEach(comment => {
+            const li = document.createElement('li');
+            li.textContent = `${comment.name}: ${comment.comment}`;
+            commentsContainer.appendChild(li);
+        });
+    }
+
+    // Kommentare beim Laden der Seite anzeigen
+    window.onload = displayComments;
+</script>
 
 </body>
 </html>
