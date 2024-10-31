@@ -3,53 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Essenslisten - Foody Friday</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Verlinkung zur CSS-Datei -->
+    <title>Essenslisten</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Banner -->
+    <div class="banner">
+        <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Foody Friday Logo">
+        <h1>Foody Friday NewsBlog</h1>
+    </div>
 
-<div class="banner">
-    <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Banner Image">
-    <h1>Foody Friday NewsBlog</h1>
-</div>
+    <!-- Menü -->
+    <div class="menu">
+        <nav>
+            <ul>
+                <li><a href="index.html">Daylie News</a></li>
+                <li><a href="essenslisten.html">Essenslisten</a></li>
+                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
+                <li><a href="undefiniert.html">Undefiniert</a></li>
+                <li><a href="comments.html">Comments</a></li>
+            </ul>
+        </nav>
+    </div>
 
+    <!-- Hauptinhalt -->
+    <div class="container">
+        <h2>Essenslisten</h2>
+        <p>Hier findest du die Essenspläne für jeden Freitag des Jahres.</p>
+        
+        <!-- Tabelle für die Essensliste -->
+        <table id="essensliste">
+            <thead>
+                <tr>
+                    <th>KW</th>
+                    <th>Datum</th>
+                    <th>Gericht</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Inhalt wird von JavaScript geladen -->
+            </tbody>
+        </table>
+    </div>
 
-<div class="menu">
-    <nav>
-        <ul>
-            <li><a href="index.html">Daylie News</a></li>
-            <li><a href="essenslisten.html">Essenslisten</a></li>
-            <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
-            <li><a href="undefiniert.html">Undefiniert</a></li>
-            <li><a href="comments.html">Comments</a></li>
-        </ul>
-    </nav>
-</div>
+    <script>
+        async function loadCSV() {
+            const response = await fetch('essensliste.csv');
+            const data = await response.text();
+            const rows = data.split('\n').slice(1);
 
-    
-<div class="container">
-    <h1>Essenslisten</h1>
-    <p>Hier werden die Essenslisten für jeden Freitag des Jahres angezeigt.</p>
-    <table>
-        <thead>
-            <tr>
-                <th>Datum</th>
-                <th>Essen</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>01.01.2024</td>
-                <td>Gericht 1</td>
-            </tr>
-            <tr>
-                <td>08.01.2024</td>
-                <td>Gericht 2</td>
-            </tr>
-            <!-- Hier kannst du weitere Zeilen hinzufügen -->
-        </tbody>
-    </table>
-</div>
+            const tableBody = document.querySelector('#essensliste tbody');
+            rows.forEach(row => {
+                const columns = row.split(',');
+                const tr = document.createElement('tr');
 
+                columns.forEach((column, index) => {
+                    const td = document.createElement('td');
+                    td.textContent = column.trim();
+
+                    // Farbliche Anpassung in der "Gericht"-Spalte
+                    if (index === 2) { // 3. Spalte für Gericht
+                        if (td.textContent.includes("Sommerfest") || td.textContent.includes("Weihnachtsfeier")) {
+                            td.style.color = "red";
+                        } else if (td.textContent.includes("Feiertag") || td.textContent.includes("Brückentag")) {
+                            td.style.color = "blue";
+                        }
+                    }
+
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCSV);
+    </script>
 </body>
 </html>
