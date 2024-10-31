@@ -13,11 +13,15 @@ body {
     color: white; /* Schriftfarbe */
     text-align: center; /* Text zentrieren */
     padding: 20px; /* Innenabstand */
+    display: flex; /* Flexbox zum Ausrichten von Bild und Text */
+    align-items: center; /* Bild und Text vertikal zentrieren */
+    justify-content: center; /* Inhalt zentrieren */
+    gap: 10px; /* Abstand zwischen Bild und Text */
 }
 
 .banner img {
-    max-width: 80px; /* Banner-Bild maximal 100% der Breite */
-    height: 80px; /* Höhe automatisch anpassen */
+    max-width: 50px; /* Begrenzung der Bildbreite */
+    height: auto; /* Höhe automatisch anpassen, um Proportionen beizubehalten */
 }
 
 .menu {
