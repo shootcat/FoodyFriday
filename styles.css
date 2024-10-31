@@ -93,3 +93,24 @@ body {
     margin: 20px auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+td {
+    background-color: #ffffff;
+}
