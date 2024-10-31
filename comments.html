@@ -5,13 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comments - Foody Friday</title>
     <style>
+        /* Hintergrundbild und allgemeine Stile */
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 20px;
+            background-image: url('https://wallpapers.com/images/hd/best-autumn-1920-x-1080-background-wzvawgs7uvjpgkfr.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
         }
-        h1 {
-            color: #333;
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            max-width: 800px;
+            margin: auto;
         }
         .menu {
             background-color: black;
@@ -27,12 +36,6 @@
         }
         .menu a:hover {
             background-color: #333;
-        }
-        .comment-box {
-            margin: 20px 0;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
         }
         .comment-list {
             margin-top: 20px;
@@ -54,26 +57,27 @@
     <a href="undefiniert.html">Undefiniert</a>
 </div>
 
-<h1>Comments</h1>
+<div class="container">
+    <h1>Comments</h1>
 
-<div class="comment-box">
-    <h2>Hinterlasse einen Kommentar:</h2>
-    <form id="commentForm">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name" required><br><br>
-        <label for="comment">Kommentar:</label><br>
-        <textarea id="comment" name="comment" rows="4" required></textarea><br><br>
-        <input type="submit" value="Kommentar absenden">
-    </form>
-</div>
+    <div class="comment-box">
+        <h2>Hinterlasse einen Kommentar:</h2>
+        <form id="commentForm">
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="comment">Kommentar:</label><br>
+            <textarea id="comment" name="comment" rows="4" required></textarea><br><br>
+            <input type="submit" value="Kommentar absenden">
+        </form>
+    </div>
 
-<div class="comment-list" id="commentList">
-    <h3>Letzte 10 Kommentare:</h3>
-    <ul id="commentsContainer"></ul>
+    <div class="comment-list" id="commentList">
+        <h3>Letzte 10 Kommentare:</h3>
+        <ul id="commentsContainer"></ul>
+    </div>
 </div>
 
 <script>
-    // Funktion zum Hinzufügen eines Kommentars
     document.getElementById('commentForm').addEventListener('submit', function(e) {
         e.preventDefault(); // Verhindere das standardmäßige Formularverhalten
 
