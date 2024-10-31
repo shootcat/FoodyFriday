@@ -16,7 +16,7 @@ body {
 }
 
 .banner img {
-    max-width: 100%; /* Banner-Bild maximal 100% der Breite */
+    max-width: 80px; /* Banner-Bild maximal 100% der Breite */
     height: 80px; /* Höhe automatisch anpassen */
 }
 
