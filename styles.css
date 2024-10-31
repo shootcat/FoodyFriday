@@ -17,7 +17,7 @@ body {
 
 .banner img {
     max-width: 100%; /* Banner-Bild maximal 100% der Breite */
-    height: auto; /* Höhe automatisch anpassen */
+    height: 80px; /* Höhe automatisch anpassen */
 }
 
 .menu {
