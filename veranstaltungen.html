@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Daily News - Foody Friday NewsBlog</title>
+    <title>Veranstaltungen - Foody Friday NewsBlog</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -26,7 +26,7 @@
             </ul>
         </nav>
     </div>
-    
+
     <!-- Banner mit Logo und Titel -->
     <header>
         <div class="banner-content">
@@ -37,20 +37,38 @@
 
     <!-- Hauptinhalt -->
     <main>
-        <div class="content" id="news-content">
-            <!-- Der Inhalt von news.txt wird hier eingefügt -->
+        <div class="content" id="events-content">
+            <!-- Der Inhalt von events.txt wird hier eingefügt -->
         </div>
     </main>
 
     <script>
-        // Funktion zum Laden der Textdatei und Einfügen in die HTML-Seite
-        fetch('news.txt')
+        // Funktion zum Laden der Veranstaltungsdatei und Einfügen in die HTML-Seite
+        fetch('events.txt')
             .then(response => response.text())
             .then(data => {
-                // Füge den Inhalt in das HTML-Element mit der ID "news-content" ein
-                document.getElementById('news-content').innerText = data;
+                const eventsContainer = document.getElementById('events-content');
+                
+                // Jede Veranstaltung ist durch eine Leerzeile getrennt
+                const events = data.split('\n\n');
+                
+                events.forEach(event => {
+                    const lines = event.split('\n');
+                    const dateLine = lines[0];  // Erster Teil: Datum (Überschrift)
+                    const contentLines = lines.slice(1).join(' '); // Rest: Inhalt (Beschreibung)
+
+                    // Erstellen der Überschrift für das Datum
+                    const dateElement = document.createElement('strong');
+                    dateElement.textContent = dateLine;
+                    eventsContainer.appendChild(dateElement);
+
+                    // Erstellen des Absatzes für den Inhalt
+                    const contentElement = document.createElement('p');
+                    contentElement.textContent = contentLines;
+                    eventsContainer.appendChild(contentElement);
+                });
             })
-            .catch(error => console.error('Fehler beim Laden der News-Datei:', error));
+            .catch(error => console.error('Fehler beim Laden der Veranstaltungsdatei:', error));
     </script>
 </body>
 </html>
