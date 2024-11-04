@@ -43,10 +43,15 @@
     </div>
 
     <script>
-        function toggleMenu() {
-            const menuContent = document.querySelector('.menu-content');
-            menuContent.classList.toggle('show');
-        }
-    </script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuIcon = document.querySelector('.menu-icon');
+        const menuContent = document.querySelector('.menu-content');
+
+        menuIcon.addEventListener('click', function() {
+            menuContent.classList.toggle('show'); // Menü anzeigen oder verbergen
+        });
+    });
+</script>
+    
 </body>
 </html>
