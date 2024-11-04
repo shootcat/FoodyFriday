@@ -3,46 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foody Friday NewsBlog</title>
     <link rel="stylesheet" href="styles.css">
+    <title>Foody Friday NewsBlog - Daily News</title>
 </head>
 <body>
-    <!-- Banner -->
-    <div class="banner">
-        <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Foody Friday Logo">
-        <h1>Foody Friday NewsBlog</h1>
+    <div id="menu-toggle" class="menu-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
     </div>
-
-    <!-- Hamburger-Menü -->
-    <div class="hamburger-menu">
-        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
-        <div class="menu-content">
+    <div class="sidebar" id="sidebar">
+        <h2>Foody Friday NewsBlog</h2>
+        <nav>
             <ul>
-                <li><a href="index.html">Daylie News</a></li>
+                <li><a href="daily-news.html">Daily News</a></li>
                 <li><a href="essenslisten.html">Essenslisten</a></li>
                 <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
                 <li><a href="undefiniert.html">Undefiniert</a></li>
                 <li><a href="comments.html">Comments</a></li>
             </ul>
+        </nav>
+    </div>
+    <header>
+        <img src="https://github.com/shootcat/FoodyFriday/blob/main/Bild12255313.png?raw=true" alt="Logo" class="logo">
+        <h1>Foody Friday NewsBlog</h1>
+    </header>
+    <main>
+        <div class="content">
+            <h2>🎄 Weihnachtsfeier 2024 🎄</h2>
+            <p>Liebe Kolleginnen und Kollegen,</p>
+            <p>Die festliche Jahreszeit steht vor der Tür, und wir laden euch herzlich zu unserer diesjährigen Weihnachtsfeier ein!</p>
+            <p><strong>📅 Wann?</strong> Am 20. Dezember 2024, ab 16:30 Uhr</p>
+            <p><strong>📍 Wo?</strong> In Maulburg – der Bus bringt uns gemeinsam hin!</p>
+            <p><strong>✨ Was erwartet euch?</strong></p>
+            <ul>
+                <li>Leckere Tapas, frisch zubereitet in der Live-Küche – und wer Lust hat, darf gerne selbst mitkochen!</li>
+                <li>Eine Bar mit köstlichen Cocktails und Getränken, um die Stimmung aufzuheizen.</li>
+                <li>Musik, Spaß und unser traditionelles Weihnachtsspiel, das garantiert für Unterhaltung sorgt.</li>
+            </ul>
+            <p><strong>📌 Anmeldung</strong> Bitte tragt euch bis zum 29. November in die Liste am schwarzen Brett ein!</p>
+            <p>Weitere Infos gibt’s am schwarzen Brett. Wir freuen uns auf einen festlichen und unvergesslichen Abend mit euch! 🎅✨</p>
         </div>
-    </div>
-
-    <!-- Hauptinhalt -->
-    <div class="container">
-        <h2>🎄 Weihnachtsfeier 2024 🎄</h2>
-        <p>Liebe Kolleginnen und Kollegen...</p>
-    </div>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuIcon = document.querySelector('.menu-icon');
-        const menuContent = document.querySelector('.menu-content');
-
-        menuIcon.addEventListener('click', function() {
-            menuContent.classList.toggle('show'); // Menü anzeigen oder verbergen
-        });
-    });
-</script>
-
+    </main>
+    <script src="script.js"></script>
 </body>
 </html>
