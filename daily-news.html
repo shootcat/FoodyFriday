@@ -12,6 +12,7 @@
         <div class="bar"></div>
         <div class="bar"></div>
     </div>
+    
     <!-- Seitenleiste -->
     <div class="sidebar" id="sidebar">
         <nav>
@@ -25,32 +26,31 @@
             </ul>
         </nav>
     </div>
+    
     <!-- Banner mit Logo und Titel -->
     <header>
-    <div class="banner-content">
-        <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
-        <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
-    </div>
-</header>
+        <div class="banner-content">
+            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
+            <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
+        </div>
+    </header>
 
     <!-- Hauptinhalt -->
     <main>
-        <div class="content">
-            <h2>🎄 Weihnachtsfeier 2024 🎄</h2>
-            <p>Liebe Kolleginnen und Kollegen,</p>
-            <p>Die festliche Jahreszeit steht vor der Tür, und wir laden euch herzlich zu unserer diesjährigen Weihnachtsfeier ein!</p>
-            <p><strong>📅 Wann?</strong> Am 20. Dezember 2024, ab 16:30 Uhr</p>
-            <p><strong>📍 Wo?</strong> In Maulburg – der Bus bringt uns gemeinsam hin!</p>
-            <p><strong>✨ Was erwartet euch?</strong></p>
-            <ul>
-                <li>Leckere Tapas, frisch zubereitet in der Live-Küche – und wer Lust hat, darf gerne selbst mitkochen!</li>
-                <li>Eine Bar mit köstlichen Cocktails und Getränken, um die Stimmung aufzuheizen.</li>
-                <li>Musik, Spaß und unser traditionelles Weihnachtsspiel, das garantiert für Unterhaltung sorgt.</li>
-            </ul>
-            <p><strong>📌 Anmeldung</strong> Bitte tragt euch bis zum 29. November in die Liste am schwarzen Brett ein!</p>
-            <p>Weitere Infos gibt’s am schwarzen Brett. Wir freuen uns auf einen festlichen und unvergesslichen Abend mit euch! 🎅✨</p>
+        <div class="content" id="news-content">
+            <!-- Der Inhalt von news.txt wird hier eingefügt -->
         </div>
     </main>
-    <script src="script.js"></script>
+
+    <script>
+        // Funktion zum Laden der Textdatei und Einfügen in die HTML-Seite
+        fetch('news.txt')
+            .then(response => response.text())
+            .then(data => {
+                // Füge den Inhalt in das HTML-Element mit der ID "news-content" ein
+                document.getElementById('news-content').innerText = data;
+            })
+            .catch(error => console.error('Fehler beim Laden der News-Datei:', error));
+    </script>
 </body>
 </html>
