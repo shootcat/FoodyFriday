@@ -19,8 +19,9 @@ body {
     max-width: 150px; /* Größe des Logos anpassen */
     height: auto;
     position: absolute;
-    left: 20px;
-    top: 20px;
+    left: 50%; /* Logo horizontal zentrieren */
+    transform: translateX(-50%); /* Zentrierung korrigieren */
+    top: 10px; /* Abstand vom oberen Rand */
 }
 
 /* Hamburger Menü */
