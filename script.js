@@ -9,31 +9,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const commentsList = document.getElementById('comments-list');
     
     // Funktion zum Anzeigen der Kommentare
-    function displayComments() {
-        // Kommentare aus Firestore abrufen und anzeigen
-        db.collection("comments")
-            .orderBy("timestamp", "desc")
-            .limit(30)
-            .onSnapshot((snapshot) => {
-                // Liste vor dem Hinzufügen neuer Einträge leeren
-                commentsList.innerHTML = '';
-                
-                snapshot.forEach((doc) => {
-                    const commentData = doc.data();
+    function renderComments(snapshot) {
+        commentsList.innerHTML = ''; // Liste leeren, um doppelte Einträge zu vermeiden
 
-                    // Kommentar-Elemente erstellen
-                    const commentDiv = document.createElement('div');
-                    commentDiv.classList.add('comment-item');
+        snapshot.forEach((doc) => {
+            const commentData = doc.data();
 
-                    const commentContent = document.createElement('div');
-                    commentContent.classList.add('comment-content');
-                    commentContent.textContent = `${commentData.date} - ${commentData.name}: ${commentData.text}`;
-                    
-                    commentDiv.appendChild(commentContent);
-                    commentsList.appendChild(commentDiv);
-                });
-            });
+            // Kommentar-Elemente erstellen
+            const commentDiv = document.createElement('div');
+            commentDiv.classList.add('comment-item');
+
+            const commentContent = document.createElement('div');
+            commentContent.classList.add('comment-content');
+            commentContent.textContent = `${commentData.date} - ${commentData.name}: ${commentData.text}`;
+            
+            commentDiv.appendChild(commentContent);
+            commentsList.appendChild(commentDiv);
+        });
     }
+
+    // Echtzeit-Listener für die Kommentare (nur einmal registriert)
+    db.collection("comments")
+        .orderBy("timestamp", "desc")
+        .limit(30)
+        .onSnapshot(renderComments);
 
     // Event-Listener für Formular-Einreichung
     form.addEventListener('submit', function(e) {
@@ -57,7 +56,4 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-
-    // Kommentare beim Laden der Seite anzeigen
-    displayComments();
 });
