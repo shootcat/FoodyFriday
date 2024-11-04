@@ -50,7 +50,19 @@
             .then(response => response.text())
             .then(data => {
                 const newsContainer = document.getElementById('news-content');
-                newsContainer.innerText = data;
+                
+                // Trenne den Text nach dem ersten Punkt, Fragezeichen oder Ausrufezeichen
+                const sentences = data.split(/(?<=[.!?])\s+/);
+                
+                // Erstelle ein starkes Element für den ersten Satz
+                const firstSentence = document.createElement('strong');
+                firstSentence.textContent = sentences[0];
+                newsContainer.appendChild(firstSentence);
+
+                // Füge den restlichen Text als normalen Absatz hinzu
+                const remainingText = document.createElement('span');
+                remainingText.textContent = " " + sentences.slice(1).join(" ");
+                newsContainer.appendChild(remainingText);
             })
             .catch(error => console.error('Fehler beim Laden der News-Datei:', error));
     </script>
