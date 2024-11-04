@@ -2,35 +2,38 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kommentare - Foody Friday NewsBlog</title>
     <link rel="stylesheet" href="styles.css">
-    <title>Foody Friday NewsBlog - Comments</title>
 </head>
 <body>
+    <!-- Hamburger Menü -->
     <div id="menu-toggle" class="menu-icon">
         <div class="bar"></div>
         <div class="bar"></div>
         <div class="bar"></div>
     </div>
+    <!-- Seitenleiste -->
     <div class="sidebar" id="sidebar">
-        <h2>Foody Friday NewsBlog</h2>
         <nav>
             <ul>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="daily-news.html">Daily News</a></li>
-                <li><a href="essenslisten.html">Essenslisten</a></li>
+                <li><a href="essensliste.html">Essensliste</a></li>
                 <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
                 <li><a href="undefiniert.html">Undefiniert</a></li>
-                <li><a href="comments.html">Comments</a></li>
+                <li><a href="comments.html">Kommentare</a></li>
             </ul>
         </nav>
     </div>
+    <!-- Banner -->
     <header>
-        <img src="https://github.com/shootcat/FoodyFriday/blob/main/Bild12255313.png?raw=true" alt="Logo" class="logo">
-        <h1>Foody Friday NewsBlog</h1>
+        <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
+        <h1>Kommentare</h1>
     </header>
+    <!-- Hauptinhalt -->
     <main>
         <div class="content">
-            <h2>Kommentare</h2>
+            <h2>Hinterlasse einen Kommentar</h2>
             <form id="comment-form">
                 <label for="name">Name:</label>
                 <input type="text" id="name" required>
@@ -45,47 +48,5 @@
         </div>
     </main>
     <script src="script.js"></script>
-    <script>
-        const form = document.getElementById('comment-form');
-        const commentsList = document.getElementById('comments-list');
-
-        // Array zum Speichern der Kommentare
-        let comments = [];
-
-        // Funktion, um die Kommentare anzuzeigen
-        function displayComments() {
-            commentsList.innerHTML = ''; // Liste leeren
-            const lastComments = comments.slice(-30); // Letzte 30 Kommentare
-            lastComments.forEach((comment, index) => {
-                const commentDiv = document.createElement('div');
-                commentDiv.textContent = `${comment.date}: ${comment.name} sagt: ${comment.text}`;
-                
-                // Farben für unterschiedliche Kommentare
-                const colors = ['red', 'blue', 'green', 'purple', 'orange'];
-                commentDiv.style.color = colors[index % colors.length];
-                
-                commentsList.appendChild(commentDiv);
-            });
-        }
-
-        // Formular-Submit-Event
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Standard-Formularverhalten verhindern
-            
-            const name = document.getElementById('name').value;
-            const commentText = document.getElementById('comment').value;
-
-            // Kommentar mit Datum speichern
-            const comment = {
-                name: name,
-                text: commentText,
-                date: new Date().toLocaleString() // Datum formatieren
-            };
-
-            comments.push(comment); // Kommentar zum Array hinzufügen
-            displayComments(); // Kommentare anzeigen
-            form.reset(); // Formular zurücksetzen
-        });
-    </script>
 </body>
 </html>
