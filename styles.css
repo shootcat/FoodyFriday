@@ -186,3 +186,30 @@ button:hover {
 #comments-list div:nth-child(even) {
     background-color: #e9e9e9;
 }
+
+/* Stil für den Kommentarbereich */
+#comments-list div {
+    margin-top: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment-content {
+    max-width: 85%;
+}
+
+/* Stil für den Like-Button */
+.like-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.like-button:hover {
+    background-color: #555;
+}
