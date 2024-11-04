@@ -1,61 +1,56 @@
+/* Globaler Stil */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('https://example.com/background.jpg'); /* Ersetze mit deinem Bild-URL */
-    background-size: cover;
-    color: #333;
+    background: url('https://github.com/shootcat/FoodyFriday/blob/main/Bild12255313.png?raw=true') repeat;
 }
 
+/* Banner */
 header {
+    background-color: #333;
+    color: white;
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 20px;
+    padding: 20px 0;
     position: relative;
 }
 
-.logo {
-    width: 100px;
+header .logo {
+    width: 150px;
     position: absolute;
-    top: 10px;
+    top: -20px;
     left: 50%;
     transform: translateX(-50%);
 }
 
-h1 {
-    margin: 0;
-}
-
+/* Hamburger Menü */
 .menu-icon {
-    cursor: pointer;
-    position: absolute;
+    position: fixed;
     top: 20px;
     left: 20px;
+    cursor: pointer;
+    z-index: 1000;
 }
 
 .bar {
-    display: block;
-    width: 30px;
-    height: 4px;
+    width: 35px;
+    height: 5px;
+    background-color: white;
     margin: 6px 0;
-    background-color: #fff; /* Farbe der Striche im Hamburger Menü */
 }
 
+/* Seitenleiste */
 .sidebar {
     position: fixed;
     top: 0;
-    left: -250px; /* Start außerhalb des Bildschirms */
-    width: 200px;
+    left: -250px;
+    width: 12.5%; /* 1/8 der Seitenbreite */
     height: 100%;
     background-color: rgba(0, 0, 0, 0.9);
-    color: #fff;
-    transition: left 0.3s ease;
-    padding-top: 60px; /* Platz für Header */
-}
-
-.sidebar h2 {
-    text-align: center;
-    margin-bottom: 20px;
+    color: white;
+    transition: 0.3s;
+    z-index: 999;
+    padding-top: 100px;
 }
 
 .sidebar nav ul {
@@ -64,73 +59,118 @@ h1 {
 }
 
 .sidebar nav ul li {
-    padding: 10px 20px;
+    padding: 15px;
+    text-align: center;
 }
 
 .sidebar nav ul li a {
-    color: #fff;
+    color: white;
     text-decoration: none;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
 .sidebar nav ul li a:hover {
-    text-decoration: underline;
+    background-color: #575757;
+    border-radius: 5px;
+}
+
+/* Aktive Seitenleiste */
+.sidebar.active {
+    left: 0;
+}
+
+/* Hauptinhalt */
+main {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-top: 100px;
 }
 
 .content {
+    background-color: white;
+    opacity: 0.9;
     padding: 20px;
-    margin-left: 220px; /* Platz für die Sidebar */
-    margin-right: 20px;
+    border-radius: 10px;
 }
 
-.table {
+h1, h2, h3 {
+    color: #333;
+}
+
+p, li {
+    color: #555;
+}
+
+/* Tabelle in Essensliste */
+table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
 
 th, td {
+    padding: 12px;
     border: 1px solid #ddd;
-    padding: 8px;
     text-align: left;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #f4f4f4;
 }
 
+td.red {
+    color: red;
+}
+
+td.blue {
+    color: blue;
+}
+
+/* Formular in Kommentare */
 form {
     display: flex;
     flex-direction: column;
 }
 
 label {
-    margin: 10px 0 5px;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
 input, textarea {
     padding: 10px;
-    margin-bottom: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
 button {
-    background-color: #4CAF50;
-    color: white;
+    margin-top: 15px;
     padding: 10px;
+    font-size: 16px;
+    background-color: #333;
+    color: white;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #555;
 }
 
-#comments-section {
-    margin-top: 20px;
-}
-
+/* Kommentare Liste */
 #comments-list div {
-    margin: 5px 0;
-    padding: 5px;
-    border-radius: 4px;
-    background-color: rgba(255, 255, 255, 0.8);
+    margin-top: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+#comments-list div:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+#comments-list div:nth-child(even) {
+    background-color: #e9e9e9;
 }
