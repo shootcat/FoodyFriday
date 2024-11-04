@@ -27,9 +27,36 @@
     </script>
 </head>
 <body>
+    <!-- Hamburger Menü -->
+    <div id="menu-toggle" class="menu-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+    
+    <!-- Seitenleiste -->
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="daily-news.html">Daily News</a></li>
+                <li><a href="essensliste.html">Essensliste</a></li>
+                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
+                <li><a href="undefiniert.html">Undefiniert</a></li>
+                <li><a href="comments.html">Kommentare</a></li>
+            </ul>
+        </nav>
+    </div>
+    
+    <!-- Banner mit Logo und Titel -->
     <header>
-        <h1>Kommentare</h1>
+        <div class="banner-content">
+            <img src="URL_ZUM_LOGO" alt="Logo" class="logo">
+            <h1 class="banner-title">FOODY FRIDAY NEWSBLOG</h1>
+        </div>
     </header>
+    
+    <!-- Hauptinhalt -->
     <main>
         <div class="content">
             <h2>Hinterlasse einen Kommentar</h2>
@@ -45,8 +72,9 @@
                 <div id="comments-list"></div>
             </div>
         </div>
-        
-        <script src="script.js"></script>
     </main>
+    
+    <!-- Einbindung von script.js für Firebase-Kommentarfunktion und Hamburger Menü -->
+    <script src="script.js"></script>
 </body>
 </html>
