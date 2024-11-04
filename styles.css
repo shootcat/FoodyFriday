@@ -188,16 +188,17 @@ button:hover {
 }
 
 /* Stil für den Kommentarbereich */
-#comments-list div {
+#comments-list .comment-item {
     margin-top: 10px;
     padding: 10px;
     border-bottom: 1px solid #ccc;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .comment-content {
-    max-width: 85%;
+    max-width: 80%;
 }
 
 /* Stil für den Like-Button */
@@ -208,6 +209,7 @@ button:hover {
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 5px;
+    font-size: 0.9em;
 }
 
 .like-button:hover {
