@@ -56,7 +56,7 @@ header {
     position: fixed;
     top: 0;
     left: -250px;
-    width: 50%; /* 1/8 der Seitenbreite */
+    width: 100%; /* 1/8 der Seitenbreite */
     height: 100%;
     background-color: rgba(0, 0, 0, 0.9);
     color: white;
