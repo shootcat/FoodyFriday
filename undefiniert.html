@@ -3,46 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undefiniert</title>
     <link rel="stylesheet" href="styles.css">
+    <title>Foody Friday NewsBlog - Undefiniert</title>
 </head>
 <body>
-    <!-- Banner -->
-    <div class="banner">
-        <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Foody Friday Logo">
-        <h1>Foody Friday NewsBlog</h1>
+    <div id="menu-toggle" class="menu-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
     </div>
-
-    <!-- Hamburger-Menü -->
-    <div class="hamburger-menu">
-        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
-        <div class="menu-content">
+    <div class="sidebar" id="sidebar">
+        <h2>Foody Friday NewsBlog</h2>
+        <nav>
             <ul>
-                <li><a href="index.html">Daylie News</a></li>
+                <li><a href="daily-news.html">Daily News</a></li>
                 <li><a href="essenslisten.html">Essenslisten</a></li>
                 <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
                 <li><a href="undefiniert.html">Undefiniert</a></li>
                 <li><a href="comments.html">Comments</a></li>
             </ul>
+        </nav>
+    </div>
+    <header>
+        <img src="https://github.com/shootcat/FoodyFriday/blob/main/Bild12255313.png?raw=true" alt="Logo" class="logo">
+        <h1>Foody Friday NewsBlog</h1>
+    </header>
+    <main>
+        <div class="content">
+            <h2>Undefinierte Seite</h2>
+            <p>Hier gibt es derzeit keine Informationen.</p>
         </div>
-    </div>
-
-    <!-- Undefiniert -->
-    <div class="container">
-        <h2>Undefiniert</h2>
-        <p>Diese Seite ist derzeit undefiniert und enthält keinen Inhalt. Besuche die anderen Seiten für mehr Informationen.</p>
-    </div>
-
-   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuIcon = document.querySelector('.menu-icon');
-        const menuContent = document.querySelector('.menu-content');
-
-        menuIcon.addEventListener('click', function() {
-            menuContent.classList.toggle('show'); // Menü anzeigen oder verbergen
-        });
-    });
-</script>
-
+    </main>
+    <script src="script.js"></script>
 </body>
 </html>
