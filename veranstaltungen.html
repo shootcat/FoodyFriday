@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Veranstaltungen - Foody Friday NewsBlog</title>
+    <title>Daily News - Foody Friday NewsBlog</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,6 +12,7 @@
         <div class="bar"></div>
         <div class="bar"></div>
     </div>
+    
     <!-- Seitenleiste -->
     <div class="sidebar" id="sidebar">
         <nav>
@@ -25,25 +26,31 @@
             </ul>
         </nav>
     </div>
+    
     <!-- Banner mit Logo und Titel -->
     <header>
-    <div class="banner-content">
-        <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
-        <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
-    </div>
-</header>
+        <div class="banner-content">
+            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
+            <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
+        </div>
+    </header>
 
     <!-- Hauptinhalt -->
     <main>
-        <div class="content">
-            <h2>Kommende Veranstaltungen</h2>
-            <ul>
-                <li><strong>Weihnachtsfeier 2024:</strong> 20. Dezember 2024</li>
-                <li><strong>Sommerfest 2025:</strong> 15. Juni 2025</li>
-                <li><strong>Team-Building Event:</strong> 5. Mai 2025</li>
-            </ul>
+        <div class="content" id="news-content">
+            <!-- Der Inhalt von news.txt wird hier eingefügt -->
         </div>
     </main>
-    <script src="script.js"></script>
+
+    <script>
+        // Funktion zum Laden der Textdatei und Einfügen in die HTML-Seite
+        fetch('news.txt')
+            .then(response => response.text())
+            .then(data => {
+                // Füge den Inhalt in das HTML-Element mit der ID "news-content" ein
+                document.getElementById('news-content').innerText = data;
+            })
+            .catch(error => console.error('Fehler beim Laden der News-Datei:', error));
+    </script>
 </body>
 </html>
