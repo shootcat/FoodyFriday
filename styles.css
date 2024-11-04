@@ -11,24 +11,27 @@ header {
     background-color: #333;
     color: white;
     padding: 20px 0;
+    text-align: center;
 }
 
 .banner-content {
     display: flex;
+    flex-direction: column; /* Anordnung von Logo und Titel untereinander */
     align-items: center;
     justify-content: center;
-    gap: 10px; /* Abstand zwischen Logo und Titel */
 }
 
 .logo {
-    width: 60px; /* Kleinere Größe für das Logo */
+    width: 60px; /* Größe des Logos */
+    margin-bottom: 10px; /* Abstand zwischen Logo und Titel */
 }
 
 .banner-title {
     font-family: 'Arial', sans-serif; /* Moderne Schriftart */
-    font-size: 1.8em; /* Große, gut lesbare Schriftgröße */
-    font-weight: 700; /* Fettschrift für mehr Präsenz */
+    font-size: 2.2em; /* Vergrößerter Titel */
+    font-weight: 700; /* Fettschrift für Präsenz */
     color: #ffffff;
+    margin: 0;
 }
 
 
