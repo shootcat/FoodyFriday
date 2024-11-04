@@ -60,33 +60,3 @@ document.addEventListener('DOMContentLoaded', function() {
     // Kommentare beim Laden der Seite anzeigen
     displayComments();
 });
-
-// Essensliste Funktionalität
-if (document.getElementById('essensliste')) {
-    fetch('essensliste.csv')
-        .then(response => response.text())
-        .then(data => {
-            const rows = data.trim().split('\n');
-            const tbody = document.querySelector('#essensliste tbody');
-            rows.forEach((row, index) => {
-                const cols = row.split(',');
-                if (index === 0) return; // Überspringt die Kopfzeile, wenn vorhanden
-                const tr = document.createElement('tr');
-                cols.forEach((col, idx) => {
-                    const td = document.createElement('td');
-                    td.textContent = col.trim();
-                    // Farbliche Anpassung in der "Gericht"-Spalte
-                    if (idx === 2) {
-                        if (td.textContent.includes("Sommerfest") || td.textContent.includes("Weihnachtsfeier")) {
-                            td.classList.add('red');
-                        } else if (td.textContent.includes("Feiertag") || td.textContent.includes("Brückentag") || td.textContent.includes("Ferien")) {
-                            td.classList.add('blue');
-                        }
-                    }
-                    tr.appendChild(td);
-                });
-                tbody.appendChild(tr);
-            });
-        })
-        .catch(error => console.error('Fehler beim Laden der Essensliste:', error));
-}
