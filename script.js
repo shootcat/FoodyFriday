@@ -10,13 +10,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Funktion zum Anzeigen der Kommentare
     function displayComments() {
-        commentsList.innerHTML = ''; // Liste leeren
-
         // Kommentare aus Firestore abrufen und anzeigen
         db.collection("comments")
             .orderBy("timestamp", "desc")
             .limit(30)
             .onSnapshot((snapshot) => {
+                // Liste vor dem Hinzufügen neuer Einträge leeren
+                commentsList.innerHTML = '';
+                
                 snapshot.forEach((doc) => {
                     const commentData = doc.data();
 
