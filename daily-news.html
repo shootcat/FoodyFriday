@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daylie News</title>
+    <title>Foody Friday NewsBlog</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,9 +13,10 @@
         <h1>Foody Friday NewsBlog</h1>
     </div>
 
-    <!-- Menü -->
-    <div class="menu">
-        <nav>
+    <!-- Hamburger-Menü -->
+    <div class="hamburger-menu">
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <div class="menu-content">
             <ul>
                 <li><a href="index.html">Daylie News</a></li>
                 <li><a href="essenslisten.html">Essenslisten</a></li>
@@ -23,34 +24,20 @@
                 <li><a href="undefiniert.html">Undefiniert</a></li>
                 <li><a href="comments.html">Comments</a></li>
             </ul>
-        </nav>
+        </div>
     </div>
 
     <!-- Hauptinhalt -->
     <div class="container">
         <h2>🎄 Weihnachtsfeier 2024 🎄</h2>
-        
-        <p>Liebe Kolleginnen und Kollegen,</p>
-
-        <p>die festliche Jahreszeit steht vor der Tür, und wir laden euch herzlich zu unserer diesjährigen Weihnachtsfeier ein!</p>
-
-        <p>📅 <strong>Wann?</strong><br>
-        Am 20. Dezember 2024, ab 16:30 Uhr</p>
-
-        <p>📍 <strong>Wo?</strong><br>
-        In Maulburg – der Bus bringt uns gemeinsam hin!</p>
-
-        <p>✨ <strong>Was erwartet euch?</strong></p>
-        <ul>
-            <li>Leckere Tapas, frisch zubereitet in der Live-Küche – und wer Lust hat, darf gerne selbst mitkochen!</li>
-            <li>Eine Bar mit köstlichen Cocktails und Getränken, um die Stimmung aufzuheizen.</li>
-            <li>Musik, Spaß und unser traditionelles Weihnachtsspiel, das garantiert für Unterhaltung sorgt.</li>
-        </ul>
-
-        <p>📌 <strong>Anmeldung</strong><br>
-        Bitte tragt euch bis zum 29. November in die Liste am schwarzen Brett ein!</p>
-
-        <p>Weitere Infos gibt’s am schwarzen Brett. Wir freuen uns auf einen festlichen und unvergesslichen Abend mit euch! 🎅✨</p>
+        <p>Liebe Kolleginnen und Kollegen...</p>
     </div>
+
+    <script>
+        function toggleMenu() {
+            const menuContent = document.querySelector('.menu-content');
+            menuContent.classList.toggle('show');
+        }
+    </script>
 </body>
 </html>
