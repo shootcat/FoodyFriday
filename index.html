@@ -3,22 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foody Friday NewsBlog - Daylie News</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Foody Friday NewsBlog</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link zur CSS-Datei -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery für erweiterte Interaktionen -->
+    <style>
+        /* Hier sind die Styles für das Hamburger-Menü und andere Elemente */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://github.com/shootcat/FoodyFriday/blob/main/Bild12255313.png?raw=true');
+            background-size: cover;
+            background-repeat: repeat;
+        }
+        
+        .banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+
+        .banner img {
+            width: 50px; /* Angepasste Größe für das Logo */
+            margin-right: 10px;
+        }
+
+        .hamburger-menu {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            width: 50px; /* Breite des Hamburger Menüs */
+        }
+
+        .menu-icon {
+            background: black;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 24px;
+        }
+
+        .menu-content {
+            display: none; /* Menü zunächst verbergen */
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 5px;
+            margin-top: 5px;
+            position: absolute;
+            width: 200px; /* Breite des Dropdown-Menüs */
+            z-index: 1000;
+        }
+
+        .menu-content.show {
+            display: block; /* Menü anzeigen */
+        }
+
+        .menu-content ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-content ul li {
+            padding: 10px;
+        }
+
+        .menu-content ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Banner -->
+
+    <!-- Banner mit Logo -->
     <div class="banner">
-        <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Foody Friday Logo">
+        <img src="https://github.com/shootcat/FoodyFriday/blob/main/Bild12255313.png?raw=true" alt="Logo">
         <h1>Foody Friday NewsBlog</h1>
     </div>
 
-    <!-- Hamburger-Menü -->
+    <!-- Hamburger Menü -->
     <div class="hamburger-menu">
-        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <div class="menu-icon">☰</div>
         <div class="menu-content">
             <ul>
-                <li><a href="index.html">Daylie News</a></li>
+                <li><a href="daily-news.html">Daily News</a></li>
                 <li><a href="essenslisten.html">Essenslisten</a></li>
                 <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
                 <li><a href="undefiniert.html">Undefiniert</a></li>
@@ -27,31 +112,30 @@
         </div>
     </div>
 
-    <!-- Hauptinhalt -->
+    <!-- Container für Inhalte -->
     <div class="container">
-        <h2>🎄 Weihnachtsfeier 2024 🎄</h2>
+        <h2>Willkommen auf unserem Foody Friday NewsBlog!</h2>
+        <p>Hier findest du alle aktuellen Informationen zu unseren Veranstaltungen und Essensangeboten.</p>
+        <h3>🎄 Weihnachtsfeier 2024 🎄</h3>
         <p>Liebe Kolleginnen und Kollegen, die festliche Jahreszeit steht vor der Tür, und wir laden euch herzlich zu unserer diesjährigen Weihnachtsfeier ein!</p>
-        <p>📅 Wann? Am 20. Dezember 2024, ab 16:30 Uhr</p>
-        <p>📍 Wo? In Maulburg – der Bus bringt uns gemeinsam hin!</p>
-        <p>✨ Was erwartet euch?</p>
-        <ul>
-            <li>Leckere Tapas, frisch zubereitet in der Live-Küche – und wer Lust hat, darf gerne selbst mitkochen!</li>
-            <li>Eine Bar mit köstlichen Cocktails und Getränken, um die Stimmung aufzuheizen.</li>
-            <li>Musik, Spaß und unser traditionelles Weihnachtsspiel, das garantiert für Unterhaltung sorgt.</li>
-        </ul>
-        <p>📌 Anmeldung: Bitte tragt euch bis zum 29. November in die Liste am schwarzen Brett ein! Weitere Infos gibt’s am schwarzen Brett.</p>
+        <p><strong>📅 Wann?</strong><br>Am 20. Dezember 2024, ab 16:30 Uhr</p>
+        <p><strong>📍 Wo?</strong><br>In Maulburg – der Bus bringt uns gemeinsam hin!</p>
+        <p><strong>✨ Was erwartet euch?</strong><br>Leckere Tapas, frisch zubereitet in der Live-Küche – und wer Lust hat, darf gerne selbst mitkochen! Eine Bar mit köstlichen Cocktails und Getränken, um die Stimmung aufzuheizen. Musik, Spaß und unser traditionelles Weihnachtsspiel, das garantiert für Unterhaltung sorgt.</p>
+        <p><strong>📌 Anmeldung</strong><br>Bitte tragt euch bis zum 29. November in die Liste am schwarzen Brett ein!</p>
+        <p>Weitere Infos gibt’s am schwarzen Brett. Wir freuen uns auf einen festlichen und unvergesslichen Abend mit euch! 🎅✨</p>
     </div>
 
+    <!-- JavaScript für das Hamburger Menü -->
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuIcon = document.querySelector('.menu-icon');
-        const menuContent = document.querySelector('.menu-content');
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuIcon = document.querySelector('.menu-icon');
+            const menuContent = document.querySelector('.menu-content');
 
-        menuIcon.addEventListener('click', function() {
-            menuContent.classList.toggle('show'); // Menü anzeigen oder verbergen
+            // Funktion zum Umschalten des Menüs
+            menuIcon.addEventListener('click', function() {
+                menuContent.classList.toggle('show'); // Menü anzeigen oder verbergen
+            });
         });
-    });
-</script>
-    
+    </script>
 </body>
 </html>
