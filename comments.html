@@ -3,52 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comments</title>
     <link rel="stylesheet" href="styles.css">
+    <title>Foody Friday NewsBlog - Comments</title>
 </head>
 <body>
-    <!-- Banner -->
-    <div class="banner">
-        <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Foody Friday Logo">
-        <h1>Foody Friday NewsBlog</h1>
+    <div id="menu-toggle" class="menu-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
     </div>
-
-    <!-- Hamburger-Menü -->
-    <div class="hamburger-menu">
-        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
-        <div class="menu-content">
+    <div class="sidebar" id="sidebar">
+        <h2>Foody Friday NewsBlog</h2>
+        <nav>
             <ul>
-                <li><a href="index.html">Daylie News</a></li>
+                <li><a href="daily-news.html">Daily News</a></li>
                 <li><a href="essenslisten.html">Essenslisten</a></li>
                 <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
                 <li><a href="undefiniert.html">Undefiniert</a></li>
                 <li><a href="comments.html">Comments</a></li>
             </ul>
-        </div>
+        </nav>
     </div>
-
-    <!-- Comments -->
-    <div class="container">
-        <h2>Comments</h2>
-        <form id="commentForm" action="https://formspree.io/f/xwpklllq" method="POST">
-            <textarea name="comment" placeholder="Deine Nachricht" required></textarea>
-            <button type="submit">Senden</button>
-        </form>
-        <div id="commentList">
-            <!-- Hier werden die letzten 10 Kommentare angezeigt -->
+    <header>
+        <img src="https://github.com/shootcat/FoodyFriday/blob/main/Bild12255313.png?raw=true" alt="Logo" class="logo">
+        <h1>Foody Friday NewsBlog</h1>
+    </header>
+    <main>
+        <div class="content">
+            <h2>Kommentare</h2>
+            <p>Hier kannst du deine Kommentare hinterlassen.</p>
+            <form>
+                <label for="name">Name:</label>
+                <input type="text" id="name" required>
+                <label for="comment">Kommentar:</label>
+                <textarea id="comment" required></textarea>
+                <button type="submit">Abschicken</button>
+            </form>
         </div>
-    </div>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuIcon = document.querySelector('.menu-icon');
-        const menuContent = document.querySelector('.menu-content');
-
-        menuIcon.addEventListener('click', function() {
-            menuContent.classList.toggle('show'); // Menü anzeigen oder verbergen
-        });
-    });
-</script>
-
+    </main>
+    <script src="script.js"></script>
 </body>
 </html>
