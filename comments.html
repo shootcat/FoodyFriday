@@ -31,16 +31,61 @@
     <main>
         <div class="content">
             <h2>Kommentare</h2>
-            <p>Hier kannst du deine Kommentare hinterlassen.</p>
-            <form>
+            <form id="comment-form">
                 <label for="name">Name:</label>
                 <input type="text" id="name" required>
                 <label for="comment">Kommentar:</label>
                 <textarea id="comment" required></textarea>
                 <button type="submit">Abschicken</button>
             </form>
+            <div id="comments-section">
+                <h3>Letzte Kommentare</h3>
+                <div id="comments-list"></div>
+            </div>
         </div>
     </main>
     <script src="script.js"></script>
+    <script>
+        const form = document.getElementById('comment-form');
+        const commentsList = document.getElementById('comments-list');
+
+        // Array zum Speichern der Kommentare
+        let comments = [];
+
+        // Funktion, um die Kommentare anzuzeigen
+        function displayComments() {
+            commentsList.innerHTML = ''; // Liste leeren
+            const lastComments = comments.slice(-30); // Letzte 30 Kommentare
+            lastComments.forEach((comment, index) => {
+                const commentDiv = document.createElement('div');
+                commentDiv.textContent = `${comment.date}: ${comment.name} sagt: ${comment.text}`;
+                
+                // Farben für unterschiedliche Kommentare
+                const colors = ['red', 'blue', 'green', 'purple', 'orange'];
+                commentDiv.style.color = colors[index % colors.length];
+                
+                commentsList.appendChild(commentDiv);
+            });
+        }
+
+        // Formular-Submit-Event
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Standard-Formularverhalten verhindern
+            
+            const name = document.getElementById('name').value;
+            const commentText = document.getElementById('comment').value;
+
+            // Kommentar mit Datum speichern
+            const comment = {
+                name: name,
+                text: commentText,
+                date: new Date().toLocaleString() // Datum formatieren
+            };
+
+            comments.push(comment); // Kommentar zum Array hinzufügen
+            displayComments(); // Kommentare anzeigen
+            form.reset(); // Formular zurücksetzen
+        });
+    </script>
 </body>
 </html>
