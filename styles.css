@@ -23,6 +23,55 @@ body {
     top: 20px;
 }
 
+/* Hamburger Menü */
+.hamburger-menu {
+    position: fixed; /* Menü bleibt beim Scrollen sichtbar */
+    left: 0; /* Menü links ausrichten */
+    top: 20px; /* Abstand vom oberen Rand */
+    width: 80px; /* Breite des Menüs */
+    background-color: rgba(0, 0, 0, 0.8); /* Dunkler Hintergrund für das Menü */
+    border-radius: 0 10px 10px 0; /* Abgerundete Ecken auf der rechten Seite */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Schatten für das Menü */
+    z-index: 100; /* Damit das Menü über anderen Inhalten schwebt */
+}
+
+.menu-icon {
+    font-size: 30px;
+    color: white; /* Weiße Schriftfarbe für das Menü-Symbol */
+    cursor: pointer;
+    text-align: center; /* Zentrales Layout für das Symbol */
+    padding: 10px; /* Abstände für das Symbol */
+}
+
+/* Menü-Inhalt */
+.menu-content {
+    display: none; /* Menü standardmäßig verstecken */
+    padding: 10px 0;
+}
+
+.menu-content ul {
+    list-style-type: none; /* Keine Aufzählungszeichen */
+    padding: 0;
+}
+
+.menu-content ul li {
+    margin: 5px 0; /* Abstände zwischen den Menü-Elementen */
+}
+
+.menu-content ul li a {
+    text-decoration: none; /* Keine Unterstreichung */
+    color: white; /* Weiße Schriftfarbe */
+    font-weight: bold; /* Fettdruck für den Text */
+    text-transform: uppercase; /* Großbuchstaben */
+    display: block; /* Blockelement für einfachere Klickfläche */
+    padding: 10px; /* Abstände für die Links */
+    transition: background-color 0.3s; /* Übergangseffekt für Hintergrundfarbe */
+}
+
+.menu-content ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Heller Hintergrund bei Hover */
+}
+
 /* Container für Inhalte */
 .container {
     background-color: rgba(255, 255, 255, 0.9); /* Weiß mit Transparenz */
@@ -30,46 +79,6 @@ body {
     margin: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-}
-
-/* Hamburger Menü */
-.hamburger-menu {
-    position: relative;
-    display: inline-block;
-    margin: 20px;
-}
-
-.menu-icon {
-    font-size: 30px;
-    cursor: pointer;
-}
-
-.menu-content {
-    display: none; /* Menü standardmäßig verstecken */
-    position: absolute;
-    background-color: white;
-    border: 1px solid #ccc;
-    z-index: 1;
-    padding: 10px;
-}
-
-.menu-content ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.menu-content ul li {
-    margin: 5px 0;
-}
-
-.menu-content ul li a {
-    text-decoration: none;
-    color: black;
-}
-
-/* Menü sichtbar machen */
-.menu-content.show {
-    display: block;
 }
 
 /* Tabelle für Essenslisten */
