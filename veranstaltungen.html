@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Veranstaltungen - Foody Friday NewsBlog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -42,6 +43,7 @@
         </div>
     </main>
 
+    <!-- Skript zum Laden der Veranstaltungsdatei und für das Hamburger-Menü -->
     <script>
         // Funktion zum Laden der Veranstaltungsdatei und Einfügen in die HTML-Seite
         fetch('events.txt')
@@ -69,6 +71,11 @@
                 });
             })
             .catch(error => console.error('Fehler beim Laden der Veranstaltungsdatei:', error));
+
+        // Funktion für das Hamburger-Menü
+        document.getElementById("menu-toggle").addEventListener("click", function() {
+            document.getElementById("sidebar").classList.toggle("active");
+        });
     </script>
 </body>
 </html>
