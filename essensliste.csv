@@ -1,10 +1,7 @@
-﻿KW;Datum;Gericht
-44;01.11;Feiertag
-45;08.11;Hotdogs
-46;15.11;Eintopf
-47;22.11;Brühwürste
-48;29.11;Fleischkäse
-49;06.12;Wiener und Kartoffelsalat/ Schüffeli und Kartoffelsalat
-50;13.12;Grillwürste
-51;20.12;Weinachtsfeier
-52;27.12;Ferien
+KW,Datum,Gericht
+44,01.11,Donut
+45,08.11,Spaghetti
+46,15.11,Burger
+47,22.11,Sommerfest
+48,29.11,Brückentag
+49,06.12,Weihnachtsfeier
