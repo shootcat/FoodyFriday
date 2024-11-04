@@ -7,15 +7,14 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Banner -->
     <div class="banner">
         <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Foody Friday Logo">
         <h1>Foody Friday NewsBlog</h1>
     </div>
 
-    <!-- Menü -->
-    <div class="menu">
-        <nav>
+    <div class="hamburger-menu">
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <div class="menu-content">
             <ul>
                 <li><a href="index.html">Daylie News</a></li>
                 <li><a href="essenslisten.html">Essenslisten</a></li>
@@ -23,62 +22,20 @@
                 <li><a href="undefiniert.html">Undefiniert</a></li>
                 <li><a href="comments.html">Comments</a></li>
             </ul>
-        </nav>
+        </div>
     </div>
 
-    <!-- Hauptinhalt -->
     <div class="container">
         <h2>Essenslisten</h2>
-        <p>Hier findest du die Essenspläne für jeden Freitag des Jahres.</p>
-        
-        <!-- Tabelle für die Essensliste -->
-        <table id="essensliste">
-            <thead>
-                <tr>
-                    <th>KW</th>
-                    <th>Datum</th>
-                    <th>Gericht</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Inhalt wird von JavaScript geladen -->
-            </tbody>
-        </table>
+        <table id="essensliste"></table>
+        <script src="essensliste.js"></script>
     </div>
 
     <script>
-        async function loadCSV() {
-            const response = await fetch('essensliste.csv');
-            const data = await response.text();
-            const rows = data.trim().split('\n').slice(1); // Entferne Leerzeilen und den Header
-
-            const tableBody = document.querySelector('#essensliste tbody');
-            rows.forEach(row => {
-                const columns = row.split(',');
-                const tr = document.createElement('tr');
-
-                // Füge die Daten in die Tabelle ein und formatiere die "Gericht"-Spalte
-                columns.forEach((column, index) => {
-                    const td = document.createElement('td');
-                    td.textContent = column.trim();
-
-                    // Farbliche Anpassung in der "Gericht"-Spalte
-                        if (index === 2) { // 3. Spalte für Gericht
-                        if (td.textContent.includes("Sommerfest") || td.textContent.includes("Weihnachtsfeier")) {
-                        td.style.color = "red";
-                            } else if (td.textContent.includes("Feiertag") || td.textContent.includes("Brückentag") || td.textContent.includes("Ferien")) {
-                                td.style.color = "blue";
-                                }
-                            }
-
-
-                    tr.appendChild(td);
-                });
-                tableBody.appendChild(tr);
-            });
+        function toggleMenu() {
+            const menuContent = document.querySelector('.menu-content');
+            menuContent.classList.toggle('show');
         }
-
-        document.addEventListener('DOMContentLoaded', loadCSV);
     </script>
 </body>
 </html>
