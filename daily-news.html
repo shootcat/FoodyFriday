@@ -42,15 +42,17 @@
         </div>
     </main>
 
+    <!-- Einbindung von script.js für Hamburger-Menü und andere Funktionen -->
     <script>
         // Funktion zum Laden der Textdatei und Einfügen in die HTML-Seite
         fetch('news.txt')
             .then(response => response.text())
             .then(data => {
-                // Füge den Inhalt in das HTML-Element mit der ID "news-content" ein
-                document.getElementById('news-content').innerText = data;
+                const newsContainer = document.getElementById('news-content');
+                newsContainer.innerText = data;
             })
             .catch(error => console.error('Fehler beim Laden der News-Datei:', error));
     </script>
+    <script src="script.js"></script>
 </body>
 </html>
