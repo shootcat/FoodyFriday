@@ -7,11 +7,13 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Banner -->
     <div class="banner">
         <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Foody Friday Logo">
         <h1>Foody Friday NewsBlog</h1>
     </div>
 
+    <!-- Hamburger-Menü -->
     <div class="hamburger-menu">
         <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
         <div class="menu-content">
@@ -25,14 +27,15 @@
         </div>
     </div>
 
+    <!-- Comments -->
     <div class="container">
         <h2>Comments</h2>
-        <form id="commentForm">
-            <textarea name="comment" placeholder="Deine Nachricht"></textarea>
+        <form id="commentForm" action="https://formspree.io/f/xwpklllq" method="POST">
+            <textarea name="comment" placeholder="Deine Nachricht" required></textarea>
             <button type="submit">Senden</button>
         </form>
         <div id="commentList">
-            <!-- Hier werden die Kommentare angezeigt -->
+            <!-- Hier werden die letzten 10 Kommentare angezeigt -->
         </div>
     </div>
 
