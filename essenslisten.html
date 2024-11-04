@@ -63,13 +63,14 @@
                     td.textContent = column.trim();
 
                     // Farbliche Anpassung in der "Gericht"-Spalte
-                    if (index === 2) { // 3. Spalte für Gericht
+                        if (index === 2) { // 3. Spalte für Gericht
                         if (td.textContent.includes("Sommerfest") || td.textContent.includes("Weihnachtsfeier")) {
-                            td.style.color = "red";
-                        } else if (td.textContent.includes("Feiertag") || td.textContent.includes("Brückentag")) {
-                            td.style.color = "blue";
-                        }
-                    }
+                        td.style.color = "red";
+                            } else if (td.textContent.includes("Feiertag") || td.textContent.includes("Brückentag") || td.textContent.includes("Ferien")) {
+                                td.style.color = "blue";
+                                }
+                            }
+
 
                     tr.appendChild(td);
                 });
