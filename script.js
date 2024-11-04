@@ -1,48 +1,72 @@
 // Hamburger Menü Funktionalität
 document.getElementById("menu-toggle").addEventListener("click", function() {
-    document.getElementById("sidebar").classList.toggle("active"); // Sidebar ein- und ausblenden
+    document.getElementById("sidebar").classList.toggle("active");
 });
 
-// Kommentar-Funktionalität
+// Kommentare Funktionalität
 const form = document.getElementById('comment-form');
-const commentsList = document.getElementById('comments-list');
+if (form) {
+    const commentsList = document.getElementById('comments-list');
+    let comments = [];
 
-// Array zum Speichern der Kommentare
-let comments = [];
+    // Funktion zum Anzeigen der Kommentare
+    function displayComments() {
+        commentsList.innerHTML = '';
+        const lastComments = comments.slice(-30);
+        lastComments.forEach((comment, index) => {
+            const commentDiv = document.createElement('div');
+            commentDiv.textContent = `${comment.date} - ${comment.name}: ${comment.text}`;
+            const colors = ['red', 'blue', 'green', 'purple', 'orange'];
+            commentDiv.style.color = colors[index % colors.length];
+            commentsList.appendChild(commentDiv);
+        });
+    }
 
-// Funktion, um die Kommentare anzuzeigen
-function displayComments() {
-    commentsList.innerHTML = ''; // Liste leeren
-    const lastComments = comments.slice(-30); // Letzte 30 Kommentare
-    lastComments.forEach((comment, index) => {
-        const commentDiv = document.createElement('div');
-        commentDiv.textContent = `${comment.date}: ${comment.name} sagt: ${comment.text}`;
-        
-        // Farben für unterschiedliche Kommentare
-        const colors = ['red', 'blue', 'green', 'purple', 'orange'];
-        commentDiv.style.color = colors[index % colors.length];
-        
-        commentsList.appendChild(commentDiv);
+    // Event Listener für das Formular
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const commentText = document.getElementById('comment').value.trim();
+
+        if (name && commentText) {
+            const comment = {
+                name: name,
+                text: commentText,
+                date: new Date().toLocaleString()
+            };
+            comments.push(comment);
+            displayComments();
+            form.reset();
+        }
     });
 }
 
-// Formular-Submit-Event für Kommentare
-if (form) {
-    form.addEventListener('submit', function(e) {
-        e.preventDefault(); // Standard-Formularverhalten verhindern
-        
-        const name = document.getElementById('name').value;
-        const commentText = document.getElementById('comment').value;
-
-        // Kommentar mit Datum speichern
-        const comment = {
-            name: name,
-            text: commentText,
-            date: new Date().toLocaleString() // Datum formatieren
-        };
-
-        comments.push(comment); // Kommentar zum Array hinzufügen
-        displayComments(); // Kommentare anzeigen
-        form.reset(); // Formular zurücksetzen
-    });
+// Essensliste Funktionalität
+if (document.getElementById('essensliste')) {
+    fetch('essensliste.csv')
+        .then(response => response.text())
+        .then(data => {
+            const rows = data.trim().split('\n');
+            const tbody = document.querySelector('#essensliste tbody');
+            rows.forEach((row, index) => {
+                const cols = row.split(',');
+                if (index === 0) return; // Überspringt die Kopfzeile, wenn vorhanden
+                const tr = document.createElement('tr');
+                cols.forEach((col, idx) => {
+                    const td = document.createElement('td');
+                    td.textContent = col.trim();
+                    // Farbliche Anpassung in der "Gericht"-Spalte
+                    if (idx === 2) {
+                        if (td.textContent.includes("Sommerfest") || td.textContent.includes("Weihnachtsfeier")) {
+                            td.classList.add('red');
+                        } else if (td.textContent.includes("Feiertag") || td.textContent.includes("Brückentag") || td.textContent.includes("Ferien")) {
+                            td.classList.add('blue');
+                        }
+                    }
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+        })
+        .catch(error => console.error('Fehler beim Laden der Essensliste:', error));
 }
