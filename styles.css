@@ -1,118 +1,217 @@
-/* Seitenleiste - Standardmäßig ausgeblendet */
-.sidebar {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 250px; /* Standardbreite für größere Bildschirme */
+/* Globaler Stil */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('https://github.com/shootcat/FoodyFriday/blob/main/Bild12255313.png?raw=true') repeat;
+}
+
+/* Banner */
+header {
     background-color: #333;
-    padding-top: 60px;
-    transition: 0.3s;
-    z-index: 1000;
-}
-
-/* Seitenleiste sichtbar, wenn die Klasse "active" hinzugefügt wird */
-.sidebar.active {
-    display: block;
-}
-
-/* Styling für das Hamburger-Menü-Icon */
-.menu-icon {
-    cursor: pointer;
-    display: block;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1001;
-}
-
-.menu-icon .bar {
-    width: 25px;
-    height: 3px;
-    background-color: #333;
-    margin: 5px 0;
-    transition: 0.4s;
-}
-
-/* Mobilansicht: Seitenleiste auf 100% Breite erweitern */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 100%; /* Seitenleiste nimmt den gesamten Bildschirm ein */
-        padding-top: 60px;
-    }
-
-    /* Schriftgröße und Abstände anpassen */
-    .sidebar ul li {
-        padding: 15px;
-        text-align: center;
-    }
-
-    .sidebar ul li a {
-        color: white;
-        text-decoration: none;
-        font-size: 18px;
-        display: block;
-    }
-}
-
-/* Banner-Design */
-.banner-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: black; /* Hintergrundfarbe für das Banner */
-    padding: 10px;
     color: white;
+    padding: 20px 0;
     text-align: center;
 }
 
-.banner-title {
-    font-size: 24px;
-    margin-left: 10px;
+.banner-content {
+    display: flex;
+    flex-direction: column; /* Anordnung von Logo und Titel untereinander */
+    align-items: center;
+    justify-content: center;
 }
 
-/* Logo-Größe */
 .logo {
-    width: 50px;
-    height: auto;
+    width: 120px; /* Größe des Logos */
+    margin-bottom: 10px; /* Abstand zwischen Logo und Titel */
 }
 
-/* Hauptinhalt-Styling */
-.content {
-    margin: 20px;
-    padding: 20px;
+.banner-title {
+    font-family: 'Arial', sans-serif; /* Moderne Schriftart */
+    font-size: 2.2em; /* Vergrößerter Titel */
+    font-weight: 700; /* Fettschrift für Präsenz */
+    color: #ffffff;
+    margin: 0;
+}
+
+
+/* Hamburger Menü */
+.menu-icon {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.bar {
+    width: 35px;
+    height: 5px;
     background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 6px 0;
 }
 
-h2 {
+/* Seitenleiste */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 12.5%; /* 1/8 der Seitenbreite */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    transition: 0.3s;
+    z-index: 999;
+    padding-top: 100px;
+}
+
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    padding: 15px;
+    text-align: center;
+}
+
+.sidebar nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #575757;
+    border-radius: 5px;
+}
+
+/* Aktive Seitenleiste */
+.sidebar.active {
+    left: 0;
+}
+
+/* Hauptinhalt */
+main {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-top: 100px;
+}
+
+.content {
+    background-color: white;
+    opacity: 0.9;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+h1, h2, h3 {
     color: #333;
 }
 
-/* Tabellen-Design */
+p, li {
+    color: #555;
+}
+
+/* Tabelle in Essensliste */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
-table, th, td {
-    border: 1px solid #ddd;
-}
-
 th, td {
-    padding: 8px;
+    padding: 12px;
+    border: 1px solid #ddd;
     text-align: left;
 }
 
 th {
-    background-color: #333;
-    color: white;
+    background-color: #f4f4f4;
 }
 
-/* Links innerhalb der Sidebar */
-.sidebar ul li a:hover {
+td.red {
+    color: red;
+}
+
+td.blue {
+    color: blue;
+}
+
+/* Formular in Kommentare */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+input, textarea {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+/* Kommentare Liste */
+#comments-list div {
+    margin-top: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+#comments-list div:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+#comments-list div:nth-child(even) {
+    background-color: #e9e9e9;
+}
+
+/* Stil für den Kommentarbereich */
+#comments-list .comment-item {
+    margin-top: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-content {
+    max-width: 80%;
+}
+
+/* Stil für den Like-Button */
+.like-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+.like-button:hover {
     background-color: #555;
 }
