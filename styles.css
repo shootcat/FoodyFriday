@@ -17,20 +17,20 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 10px; /* Abstand zwischen Logo und Titel */
 }
 
-header .logo {
-    width: 80px; /* Kleinere Größe für das Logo */
-    margin-right: 15px; /* Abstand zwischen Logo und Titel */
+.logo {
+    width: 60px; /* Kleinere Größe für das Logo */
 }
 
 .banner-title {
-    font-family: 'Helvetica Neue', Arial, sans-serif; /* Moderne Schriftart */
+    font-family: 'Arial', sans-serif; /* Moderne Schriftart */
     font-size: 1.8em; /* Große, gut lesbare Schriftgröße */
     font-weight: 700; /* Fettschrift für mehr Präsenz */
     color: #ffffff;
-    margin: 0;
 }
+
 
 /* Hamburger Menü */
 .menu-icon {
