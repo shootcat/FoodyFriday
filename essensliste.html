@@ -12,6 +12,7 @@
         <div class="bar"></div>
         <div class="bar"></div>
     </div>
+    
     <!-- Seitenleiste -->
     <div class="sidebar" id="sidebar">
         <nav>
@@ -25,18 +26,20 @@
             </ul>
         </nav>
     </div>
+
     <!-- Banner mit Logo und Titel -->
     <header>
-    <div class="banner-content">
-        <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
-        <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
-    </div>
-</header>
+        <div class="banner-content">
+            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
+            <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
+        </div>
+    </header>
+
     <!-- Hauptinhalt -->
     <main>
         <div class="content">
             <h2>Essensliste</h2>
-            <table id="essensliste">
+            <table id="essensliste-table">
                 <thead>
                     <tr>
                         <th>KW</th>
@@ -45,11 +48,47 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Inhalte werden durch script.js geladen -->
+                    <!-- CSV-Daten werden hier eingefügt -->
                 </tbody>
             </table>
         </div>
     </main>
-    <script src="script.js"></script>
+
+    <script>
+        // Funktion zum Laden und Darstellen der CSV-Datei
+        fetch('essensliste.csv')
+            .then(response => response.text())
+            .then(data => {
+                const tableBody = document.querySelector('#essensliste-table tbody');
+                
+                // CSV-Daten in Zeilen aufteilen
+                const rows = data.trim().split('\n');
+                
+                // Header-Zeile überspringen und Datenzeilen verarbeiten
+                rows.slice(1).forEach(row => {
+                    const cols = row.split(',');
+                    const tableRow = document.createElement('tr');
+
+                    cols.forEach((col, index) => {
+                        const cell = document.createElement('td');
+                        cell.textContent = col.trim();
+
+                        // Spezielle Formatierung für bestimmte Einträge in der Spalte "Gericht"
+                        if (index === 2) { // Spalte "Gericht"
+                            if (col.includes("Sommerfest") || col.includes("Weihnachtsfeier")) {
+                                cell.style.color = "red";
+                            } else if (col.includes("Feiertag") || col.includes("Brückentag") || col.includes("Ferien")) {
+                                cell.style.color = "blue";
+                            }
+                        }
+
+                        tableRow.appendChild(cell);
+                    });
+
+                    tableBody.appendChild(tableRow);
+                });
+            })
+            .catch(error => console.error('Fehler beim Laden der Essensliste:', error));
+    </script>
 </body>
 </html>
