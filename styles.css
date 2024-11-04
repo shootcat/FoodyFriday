@@ -10,17 +10,26 @@ body {
 header {
     background-color: #333;
     color: white;
-    text-align: center;
     padding: 20px 0;
-    position: relative;
+}
+
+.banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 header .logo {
-    width: 150px;
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
+    width: 80px; /* Kleinere Größe für das Logo */
+    margin-right: 15px; /* Abstand zwischen Logo und Titel */
+}
+
+.banner-title {
+    font-family: 'Helvetica Neue', Arial, sans-serif; /* Moderne Schriftart */
+    font-size: 1.8em; /* Große, gut lesbare Schriftgröße */
+    font-weight: 700; /* Fettschrift für mehr Präsenz */
+    color: #ffffff;
+    margin: 0;
 }
 
 /* Hamburger Menü */
