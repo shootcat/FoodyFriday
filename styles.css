@@ -56,7 +56,7 @@ header {
     position: fixed;
     top: 0;
     left: -250px;
-    width: 15%; /* 1/8 der Seitenbreite */
+    width: 10%; /* 1/8 der Seitenbreite */
     height: 100%;
     background-color: rgba(0, 0, 0, 0.9);
     color: white;
@@ -71,7 +71,7 @@ header {
 }
 
 .sidebar nav ul li {
-    padding: 15px;
+    padding: 5px;
     text-align: center;
 }
 
