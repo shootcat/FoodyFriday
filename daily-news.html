@@ -51,8 +51,21 @@
             .then(data => {
                 const newsContainer = document.getElementById('news-content');
 
+                // HTML-Sonderzeichen escapen, um Sicherheit zu gewährleisten
+                function escapeHTML(str) {
+                    return str.replace(/&/g, "&amp;")
+                              .replace(/</g, "&lt;")
+                              .replace(/>/g, "&gt;");
+                }
+
+                // Den Text escapen, um Sicherheitsrisiken zu vermeiden
+                let formattedData = escapeHTML(data);
+
                 // Ersetze *Text* durch <strong>Text</strong>
-                const formattedData = data.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+                formattedData = formattedData.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+
+                // Ersetze Zeilenumbrüche durch <br> Tags
+                formattedData = formattedData.replace(/\r?\n/g, '<br>');
 
                 // Füge den formatierten Text in den Container ein
                 newsContainer.innerHTML = formattedData;
