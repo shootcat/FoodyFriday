@@ -46,6 +46,10 @@
     <button id="install-button" style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
   App installieren
 </button>
+    <div id="ios-prompt" style="display: none; position: fixed; bottom: 20px; left: 20px; z-index: 1000; background-color: #fff; padding: 15px; border: 1px solid #ccc;">
+  <p>Um diese App zu installieren, tippen Sie auf <img src="share-icon.png" alt="Share Icon" style="width: 20px; vertical-align: middle;"> und dann auf <strong>"Zum Home-Bildschirm"</strong>.</p>
+  <button onclick="document.getElementById('ios-prompt').style.display='none'">Schließen</button>
+</div>
     <script src="script.js"></script>
 </body>
 </html>
