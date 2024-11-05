@@ -4,30 +4,15 @@
     <meta charset="UTF-8">
     <title>Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Stylesheet -->
     <link rel="stylesheet" href="styles.css">
-    <!-- Manifest-Datei für PWA -->
-    <link rel="manifest" href="manifest.json">
 </head>
 <body>
-    <!-- Installationsbutton für Android -->
-    <button id="install-button" style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
-        App installieren
-    </button>
-
-    <!-- iOS Installationshinweis -->
-    <div id="ios-prompt" style="display: none; position: fixed; bottom: 20px; left: 20px; z-index: 1000; background-color: #fff; padding: 15px; border: 1px solid #ccc;">
-        <p>Um diese App zu installieren, tippen Sie auf <img src="share-icon.png" alt="Share Icon" style="width: 20px; vertical-align: middle;"> und dann auf <strong>"Zum Home-Bildschirm"</strong>.</p>
-        <button onclick="document.getElementById('ios-prompt').style.display='none'">Schließen</button>
-    </div>
-
     <!-- Hamburger Menü -->
     <div id="menu-toggle" class="menu-icon">
         <div class="bar"></div>
         <div class="bar"></div>
         <div class="bar"></div>
     </div>
-
     <!-- Seitenleiste -->
     <div class="sidebar" id="sidebar">
         <nav>
@@ -41,92 +26,22 @@
             </ul>
         </nav>
     </div>
-
     <!-- Banner mit Logo und Titel -->
-    <header>
-        <div class="banner-content">
-            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
-            <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
-        </div>
-    </header>
-
+   <header>
+    <div class="banner-content">
+        <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
+        <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
+    </div>
+</header>
     <!-- Hauptinhalt -->
     <main>
         <div class="content">
             <h2>Willkommen auf unserem Foody Friday NewsBlog!</h2>
             <h2>Nur für GAB Mitarbeiter und Mitarbeiterinnen</h2>
-            <p>Hier findest du alle Informationen rund um bevorstehende Events, alle Informationen rund um die Gerichte an bevorstehenden Freitagen sowie spontane Änderungen.</p>
-            <p>Auch einen NewsFeed für aktuelle News und auch eine Seite für Kommentare (voll anonym).</p>
+            <p>Hier findest du alle Informationen rund um bevorstehende Events, alle Informationen rund um die Gerichte an bevorstehenden Freitagen sowie spontane Änderungen. </p>
+            <p>Auch einen NewsFeed für aktuelle News und auch eine Seite für Kommentare (Voll Anonym)</p>
         </div>
     </main>
-
-    <!-- Einbindung der Skripte -->
-    <script>
-        // Service Worker Registrierung
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(function() {
-                    console.log('Service Worker registriert');
-                })
-                .catch(function(error) {
-                    console.error('Service Worker Registrierung fehlgeschlagen:', error);
-                });
-        }
-
-        // Variablen für die Installationsaufforderung
-        let deferredPrompt;
-        const installButton = document.getElementById('install-button');
-
-        // Event Listener für 'beforeinstallprompt' hinzufügen (Android)
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Standardaufforderung verhindern
-            e.preventDefault();
-            // Ereignis speichern
-            deferredPrompt = e;
-            // Installationsbutton anzeigen
-            installButton.style.display = 'block';
-        });
-
-        // Event Listener für den Installationsbutton (Android)
-        installButton.addEventListener('click', (e) => {
-            // Installationsbutton ausblenden
-            installButton.style.display = 'none';
-            // Installationsaufforderung anzeigen
-            deferredPrompt.prompt();
-            // Benutzerentscheidung behandeln
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('Benutzer hat die Installation akzeptiert');
-                } else {
-                    console.log('Benutzer hat die Installation abgelehnt');
-                }
-                deferredPrompt = null;
-            });
-        });
-
-        // iOS Installationshinweis
-        function isIos() {
-            const userAgent = window.navigator.userAgent.toLowerCase();
-            return /iphone|ipad|ipod/.test(userAgent);
-        }
-
-        function isInStandaloneMode() {
-            return ('standalone' in window.navigator) && (window.navigator.standalone);
-        }
-
-        if (isIos() && !isInStandaloneMode()) {
-            // Installationshinweis anzeigen
-            const iosPrompt = document.getElementById('ios-prompt');
-            iosPrompt.style.display = 'block';
-        }
-
-        // Hamburger Menü Funktionalität
-        document.getElementById("menu-toggle").addEventListener("click", function() {
-            document.getElementById("sidebar").classList.toggle("active");
-        });
-    </script>
-
-    <!-- Ihr bestehendes script.js -->
     <script src="script.js"></script>
 </body>
 </html>
