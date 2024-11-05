@@ -5,6 +5,33 @@
     <title>Daily News - Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Wetter Styles */
+        #weather-info {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        /* RSS Feed Styles */
+        #rss-feed-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #rss-feed-list li {
+            margin-bottom: 15px;
+        }
+
+        #rss-feed-list li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        #rss-feed-list li a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <!-- Hamburger Menü -->
@@ -41,9 +68,22 @@
         <div class="content" id="news-content">
             <!-- Der Inhalt von news.txt wird hier eingefügt -->
         </div>
+
+        <!-- Wetter Container -->
+        <div class="content" id="weather">
+            <h2>Aktuelles Wetter in Maulburg</h2>
+            <p id="weather-info"></p>
+        </div>
+
+        <!-- RSS-Feed Container -->
+        <div class="content" id="rss-feed">
+            <h2>Aktuelle Nachrichten von der Tagesschau</h2>
+            <ul id="rss-feed-list"></ul>
+        </div>
     </main>
 
-    <!-- Einbindung von script.js für Hamburger-Menü und andere Funktionen -->
+    <!-- Einbindung der Skripte -->
+    <!-- Skript zum Laden von news.txt -->
     <script>
         // Funktion zum Laden der Textdatei und Einfügen in die HTML-Seite
         fetch('news.txt')
@@ -75,6 +115,55 @@
             })
             .catch(error => console.error('Fehler beim Laden der News-Datei:', error));
     </script>
+
+    <!-- Wetter Skript -->
+    <script>
+        // Ersetzen Sie 'YOUR_OPENWEATHERMAP_API_KEY' durch Ihren tatsächlichen API-Schlüssel von OpenWeatherMap
+        const weatherApiKey = 'YOUR_OPENWEATHERMAP_API_KEY';
+        const cityId = '2872911'; // Stadt-ID für Maulburg
+        const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?id=${cityId}&units=metric&lang=de&appid=${weatherApiKey}`;
+
+        fetch(weatherApiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const weatherInfo = document.getElementById('weather-info');
+                const temp = data.main.temp;
+                const description = data.weather[0].description;
+                const icon = data.weather[0].icon;
+
+                weatherInfo.innerHTML = `
+                    <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="Wetter Icon">
+                    ${description}, ${temp}°C
+                `;
+            })
+            .catch(error => console.error('Fehler beim Laden der Wetterdaten:', error));
+    </script>
+
+    <!-- RSS-Feed Skript -->
+    <script>
+        // Ersetzen Sie 'YOUR_RSS2JSON_API_KEY' durch Ihren tatsächlichen API-Schlüssel von rss2json.com
+        const rssUrl = 'https://www.tagesschau.de/infoservices/alle-meldungen-100~rss2.xml';
+        const rssApiKey = 'YOUR_RSS2JSON_API_KEY';
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&api_key=${rssApiKey}`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const feedList = document.getElementById('rss-feed-list');
+                data.items.slice(0, 5).forEach(item => {
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = item.link;
+                    link.textContent = item.title;
+                    link.target = '_blank';
+                    listItem.appendChild(link);
+                    feedList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Fehler beim Laden des RSS-Feeds:', error));
+    </script>
+
+    <!-- Ihr bestehendes script.js -->
     <script src="script.js"></script>
 </body>
 </html>
