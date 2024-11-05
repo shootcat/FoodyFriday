@@ -54,14 +54,15 @@ header {
 .sidebar {
     position: fixed;
     top: 0;
-    left: -250px;
-    width: 12.5%; /* 1/8 of page width */
+    left: 0;
+    width: 12.5%; /* 1/8 der Seitenbreite */
     height: 100%;
     background-color: rgba(0, 0, 0, 0.9);
     color: white;
-    transition: 0.3s;
+    transition: transform 0.3s ease;
     z-index: 999;
     padding-top: 100px;
+    transform: translateX(-100%); /* Sidebar vollständig nach links außerhalb des Bildschirms schieben */
 }
 
 .sidebar nav ul {
@@ -86,9 +87,9 @@ header {
     border-radius: 5px;
 }
 
-/* Active Sidebar */
+/* Aktive Sidebar */
 .sidebar.active {
-    left: 0;
+    transform: translateX(0); /* Sidebar in die Ansicht schieben */
 }
 
 /* Main Content */
