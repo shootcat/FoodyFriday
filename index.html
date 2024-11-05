@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Daily News - Foody Friday NewsBlog</title>
+    <title>Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -13,7 +13,6 @@
         <div class="bar"></div>
         <div class="bar"></div>
     </div>
-    
     <!-- Seitenleiste -->
     <div class="sidebar" id="sidebar">
         <nav>
@@ -27,51 +26,21 @@
             </ul>
         </nav>
     </div>
-    
     <!-- Banner mit Logo und Titel -->
-    <header>
-        <div class="banner-content">
-            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
-            <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
-        </div>
-    </header>
-
+   <header>
+    <div class="banner-content">
+        <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
+        <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
+    </div>
+</header>
     <!-- Hauptinhalt -->
     <main>
-        <div class="content" id="news-content">
-            <!-- Der Inhalt von news.txt wird hier eingefügt -->
+        <div class="content">
+            <h2>Willkommen auf unserem Foody Friday NewsBlog!</h2>
+            <p>Hier findest du alle Informationen rund um bevorstehende Events, alle Informationen rund um die Gerichte an bevorstehenden Freitagen sowie spontane Änderungen. </p>
+            <p>Sowie einen NewsFeed für aktuelle News und auch eine Seite für Kommentare (Voll Anonym)</p>
         </div>
     </main>
-
-    <!-- Einbindung von script.js für Hamburger-Menü und andere Funktionen -->
-    <script>
-        // Funktion zum Laden der Textdatei und Einfügen in die HTML-Seite
-        fetch('news.txt')
-            .then(response => response.text())
-            .then(data => {
-                const newsContainer = document.getElementById('news-content');
-
-                // HTML-Sonderzeichen escapen, um Sicherheit zu gewährleisten
-                function escapeHTML(str) {
-                    return str.replace(/&/g, "&amp;")
-                              .replace(/</g, "&lt;")
-                              .replace(/>/g, "&gt;");
-                }
-
-                // Den Text escapen, um Sicherheitsrisiken zu vermeiden
-                let formattedData = escapeHTML(data);
-
-                // Ersetze *Text* durch <strong>Text</strong>
-                formattedData = formattedData.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
-
-                // Ersetze Zeilenumbrüche durch <br> Tags
-                formattedData = formattedData.replace(/\r?\n/g, '<br>');
-
-                // Füge den formatierten Text in den Container ein
-                newsContainer.innerHTML = formattedData;
-            })
-            .catch(error => console.error('Fehler beim Laden der News-Datei:', error));
-    </script>
     <script src="script.js"></script>
 </body>
 </html>
