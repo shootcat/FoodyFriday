@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Undefiniert - Foody Friday NewsBlog</title>
+    <title>FUN - Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -28,17 +28,31 @@
     </div>
     <!-- Banner mit Logo und Titel -->
     <header>
-    <div class="banner-content">
-        <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
-        <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
-    </div>
-</header>
+        <div class="banner-content">
+            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
+            <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
+        </div>
+    </header>
 
     <!-- Hauptinhalt -->
     <main>
         <div class="content">
-            <h2>Diese Seite ist noch in Arbeit.</h2>
-            <p>Bitte schaue später wieder vorbei.</p>
+            <!-- Sudoku -->
+            <h2>Sudoku</h2>
+            <div id="sudoku-container">
+                <table id="sudoku-board"></table>
+                <button onclick="checkSudoku()">Kontrollieren</button>
+            </div>
+
+            <!-- Minigame -->
+            <h2>Fang den Ball</h2>
+            <canvas id="minigame-canvas" width="300" height="300"></canvas>
+            <p>Tippe auf den Ball, um Punkte zu sammeln!</p>
+
+            <!-- Schachrätsel -->
+            <h2>Schachrätsel</h2>
+            <div id="chessboard"></div>
+            <p>Schach in einem Zug!</p>
         </div>
     </main>
     <script src="script.js"></script>
