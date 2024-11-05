@@ -215,9 +215,39 @@ button:hover {
     background-color: #555;
 }
 
-/* Media Query for Mobile Devices */
+/* Allgemeine Media Query für mobile Geräte */
 @media (max-width: 767px) {
     .sidebar {
         width: 75%;
+    }
+}
+
+/* Spezifische Media Queries für die genannten Geräte */
+
+/* Samsung Galaxy Z Fold 4 Frontdisplay */
+@media (max-width: 360px) {
+    .sidebar {
+        width: 80%;
+    }
+}
+
+/* Samsung Galaxy Z Fold 4 Hauptdisplay */
+@media (min-width: 361px) and (max-width: 768px) {
+    .sidebar {
+        width: 65%;
+    }
+}
+
+/* iPhone 16 Pro */
+@media (max-width: 390px) {
+    .sidebar {
+        width: 80%;
+    }
+}
+
+/* Samsung Galaxy S24 Ultra */
+@media (max-width: 412px) {
+    .sidebar {
+        width: 80%;
     }
 }
