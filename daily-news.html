@@ -58,8 +58,11 @@
                               .replace(/>/g, "&gt;");
                 }
 
-                // Den Text escapen, um Sicherheitsrisiken zu vermeiden
+                // Den Text escapen
                 let formattedData = escapeHTML(data);
+
+                // Ersetze Zeilen, die mit # beginnen und enden, durch größere Schrift
+                formattedData = formattedData.replace(/^#(.*?)#$/gm, '<span style="font-size: larger;">$1</span>');
 
                 // Ersetze *Text* durch <strong>Text</strong>
                 formattedData = formattedData.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
