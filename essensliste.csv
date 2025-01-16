@@ -1,9 +1,52 @@
 KW,Datum,Gericht
-45,08.11,Hotdogs
-46,15.11,Eintopf
-47,22.11,Brühwürste
-48,29.11,Fleischkäse
-49,06.12,Wiener und Kartoffelsalat/ Schüffeli und Kartoffelsalat
-50,13.12,Grillwürste
-51,20.12,Weihnachtsfeier
-52,27.12,Ferien
+2,10.01,Fleischkäse
+3,17.01,Brühwürste
+4,24.01,Grillwürste
+5,31.01,Frikadellen gerillt
+6,07.02,Grillwürste
+7,14.02,Steakweckle
+8,21.02,Grillwürste
+9,28.02,Currywurst
+10,07.03,Klöpfer
+11,14.03,Schnitzel
+12,21.03,Fleischkäse
+13,28.03,Grillwürste
+14,04.04,Burger (mit und ohne Käse)
+15,11.04,Klöpfer
+16,18.04,Feiertag
+17,25.04,Frikadellen gebraten mit Zwiebeln
+18,02.05,Brückentag
+19,09.05,Wurstsalat
+20,16.05,Grillwürste
+21,23.05,Frikadellen gegrillt
+22,30.05,Brückentag
+23,06.06,Steakweckle
+24,13.06,Grillwürste
+25,20.06,Brückentag
+26,27.06,Currywurst
+27,04.07,Frikadellen gebraten mit Zwiebeln
+28,11.07,Steakweckle
+29,18.07,Burger (mit & ohne Käse)
+30,25.07,Klöpfer
+31,01.08,Frikadellen gegrillt
+32,08.08,Grillwürste
+33,15.08,Currywurst
+34,22.08,Steakweckle
+35,29.08,Grillwürste
+36,05.09,Klöpfer
+37,12.09,Grillwürste
+38,19.09,Fleischkäse
+39,26.09,Frikadellen gebraten mit Zwiebeln
+40,03.10,Feiertag
+41,10.10,Brühwürste
+42,17.10,Grillwürste
+43,24.10,Wurstsalat
+44,31.10,Fleischkäse
+45,07.11,Hotdogs
+46,14.11,Eintopf
+47,21.11,Brühwürste
+48,28.11,Fleischkäse
+49,05.12,Wiener und Kartoffelsalat/ Schüffeli und Kartoffelsalat
+50,12.12,Grillwürste
+51,19.12,Weinachtsfeier
+52,26.12,Ferien
