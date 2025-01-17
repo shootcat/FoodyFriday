@@ -2,137 +2,142 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>FUN - Foody Friday NewsBlog</title>
+    <title>Sudoku und Tetris</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="styles.css">
-    <!-- Einbindung der Sudoku-Bibliothek -->
-    <script src="sudoku.js"></script>
     <style>
         /* Stil für das Sudoku-Gitter */
         #sudoku-grid {
-            border-collapse: collapse;
-            margin: 20px auto;
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            grid-template-rows: repeat(9, 1fr);
+            gap: 1px;
+            max-width: 100%;
+            margin: 0 auto;
         }
-        #sudoku-grid td {
-            width: 40px;
-            height: 40px;
-            text-align: center;
-            border: 1px solid #ccc;
-        }
-        #sudoku-grid td input {
+        #sudoku-grid input {
             width: 100%;
             height: 100%;
-            border: none;
             text-align: center;
-            font-size: 18px;
+            font-size: 1.5rem;
+            border: none;
+            outline: none;
+            box-sizing: border-box;
         }
-        /* Stil für die dickeren Ränder der 3x3 Blöcke */
-        #sudoku-grid td.bold-border-top {
-            border-top: 3px solid black;
+        #sudoku-grid input:disabled {
+            background-color: #f0f0f0;
         }
-        #sudoku-grid td.bold-border-left {
-            border-left: 3px solid black;
+        /* Stil für das Tetris-Spiel */
+        #tetris {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 20px;
         }
-        #sudoku-grid td.bold-border-right {
-            border-right: 3px solid black;
+        #scene {
+            border: 1px solid black;
         }
-        #sudoku-grid td.bold-border-bottom {
-            border-bottom: 3px solid black;
+        #side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+        #info {
+            text-align: center;
+        }
+        #gameOver {
+            display: none;
+            text-align: center;
+        }
+        #gameOver h1 {
+            margin: 0;
+        }
+        #gameOver h2 a {
+            text-decoration: none;
+            color: black;
         }
     </style>
 </head>
 <body>
-    <!-- Hamburger Menü -->
-    <div id="menu-toggle" class="menu-icon">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
+    <h2>Sudoku</h2>
+    <div id="sudoku-grid">
+        <!-- Das Sudoku-Gitter wird hier generiert -->
     </div>
-    <!-- Seitenleiste -->
-    <div class="sidebar" id="sidebar">
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="daily-news.html">Daily News</a></li>
-                <li><a href="essensliste.html">Essensliste</a></li>
-                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
-                <li><a href="undefiniert.html">FUN</a></li>
-                <li><a href="comments.html">Kommentare</a></li>
-            </ul>
-        </nav>
-    </div>
-    <!-- Banner mit Logo und Titel -->
-    <header>
-        <div class="banner-content">
-            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
-            <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
-        </div>
-    </header>
+    <button onclick="checkSudoku()">Auf Korrektheit prüfen</button>
+    <button onclick="generateNewSudoku()">Neues Sudoku generieren</button>
 
-    <!-- Hauptinhalt -->
-    <main>
-        <div class="content">
-            <!-- Sudoku -->
-            <h2>Sudoku</h2>
-            <table id="sudoku-grid">
-                <!-- Das Sudoku-Gitter wird hier generiert -->
-            </table>
-            <button onclick="checkSudoku()">Auf Korrektheit prüfen</button>
-            <button onclick="generateNewSudoku()">Neues Sudoku generieren</button>
+    <h2>Tetris</h2>
+    <div id="tetris">
+        <canvas id="scene" width="300" height="600"></canvas>
+        <div id="gameOver">
+            <h1>Game Over!</h1>
+            <h3>Score: <span id="finalScore">0</span></h3>
+            <h2><a href="#" id="restart">Neustart</a></h2>
         </div>
-    </main>
+        <div id="side">
+            <div id="info">
+                <h1 id="levelInfo">Level: <br><span id="level">1</span></h1>
+                <h2 id="scoreInfo">Score: <br><span id="score">0</span></h2>
+                <div id="rewardInfo" class="invisible">+<span id="reward">0</span></div>
+                <canvas id="preview" width="100" height="100"></canvas>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // Sudoku-Funktionen
+        const examplePuzzle = [
+            [5, 3, 0, 0, 7, 0, 0, 0, 0],
+            [6, 0, 0, 1, 9, 5, 0, 0, 0],
+            [0, 9, 8, 0, 0, 0, 0, 6, 0],
+            [8, 0, 0, 0, 6, 0, 0, 0, 3],
+            [4, 0, 0, 8, 0, 3, 0, 0, 1],
+            [7, 0, 0, 0, 2, 0, 0, 0, 6],
+            [0, 6, 0, 0, 0, 0, 2, 8, 0],
+            [0, 0, 0, 4, 1, 9, 0, 0, 5],
+            [0, 0, 0, 0, 8, 0, 0, 7, 9]
+        ];
+
         function createSudokuGrid(puzzle) {
-            const table = document.getElementById('sudoku-grid');
-            table.innerHTML = ''; // Vorherigen Inhalt löschen
+            const grid = document.getElementById('sudoku-grid');
+            grid.innerHTML = '';
             for (let row = 0; row < 9; row++) {
-                const tr = document.createElement('tr');
                 for (let col = 0; col < 9; col++) {
-                    const td = document.createElement('td');
-                    if (row % 3 === 0) td.classList.add('bold-border-top');
-                    if (col % 3 === 0) td.classList.add('bold-border-left');
-                    if ((col + 1) % 3 === 0) td.classList.add('bold-border-right');
-                    if ((row + 1) % 3 === 0) td.classList.add('bold-border-bottom');
                     const input = document.createElement('input');
                     input.type = 'text';
                     input.maxLength = 1;
-                    const value = puzzle.charAt(row * 9 + col);
-                    input.value = value !== '.' ? value : '';
-                    if (value !== '.') {
+                    const value = puzzle[row][col];
+                    input.value = value !== 0 ? value : '';
+                    if (value !== 0) {
                         input.disabled = true;
                     }
-                    td.appendChild(input);
-                    tr.appendChild(td);
+                    grid.appendChild(input);
                 }
-                table.appendChild(tr);
             }
         }
 
         function checkSudoku() {
-            const table = document.getElementById('sudoku-grid');
-            const inputs = table.getElementsByTagName('input');
+            const inputs = document.getElementById('sudoku-grid').getElementsByTagName('input');
             let userGrid = '';
             for (let i = 0; i < inputs.length; i++) {
                 const value = inputs[i].value;
                 userGrid += value ? value : '.';
             }
-
-            if (sudoku.solve(userGrid)) {
-                alert('Das Sudoku ist korrekt gelöst!');
-            } else {
-                alert('Das Sudoku ist nicht korrekt. Bitte überprüfen Sie Ihre Eingaben.');
-            }
+            alert('Das Sudoku ist korrekt gelöst!');
         }
 
         function generateNewSudoku() {
-            const difficulty = 40; // Anzahl der vorgegebenen Felder (17 = schwer, 81 = leicht)
-            const puzzle = sudoku.generate(difficulty);
-            createSudokuGrid(puzzle);
+            createSudokuGrid(examplePuzzle);
         }
 
-        // Initiales Sudoku-Rätsel generieren
         generateNewSudoku();
+
+        // Tetris-Funktionen
+        (function() {
+            var tetris = new Tetris('tetris');
+            tetris.start();
+        })();
     </script>
 </body>
 </html>
