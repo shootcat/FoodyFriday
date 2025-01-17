@@ -46,10 +46,18 @@
             </table>
             <button onclick="checkSudoku()">Auf Korrektheit prüfen</button>
             <button onclick="generateNewSudoku()">Neues Sudoku generieren</button>
+
+            <!-- Tetris -->
+            <h2>Tetris</h2>
+            <div id="tetris-container">
+                <canvas id="tetris-canvas" width="300" height="600"></canvas>
+                <p>Steuere das Spiel mit den Pfeiltasten!</p>
+            </div>
         </div>
     </main>
 
     <script>
+        // Sudoku-Funktionen
         function createSudokuGrid(puzzle) {
             const table = document.getElementById('sudoku-grid');
             table.innerHTML = ''; // Vorherigen Inhalt löschen
@@ -98,8 +106,36 @@
             createSudokuGrid(puzzle);
         }
 
-        // Initiales Sudoku-Rätsel generieren
-        generateNewSudoku();
+        // Tetris-Funktionen
+        const canvas = document.getElementById('tetris-canvas');
+        const ctx = canvas.getContext('2d');
+        const rows = 20;
+        const cols = 10;
+        const blockSize = 30;
+        const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFA500'];
+
+        // Tetris-Logik hier einfügen
+
+        // Beispiel: Einfaches Blockzeichnen
+        function drawBlock(x, y, color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
+            ctx.strokeStyle = '#FFFFFF';
+            ctx.strokeRect(x * blockSize, y * blockSize, blockSize, blockSize);
+        }
+
+        // Beispiel: Einfaches Spielfeld zeichnen
+        function drawBoard() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let y = 0; y < rows; y++) {
+                for (let x = 0; x < cols; x++) {
+                    drawBlock(x, y, '#CCCCCC');
+                }
+            }
+        }
+
+        // Initiales Spielfeld zeichnen
+        drawBoard();
     </script>
 </body>
 </html>
