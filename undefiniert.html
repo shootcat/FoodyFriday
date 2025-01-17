@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
     <style>
+        /* ... (Deine bestehenden Styles) ... */
         /* Stil für das Sudoku-Gitter */
         #sudoku-grid {
             display: grid;
@@ -14,7 +15,7 @@
             gap: 1px;
             border: 1px solid black;
             max-width: 400px;
-            margin: 20px auto; /* Zentriert das Sudoku und fügt etwas Abstand hinzu */
+            margin: 20px auto;
         }
         #sudoku-grid input {
             width: 100%;
@@ -23,75 +24,57 @@
             font-size: 1.5rem;
             border: none;
             outline: none;
-            box-sizing: border-box; /* Wichtig für die korrekte Darstellung */
+            box-sizing: border-box;
         }
         #sudoku-grid input:disabled {
             background-color: #f0f0f0;
         }
-        .sudoku-buttons { /* Container für die Buttons */
+        .sudoku-buttons {
           display: flex;
           justify-content: center;
           gap: 10px;
           margin-bottom: 20px;
         }
-
     </style>
 </head>
 <body>
+    <header>
+        <div class="banner-content">
+            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
+            <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
+        </div>
+    </header>
+
     <main>
         <div class="content">
             <h2>Sudoku</h2>
             <div id="sudoku-container">
                 <div id="sudoku-grid"></div>
                 <div class="sudoku-buttons">
-                    <button onclick="checkSudoku()">Kontrollieren</button>
-                    <button onclick="generateSudoku()">Neues Sudoku</button>
+                  <button id="check-button">Kontrollieren</button>
+                  <button id="generate-button">Neues Sudoku</button>
                 </div>
             </div>
 
             </div>
     </main>
 
-    <script>
-        // Sudoku-Funktionen
-        function createSudokuGrid(puzzle) {
-            const grid = document.getElementById('sudoku-grid');
-            grid.innerHTML = ''; // Leert das Grid, bevor ein neues erstellt wird
-            for (let row = 0; row < 9; row++) {
-                for (let col = 0; col < 9; col++) {
-                    const input = document.createElement('input');
-                    input.type = 'number'; // Eingabe auf Zahlen beschränken
-                    input.maxLength = 1;
-                    input.min = 1;
-                    input.max = 9;
-                    const value = puzzle ? puzzle[row][col] : 0; // Sicherstellen, dass puzzle existiert
-                    input.value = value !== 0 ? value : '';
-                    if (value !== 0) {
-                        input.disabled = true;
-                    }
-                    grid.appendChild(input);
-                }
-            }
+    <script src="sudoku.js"></script> <script>
+        // Stelle sicher, dass sudoku.js geladen ist, bevor du es verwendest
+      document.addEventListener('DOMContentLoaded', (event) => {
+        const grid = document.getElementById('sudoku-grid');
+        const checkButton = document.getElementById('check-button');
+        const generateButton = document.getElementById('generate-button');
+        
+        if (typeof generateSudoku === 'function' && typeof checkSudoku === 'function') {
+           generateButton.addEventListener('click', generateSudoku);
+           checkButton.addEventListener('click', checkSudoku);
+           generateSudoku(); // Initiales Sudoku erstellen
+        } else {
+            console.error("Die Funktionen generateSudoku oder checkSudoku wurden in sudoku.js nicht gefunden.");
+           grid.innerHTML = "<p>Fehler beim Laden des Sudokus. Bitte überprüfe die Konsole.</p>";
         }
-
-        function generateSudoku() {
-            // HIER MUSST DU DIE LOGIK ZUM GENERIEREN EINES SUDOKUS EINFÜGEN
-            // Beispiel: Ein leeres Sudoku
-            const emptyPuzzle = Array(9).fill(null).map(() => Array(9).fill(0));
-            createSudokuGrid(emptyPuzzle);
-        }
-
-        function checkSudoku() {
-            // HIER MUSST DU DIE LOGIK ZUM ÜBERPRÜFEN DES SUDOKUS EINFÜGEN
-            const inputs = document.getElementById('sudoku-grid').getElementsByTagName('input');
-          // Hier musst du die Werte aus den Input-Feldern auslesen und prüfen
-          // ...Logik zur Überprüfung...
-          alert("Überprüfung noch nicht implementiert!"); // Platzhalter
-        }
-
-        // Starte mit einem leeren Sudoku beim Laden der Seite
-        generateSudoku();
-
+      });
     </script>
 </body>
 </html>
