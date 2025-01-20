@@ -68,6 +68,21 @@
             height: 5px;
             background-color: #333;
             border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        #menu-toggle.active .bar:nth-child(1) {
+            transform: rotate(45deg);
+            transform-origin: 7px 7px;
+        }
+
+        #menu-toggle.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        #menu-toggle.active .bar:nth-child(3) {
+            transform: rotate(-45deg);
+            transform-origin: 7px -7px;
         }
 
         /* Seitenleiste */
@@ -177,6 +192,7 @@
         // Funktion zum Öffnen/Schließen der Sidebar
         menuToggle.addEventListener("click", function () {
             sidebar.classList.toggle("active");
+            menuToggle.classList.toggle("active");
         });
     </script>
 </body>
