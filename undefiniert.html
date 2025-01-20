@@ -50,42 +50,6 @@
         button:hover {
             background-color: #b3ff00; /* Dunklerer Grünton bei Hover */
         }
-
-          /* Hier der neue CSS für das Hamburger-Menü */
-
-        /* Sidebar (Seitenleiste) standardmäßig verstecken */
-        .sidebar {
-            position: fixed;
-            left: -250px; /* Sidebar ist links außerhalb des Bildschirms */
-            top: 0;
-            width: 250px;
-            height: 100%;
-            background-color: #333;
-            transition: left 0.3s ease; /* Übergangseffekt für das Öffnen/Schließen */
-        }
-
-        /* Sidebar sichtbar machen, wenn 'active' hinzugefügt wird */
-        .sidebar.active {
-            left: 0; /* Die Sidebar wird eingeblendet */
-        }
-
-        /* Hamburger-Menü als Icon */
-        #menu-toggle {
-            display: none; /* Standardmäßig ausblenden */
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-        }
-
-        /* Zeige das Hamburger-Menü auf mobilen Geräten */
-        @media (max-width: 768px) {
-            #menu-toggle {
-                display: block; /* Hamburger-Icon auf mobilen Geräten sichtbar machen */
-            }
-        }
     </style>
     <!-- Firebase App (Zwingend erforderlich) -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
@@ -156,17 +120,5 @@
                 <button onclick="window.location.href='simon/index.html';">Gedächtnistrainer</button>
         </div>
     </main>
-    <script>
-    // Zugriff auf das Menü-Icon und die Sidebar
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-
-    // Event-Listener für das Menü
-    menuToggle.addEventListener('click', () => {
-        // Toggle-Klasse für das Menü, um es zu öffnen oder zu schließen
-        sidebar.classList.toggle('active');
-    });
-</script>
-                
 </body>
 </html>
