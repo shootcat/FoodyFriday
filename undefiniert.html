@@ -1,103 +1,113 @@
-<!doctype html>
-
-<html lang="en">
-
-
-
+<!DOCTYPE html>
+<html lang="de">
 <head>
+    <meta charset="UTF-8">
+    <title>FUN - Foody Friday NewsBlog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* CSS für die Überschrift und den Text */
+        h1 {
+            font-size: 48px; /* Große Schriftgröße für "FUN" */
+            text-align: center; /* Zentriert die Überschrift */
+            margin-bottom: 20px; /* Abstand nach unten */
+        }
 
-    <meta charset="utf-8">
+        h3 {
+            font-size: 24px; /* Kleinere Schriftgröße für den Text darunter */
+            text-align: center; /* Zentriert den Text */
+            margin-bottom: 10px; /* Abstand nach unten */
+        }
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        p {
+            font-size: 16px; /* Noch kleinere Schriftgröße für den Hinweis */
+            text-align: center; /* Zentriert den Text */
+            color: #555; /* Etwas dunklerer Farbton für den Text */
+        }
 
-    <meta name="description" content="Sudoku game that is built on Javascript">
+        /* CSS für das Layout der Buttons und Überschriften */
+        .game-container {
+            margin-bottom: 30px; /* Mehr Abstand zwischen den Containern */
+        }
 
-    <meta name="author" content="Deniss Dubinin">
+        .game-container h3 {
+            margin: 0 0 10px 0; /* Abstand unter der Überschrift */
+        }
 
-    <title>Javascript Sudoku | &copy; Deniss Dubinin</title>
+        /* Button Styling */
+        button {
+            display: block;
+            margin: 0 auto; /* Zentriert den Button */
+            padding: 10px 20px; /* Etwas Polsterung für den Button */
+            font-size: 16px;
+            background-color: #4CAF50; /* Grüner Hintergrund */
+            color: white; /* Weißer Text */
+            border: none; /* Keine Randlinien */
+            border-radius: 5px; /* Abgerundete Ecken */
+            cursor: pointer; /* Mauszeiger als Hand */
+        }
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="../dist/sudoku.min.css">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/denissdubinin/javascript-sudoku@latest/dist/sudoku.min.css">
-
-    <link rel="icon" href="assets/favicon.ico">
-
+        button:hover {
+            background-color: #b3ff00; /* Dunklerer Grünton bei Hover */
+        }
+    </style>
+    <!-- Firebase App (Zwingend erforderlich) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 </head>
+<body>
+    <!-- Hamburger Menü -->
+    <div id="menu-toggle" class="menu-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+    <!-- Seitenleiste -->
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="daily-news.html">Daily News</a></li>
+                <li><a href="essensliste.html">Essensliste</a></li>
+                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
+                <li><a href="undefiniert.html">FUN</a></li>
+                <li><a href="comments.html">Kommentare</a></li>
+            </ul>
+        </nav>
+    </div>
+    <!-- Banner mit Logo und Titel -->
+    <header>
+        <div class="banner-content">
+            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
+            <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
+        </div>
+    </header>
 
+    <!-- Hauptinhalt -->
+    <main>
+        <div class="content">
+            <!-- Große Überschrift "FUN" -->
+            <h1>FUN</h1>
 
+            <!-- Kleinere Überschrift darunter -->
+            <h3>Freut euch auf diverse Spiele für zwischendurch.</h3>
 
-<body>  
+            <!-- Noch kleinere Textzeile -->
+            <p>Seite noch in Arbeit. Weitere Spiele und Co. folgen.</p>
 
-    <style>#confettiCanvas {pointer-events: none;}</style>
+            <!-- Container für Sodoku Button und Überschrift -->
+            <div class="game-container">
+                <h3>Sodoku</h3>
+                <button onclick="window.location.href='docs/index.html';">Sodoku</button>
+            </div>
 
-    <a href="https://github.com/denissdubinin/javascript-sudoku">
-
-        <img style="position: absolute; top: 0; right: 0; border: 0; z-index: 99;"
-
-        src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
-
-    </a>
-
-    <main role="main">
-
-        <div class="container">
-
-            <div class="mt-3 mb-5">
-
-                <h1 class="text-primary text-center">SUDOKU</h1>
-
-                <div id="sudoku-example"></div>
-
-            </div>
-
-        </div>
-
-    </main>
-
-
-
-    <footer class="text-muted">
-
-        <div class="container text-center">
-
-            <p>
-
-                <small>Made by <b><a href="https://github.com/denissdubinin" target="-_blank">@Deniss Dubinin</a></b> | &copy; 2018 </small>
-
-            </p>
-
-        </div>
-
-    </footer>
-
-
-
-    <script src="https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js"></script>
-
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-    <script src="../dist/sudoku.min.js"></script>
-
-
-
-    <script>
-
-        $(document).ready(function() { 
-
-            $('#sudoku-example').Sudoku({
-
-                markWrongCellsOnFly: true
-
-            });
-
-        });
-
-    </script>
-
+            <!-- Container für Tetris Button und Überschrift -->
+            <div class="game-container">
+                <h3>Tetris</h3>
+                <button onclick="window.location.href='Tetris-master/Tetris.html';">Tetris</button>
+            </div>
+        </div>
+    </main>
 </body>
-
-
-
-</html> 
+</html>
