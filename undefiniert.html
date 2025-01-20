@@ -67,9 +67,10 @@
                     // Sudoku initialisieren
                     $('#sudoku-container').Sudoku({
                         dropTimerOnReset: true,
-                        markWrongCellsOnFly: false,
+                        markWrongCellsOnFly: true, // Mark wrong cells on the fly
                         useTimer: true,
                         timerOnly: true,
+                        useCustomButtons: true // Custom Buttons aktiviert
                     });
 
                     // Benutzerdefinierte Steuerknöpfe
