@@ -1,141 +1,103 @@
-<!DOCTYPE html>
-<html lang="de">
+<!doctype html>
+
+<html lang="en">
+
+
+
 <head>
-    <meta charset="UTF-8">
-    <title>FUN - Foody Friday NewsBlog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* ... (Your existing styles) */
 
-        /* Hamburger Menu Styles */
-        .menu-icon {
-            display: block;
-            position: fixed; /* Keep it fixed */
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            cursor: pointer;
-        }
+    <meta charset="utf-8">
 
-        .bar {
-            width: 35px;
-            height: 5px;
-            background-color: black;
-            margin: 6px 0;
-            transition: 0.4s;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        .sidebar {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 999;
-            top: 0;
-            left: 0;
-            background-color: #111;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px; /* Adjust if needed */
-        }
+    <meta name="description" content="Sudoku game that is built on Javascript">
 
-        .sidebar.open {
-            width: 250px;
-        }
+    <meta name="author" content="Deniss Dubinin">
 
-        .sidebar a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: #818181;
-            display: block;
-            transition: 0.3s;
-        }
+    <title>Javascript Sudoku | &copy; Deniss Dubinin</title>
 
-        .sidebar a:hover {
-            color: #f1f1f1;
-        }
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-        .sidebar .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-            cursor: pointer;
-        }
-        @media screen and (max-width: 600px) {
-            .sidebar {padding-top: 15px;}
-            .sidebar a {font-size: 18px;}
-            .menu-icon {
-              display: block;
-            }
-        }
-        @media screen and (min-width: 601px) {
-          .menu-icon {
-            display: none;
-          }
-          .sidebar {
-            width: 250px;
-          }
-        }
-    </style>
+    <link rel="stylesheet" href="../dist/sudoku.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/denissdubinin/javascript-sudoku@latest/dist/sudoku.min.css">
+
+    <link rel="icon" href="assets/favicon.ico">
+
 </head>
-<body>
-    <div id="menu-toggle" class="menu-icon">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
-    <div class="sidebar" id="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="daily-news.html">Daily News</a></li>
-                <li><a href="essensliste.html">Essensliste</a></li>
-                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
-                <li><a href="undefiniert.html">FUN</a></li>
-                <li><a href="comments.html">Kommentare</a></li>
-            </ul>
-        </nav>
-    </div>
 
-    <header>
-        <div class="banner-content">
-            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
-            <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
-        </div>
-    </header>
 
-    <main>
-        <div class="content">
-            <h1>FUN</h1>
-            <h3>Freut euch auf diverse Spiele für zwischendurch.</h3>
-            <p>Seite noch in Arbeit. Weitere Spiele und Co. folgen.</p>
 
-            <div class="game-container">
-                <h3>Sodoku</h3>
-                <button onclick="window.location.href='docs/index.html';">Sodoku</button>
-            </div>
+<body>  
 
-            <div class="game-container">
-                <h3>Tetris</h3>
-                <button onclick="window.location.href='Tetris-master/Tetris.html';">Tetris</button>
-            </div>
-        </div>
-    </main>
+    <style>#confettiCanvas {pointer-events: none;}</style>
 
-    <script>
-        function openNav() {
-            document.getElementById("sidebar").classList.add("open");
-        }
+    <a href="https://github.com/denissdubinin/javascript-sudoku">
 
-        function closeNav() {
-            document.getElementById("sidebar").classList.remove("open");
-        }
+        <img style="position: absolute; top: 0; right: 0; border: 0; z-index: 99;"
 
-        document.getElementById("menu-toggle").addEventListener("click", openNav);
-    </script>
+        src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+
+    </a>
+
+    <main role="main">
+
+        <div class="container">
+
+            <div class="mt-3 mb-5">
+
+                <h1 class="text-primary text-center">SUDOKU</h1>
+
+                <div id="sudoku-example"></div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <footer class="text-muted">
+
+        <div class="container text-center">
+
+            <p>
+
+                <small>Made by <b><a href="https://github.com/denissdubinin" target="-_blank">@Deniss Dubinin</a></b> | &copy; 2018 </small>
+
+            </p>
+
+        </div>
+
+    </footer>
+
+
+
+    <script src="https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script src="../dist/sudoku.min.js"></script>
+
+
+
+    <script>
+
+        $(document).ready(function() { 
+
+            $('#sudoku-example').Sudoku({
+
+                markWrongCellsOnFly: true
+
+            });
+
+        });
+
+    </script>
+
 </body>
-</html>
+
+
+
+</html> 
