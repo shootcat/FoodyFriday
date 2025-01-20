@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <title>FUN - Foody Friday NewsBlog</title>
@@ -8,54 +9,108 @@
     <style>
         /* CSS für die Überschrift und den Text */
         h1 {
-            font-size: 48px; /* Große Schriftgröße für "FUN" */
-            text-align: center; /* Zentriert die Überschrift */
-            margin-bottom: 20px; /* Abstand nach unten */
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         h3 {
-            font-size: 24px; /* Kleinere Schriftgröße für den Text darunter */
-            text-align: center; /* Zentriert den Text */
-            margin-bottom: 10px; /* Abstand nach unten */
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 10px;
         }
 
         p {
-            font-size: 16px; /* Noch kleinere Schriftgröße für den Hinweis */
-            text-align: center; /* Zentriert den Text */
-            color: #555; /* Etwas dunklerer Farbton für den Text */
+            font-size: 16px;
+            text-align: center;
+            color: #555;
         }
 
-        /* CSS für das Layout der Buttons und Überschriften */
         .game-container {
-            margin-bottom: 30px; /* Mehr Abstand zwischen den Containern */
+            margin-bottom: 30px;
         }
 
         .game-container h3 {
-            margin: 0 0 10px 0; /* Abstand unter der Überschrift */
+            margin: 0 0 10px 0;
         }
 
         /* Button Styling */
         button {
             display: block;
-            margin: 0 auto; /* Zentriert den Button */
-            padding: 10px 20px; /* Etwas Polsterung für den Button */
+            margin: 0 auto;
+            padding: 10px 20px;
             font-size: 16px;
-            background-color: #4CAF50; /* Grüner Hintergrund */
-            color: white; /* Weißer Text */
-            border: none; /* Keine Randlinien */
-            border-radius: 5px; /* Abgerundete Ecken */
-            cursor: pointer; /* Mauszeiger als Hand */
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         button:hover {
-            background-color: #b3ff00; /* Dunklerer Grünton bei Hover */
+            background-color: #b3ff00;
+        }
+
+        /* Hamburger Menü */
+        #menu-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 25px;
+            cursor: pointer;
+        }
+
+        #menu-toggle .bar {
+            width: 30px;
+            height: 5px;
+            background-color: #333;
+            border-radius: 3px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: -250px;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            transition: 0.3s;
+            padding-top: 50px;
+        }
+
+        .sidebar a {
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        /* Aktive Sidebar */
+        .sidebar.active {
+            left: 0;
+        }
+
+        /* Für kleinere Bildschirme */
+        @media (max-width: 768px) {
+            #menu-toggle {
+                display: flex;
+            }
         }
     </style>
-    <!-- Firebase App (Zwingend erforderlich) -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <!-- Firebase Firestore -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 </head>
+
 <body>
     <!-- Hamburger Menü -->
     <div id="menu-toggle" class="menu-icon">
@@ -63,6 +118,7 @@
         <div class="bar"></div>
         <div class="bar"></div>
     </div>
+
     <!-- Seitenleiste -->
     <div class="sidebar" id="sidebar">
         <nav>
@@ -76,6 +132,7 @@
             </ul>
         </nav>
     </div>
+
     <!-- Banner mit Logo und Titel -->
     <header>
         <div class="banner-content">
@@ -87,27 +144,32 @@
     <!-- Hauptinhalt -->
     <main>
         <div class="content">
-            <!-- Große Überschrift "FUN" -->
             <h1>FUN</h1>
-
-            <!-- Kleinere Überschrift darunter -->
             <h3>Freut euch auf diverse Spiele für zwischendurch.</h3>
-
-            <!-- Noch kleinere Textzeile -->
             <p>Seite noch in Arbeit. Weitere Spiele und Co. folgen.</p>
 
-            <!-- Container für Sodoku Button und Überschrift -->
             <div class="game-container">
                 <h3>Sodoku</h3>
                 <button onclick="window.location.href='docs/index.html';">Sodoku</button>
             </div>
 
-            <!-- Container für Tetris Button und Überschrift -->
             <div class="game-container">
                 <h3>Tetris</h3>
                 <button onclick="window.location.href='Tetris-master/Tetris.html';">Tetris</button>
             </div>
         </div>
     </main>
+
+    <!-- JavaScript für das Hamburger-Menü -->
+    <script>
+        // Menü ein- und ausblenden bei Klick auf das Hamburger-Menü
+        const menuToggle = document.getElementById("menu-toggle");
+        const sidebar = document.getElementById("sidebar");
+
+        menuToggle.addEventListener("click", () => {
+            sidebar.classList.toggle("active");
+        });
+    </script>
 </body>
+
 </html>
