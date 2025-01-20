@@ -45,12 +45,22 @@
         }
 
         /* Radio Player Anpassung */
-        .microsite.embedded-radio-player {
-            width: 100%;
-            max-width: 100%; /* Sicherstellen, dass der Player nicht breiter als der Container ist */
-            margin: 20px 0;
-            height: 100px;
-        }
+.microsite.embedded-radio-player {
+    width: 100%;
+    max-width: 100%; /* Sicherstellen, dass der Player nicht breiter als der Container ist */
+    margin: 20px 0;
+    height: 100px;
+}
+
+/* Entfernt schwarze Balken um die Radio Überschrift */
+.microsite.embedded-radio-player h2 {
+    margin: 0;        /* Entfernt den Abstand */
+    padding: 0;       /* Entfernt das Padding */
+    border: none;     /* Entfernt den Rand */
+    background: none; /* Entfernt den Hintergrund */
+    color: #000;      /* Setzt die Textfarbe auf Schwarz */
+}
+
 
         /* Wetter-Widget Anpassung */
         .weather-widget iframe {
