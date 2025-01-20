@@ -6,16 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* CSS für die Überschrift und den Text */
-        /* ... (Dein bestehendes CSS) */
+        /* ... (Your existing styles) */
 
-        /* CSS für das Hamburger Menü */
+        /* Hamburger Menu Styles */
         .menu-icon {
-            display: block; /* Standardmäßig anzeigen */
-            position: fixed; /* Fixierte Position */
+            display: block;
+            position: fixed; /* Keep it fixed */
             top: 20px;
             left: 20px;
-            z-index: 1000; /* Über dem Inhalt */
+            z-index: 1000;
             cursor: pointer;
         }
 
@@ -24,20 +23,24 @@
             height: 5px;
             background-color: black;
             margin: 6px 0;
-            transition: 0.4s; /* Für sanfte Animationen */
+            transition: 0.4s;
         }
 
         .sidebar {
             height: 100%;
-            width: 0; /* Anfangs ausgeblendet */
+            width: 0;
             position: fixed;
             z-index: 999;
             top: 0;
             left: 0;
             background-color: #111;
             overflow-x: hidden;
-            transition: 0.5s; /* Für sanfte Animationen */
-            padding-top: 60px;
+            transition: 0.5s;
+            padding-top: 60px; /* Adjust if needed */
+        }
+
+        .sidebar.open {
+            width: 250px;
         }
 
         .sidebar a {
@@ -61,13 +64,6 @@
             margin-left: 50px;
             cursor: pointer;
         }
-
-        /* CSS für das geöffnete Menü (JavaScript steuert die Klasse "open") */
-        .sidebar.open {
-            width: 250px;
-        }
-
-        /* Anpassungen für kleinere Bildschirme */
         @media screen and (max-width: 600px) {
             .sidebar {padding-top: 15px;}
             .sidebar a {font-size: 18px;}
@@ -83,7 +79,6 @@
             width: 250px;
           }
         }
-
     </style>
 </head>
 <body>
@@ -106,6 +101,31 @@
         </nav>
     </div>
 
+    <header>
+        <div class="banner-content">
+            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
+            <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="content">
+            <h1>FUN</h1>
+            <h3>Freut euch auf diverse Spiele für zwischendurch.</h3>
+            <p>Seite noch in Arbeit. Weitere Spiele und Co. folgen.</p>
+
+            <div class="game-container">
+                <h3>Sodoku</h3>
+                <button onclick="window.location.href='docs/index.html';">Sodoku</button>
+            </div>
+
+            <div class="game-container">
+                <h3>Tetris</h3>
+                <button onclick="window.location.href='Tetris-master/Tetris.html';">Tetris</button>
+            </div>
+        </div>
+    </main>
+
     <script>
         function openNav() {
             document.getElementById("sidebar").classList.add("open");
@@ -116,7 +136,6 @@
         }
 
         document.getElementById("menu-toggle").addEventListener("click", openNav);
-
     </script>
 </body>
 </html>
