@@ -6,19 +6,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Zusätzliche Stile für News und Wetter */
-        .news-feed, .weather-widget {
-            margin: 20px auto;
-            text-align: center;
+        /* Transparenter Hintergrund */
+        body {
+            background-color: rgba(0, 0, 0, 0.1); /* leichter transparenter Hintergrund */
+            padding: 0;
+            margin: 0;
+            font-family: Arial, sans-serif;
         }
 
-        .news-feed {
+        /* Container für alle Widgets */
+        .content-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Allgemeine Boxen für den Inhalt */
+        .widgets-container, .weather-widget, .news-feed {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9); /* Leicht transparentes Weiß */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Radio Player Anpassung */
+        .microsite.embedded-radio-player {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+        }
+
+        /* Flexbox Container für die Widgets */
+        .widgets-container {
             display: flex;
             flex-direction: column;
-            max-width: 800px;
-            margin-bottom: 30px;
+            gap: 30px;
+            justify-content: space-between;
         }
 
+        /* Anpassungen für mobile Geräte */
+        @media (max-width: 768px) {
+            .microsite.embedded-radio-player {
+                height: 100px; /* Kleinere Höhe für mobile Geräte */
+            }
+
+            .weather-widget iframe {
+                height: 300px;
+            }
+
+            .widgets-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .news-feed {
+                font-size: 0.9em;
+            }
+        }
+
+        /* News Feed mit Bildern */
         .news-feed article {
             display: flex;
             margin-bottom: 20px;
@@ -43,48 +90,13 @@
             color: #555;
         }
 
-        .weather-widget {
-            display: flex;
-            justify-content: center;
-            max-width: 800px;
-        }
-
+        /* Wetter Widget Styling */
         .weather-widget iframe {
             width: 100%;
             height: 400px;
             border: none;
         }
 
-        /* Styles für die Anordnung von News und Wetter nebeneinander */
-        .widgets-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .widgets-container > div {
-            flex: 1;
-        }
-
-        /* Radio Player Anpassung */
-        .ng-app-embedded {
-            max-width: 100%;
-            margin: 20px 0;
-        }
-
-        .microsite.embedded-radio-player {
-            width: 100%;
-            max-width: 600px; /* Maximalbreite für größere Bildschirme */
-        }
-
-        /* Anpassungen für mobile Geräte */
-        @media (max-width: 768px) {
-            .microsite.embedded-radio-player {
-                max-width: 100%; /* Auf mobilen Geräten die volle Breite */
-                height: 100px;  /* Kleinere Höhe für mobile Ansicht */
-            }
-        }
     </style>
 </head>
 <body>
@@ -94,6 +106,7 @@
         <div class="bar"></div>
         <div class="bar"></div>
     </div>
+    
     <!-- Seitenleiste -->
     <div class="sidebar" id="sidebar">
         <nav>
@@ -107,6 +120,7 @@
             </ul>
         </nav>
     </div>
+    
     <!-- Banner mit Logo und Titel -->
     <header>
         <div class="banner-content">
@@ -114,60 +128,58 @@
             <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
         </div>
     </header>
+
     <!-- Hauptinhalt -->
     <main>
-        <div class="content">
+        <div class="content-container">
             <h2>Willkommen auf unserem Foody Friday NewsBlog!</h2>
             <h2>Nur für GAB Mitarbeiter und Mitarbeiterinnen</h2>
             <p>Hier findest du alle Informationen rund um bevorstehende Events, alle Informationen rund um die Gerichte an bevorstehenden Freitagen sowie spontane Änderungen.</p>
             <p>Auch einen NewsFeed für aktuelle News und auch eine Seite für Kommentare (Voll Anonym).</p>
-        </div>
 
-        <!-- Eingebetteter Radio.de Player -->
-        <div class="content">
-            <h2>Radio: SWR3</h2>
-            <script>
-                (function(d, s) {
-                    if (!window.rel) {
-                        s = d.createElement("script");
-                        s.type = "text/javascript";
-                        s.async = true;
-                        s.id = "radio-de-embedded";
-                        s.src = "https://www.radio.de/inc/microsite/js/full.js";
-                        d.getElementsByTagName("head")[0].appendChild(s);
-                        window.rel = true;
-                    }
-                }(document));
-            </script>
-            <div class="ng-app-embedded">
-                <div ui-view class="microsite embedded-radio-player" 
-                     data-playerwidth="600px" 
-                     data-playertype="web_embedded" 
-                     data-playstation="swr3" 
-                     data-autoplay="true" 
-                     data-apikey="df04ff67dd3339a6fc19c9b8be164d5b5245ae93">
+            <!-- Eingebetteter Radio.de Player -->
+            <div class="microsite embedded-radio-player">
+                <h2>Radio: SWR3</h2>
+                <script>
+                    (function(d, s) {
+                        if (!window.rel) {
+                            s = d.createElement("script");
+                            s.type = "text/javascript";
+                            s.async = true;
+                            s.id = "radio-de-embedded";
+                            s.src = "https://www.radio.de/inc/microsite/js/full.js";
+                            d.getElementsByTagName("head")[0].appendChild(s);
+                            window.rel = true;
+                        }
+                    }(document));
+                </script>
+                <div class="ng-app-embedded">
+                    <div ui-view class="microsite embedded-radio-player" 
+                         data-playerwidth="600px" 
+                         data-playertype="web_embedded" 
+                         data-playstation="swr3" 
+                         data-autoplay="true" 
+                         data-apikey="df04ff67dd3339a6fc19c9b8be164d5b5245ae93">
+                    </div>
                 </div>
-            </div>
-            <noscript>
-                <a href="https://www.radio.de/s/swr3" target="_blank">SWR3 auf radio.de</a>
-            </noscript>
-        </div>
-
-        <!-- Widgets: News und Wetter nebeneinander -->
-        <div class="widgets-container">
-            <!-- Nachrichten Feed -->
-            <div class="news-feed">
-                <h2>Aktuelle Nachrichten</h2>
-                <div id="news-list">Nachrichten werden geladen...</div>
+                <noscript>
+                    <a href="https://www.radio.de/s/swr3" target="_blank">SWR3 auf radio.de</a>
+                </noscript>
             </div>
 
-            <!-- Wetter-Widget -->
+            <!-- Wetter-Widget unter dem Radio Player -->
             <div class="weather-widget">
                 <h2>Aktuelles Wetter in Maulburg</h2>
                 <iframe 
                     src="https://www.meteoblue.com/de/wetter/widget/three/maulburg_de_2872372?geoloc=fixed&nocurrent=0&nocity=0&noforecast=0&days=5" 
                     style="height: 400px;">
                 </iframe>
+            </div>
+
+            <!-- Newsfeed -->
+            <div class="news-feed">
+                <h2>Aktuelle Nachrichten</h2>
+                <div id="news-list">Nachrichten werden geladen...</div>
             </div>
         </div>
     </main>
@@ -208,16 +220,5 @@
 
         fetchNews();
     </script>
-    <script>
-    // Zugriff auf das Menü-Icon und die Sidebar
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-
-    // Event-Listener für das Menü
-    menuToggle.addEventListener('click', () => {
-        // Toggle-Klasse für das Menü, um es zu öffnen oder zu schließen
-        sidebar.classList.toggle('active');
-    });
-</script>
 </body>
 </html>
