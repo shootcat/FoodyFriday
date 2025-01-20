@@ -28,16 +28,16 @@
         .widgets-container {
             display: flex;
             flex-direction: column;
-            gap: 50px;
+            gap: 40px; /* Vergrößerter Abstand zwischen den Widgets */
             justify-content: space-between;
         }
 
         /* Radio Player Anpassung */
         .microsite.embedded-radio-player {
             width: 100%;
-            max-width: 400px;
+            max-width: 600px;
             margin: 20px 0;
-            height: 60px;
+            height: 100px;
         }
 
         /* Wetter-Widget Anpassung */
@@ -233,8 +233,11 @@
         }
 
         fetchNews();
+
+        // Automatische Aktualisierung des Newsfeeds alle 10 Minuten (600000 ms)
+        setInterval(fetchNews, 600000); // alle 10 Minuten
     </script>
-     <script>
+       <script>
     // Zugriff auf das Menü-Icon und die Sidebar
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
