@@ -5,6 +5,18 @@
     <title>Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Zusätzliche Stile für News und Wetter */
+        .news-feed, .weather-widget {
+            margin: 20px auto;
+            max-width: 800px;
+            text-align: center;
+        }
+        .news-feed iframe, .weather-widget iframe {
+            width: 100%;
+            border: none;
+        }
+    </style>
 </head>
 <body>
     <!-- Hamburger Menü -->
@@ -38,12 +50,8 @@
         <div class="content">
             <h2>Willkommen auf unserem Foody Friday NewsBlog!</h2>
             <h2>Nur für GAB Mitarbeiter und Mitarbeiterinnen</h2>
-            <p>Hier findest du alle Informationen rund um bevorstehende Events, alle Informationen rund um die Gerichte an bevorstehenden Freitagen sowie spontane Änderungen. </p>
-            <p>Auch einen NewsFeed für aktuelle News und auch eine Seite für Kommentare (Voll Anonym)</p>
-        </div>
-        <!-- Bild unter dem Text -->
-        <div class="content">
-            <img src="https://github.com/shootcat/FoodyFriday/blob/main/GABo-removebg-preview.png?raw=true" alt="Foody Friday Icon" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+            <p>Hier findest du alle Informationen rund um bevorstehende Events, alle Informationen rund um die Gerichte an bevorstehenden Freitagen sowie spontane Änderungen.</p>
+            <p>Auch einen NewsFeed für aktuelle News und auch eine Seite für Kommentare (Voll Anonym).</p>
         </div>
 
         <!-- Eingebetteter Radio.de Player -->
@@ -64,7 +72,7 @@
             </script>
             <div class="ng-app-embedded">
                 <div ui-view class="microsite embedded-radio-player" 
-                     data-playerwidth="340px" 
+                     data-playerwidth="600px" 
                      data-playertype="web_embedded" 
                      data-playstation="swr3" 
                      data-autoplay="true" 
@@ -74,6 +82,24 @@
             <noscript>
                 <a href="https://www.radio.de/s/swr3" target="_blank">SWR3 auf radio.de</a>
             </noscript>
+        </div>
+
+        <!-- Google News Feed -->
+        <div class="news-feed">
+            <h2>Aktuelle Nachrichten</h2>
+            <iframe 
+                src="https://news.google.com/news/rss/headlines/section/topic/WORLD?hl=de&gl=DE&ceid=DE:de" 
+                style="height: 400px;">
+            </iframe>
+        </div>
+
+        <!-- Wetter-Widget für Lörrach/Maulburg -->
+        <div class="weather-widget">
+            <h2>Aktuelles Wetter in Maulburg</h2>
+            <iframe 
+                src="https://www.meteoblue.com/de/wetter/widget/three/maulburg_de_2872372?geoloc=fixed&nocurrent=0&nocity=0&noforecast=0&days=5" 
+                style="height: 250px;">
+            </iframe>
         </div>
     </main>
 </body>
