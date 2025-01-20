@@ -10,13 +10,13 @@
         h1 {
             font-size: 48px; /* Große Schriftgröße für "FUN" */
             text-align: center; /* Zentriert die Überschrift */
-            margin-bottom: 20px; /* Abstand nach unten */
+            margin-bottom: 30px; /* Abstand nach unten vergrößert */
         }
 
         h3 {
             font-size: 24px; /* Kleinere Schriftgröße für den Text darunter */
             text-align: center; /* Zentriert den Text */
-            margin-bottom: 10px; /* Abstand nach unten */
+            margin-bottom: 20px; /* Abstand nach unten vergrößert */
         }
 
         p {
@@ -25,36 +25,41 @@
             color: #555; /* Etwas dunklerer Farbton für den Text */
         }
 
+        /* Neue Klasse für den "Folgende auch für Touchscreens" Text */
+        .touchscreen-header {
+            font-size: 18px; /* Kleinere Schriftgröße */
+            color: #888; /* Graue Farbe */
+            text-align: center;
+            margin-bottom: 30px; /* Etwas Abstand nach unten */
+        }
+
         /* CSS für das Layout der Buttons und Überschriften */
         .game-container {
-            margin-bottom: 30px; /* Mehr Abstand zwischen den Containern */
+            margin-bottom: 40px; /* Mehr Abstand zwischen den Containern */
         }
 
         .game-container h3 {
             margin: 0 0 15px 0; /* Abstand unter der Überschrift */
         }
 
-        /* Button Styling */
+        /* Button Styling mit Farbverlauf von Blau zu Lila */
         button {
             display: block;
             margin: 0 auto; /* Zentriert den Button */
-            padding: 10px 20px; /* Etwas Polsterung für den Button */
+            padding: 12px 25px; /* Etwas Polsterung für den Button */
             font-size: 16px;
-            background-color: #4CAF50; /* Grüner Hintergrund */
-            color: white; /* Weißer Text */
+            background: linear-gradient(90deg, #1E90FF, #8A2BE2); /* Blau zu Lila Farbverlauf */
+            color: white;
             border: none; /* Keine Randlinien */
             border-radius: 5px; /* Abgerundete Ecken */
             cursor: pointer; /* Mauszeiger als Hand */
+            transition: background 0.3s ease; /* Sanfter Übergang für Hover */
         }
 
         button:hover {
-            background-color: #b3ff00; /* Dunklerer Grünton bei Hover */
+            background: linear-gradient(90deg, #4682B4, #9370DB); /* Dunklerer Blau-zu-Lila Farbverlauf bei Hover */
         }
     </style>
-    <!-- Firebase App (Zwingend erforderlich) -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <!-- Firebase Firestore -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 </head>
 <body>
     <!-- Hamburger Menü -->
@@ -107,42 +112,45 @@
                 <h3>Tetris</h3>
                 <button onclick="window.location.href='Tetris-master/Tetris.html';">Tetris</button>
             </div>
-              <h3>Folgende auch für Touchscreens</h3>
-            <h3>     </h3>
+            
+            <!-- Hier kommt die Überschrift für "Folgende auch für Touchscreens" -->
+            <h3 class="touchscreen-header">Folgende auch für Touchscreens</h3>
 
-             <!-- Container für 2048 Button und Überschrift -->
+            <!-- Container für 2048 Button und Überschrift -->
             <div class="game-container">
                 <h3>2048</h3>
                 <button onclick="window.location.href='2048/index.html';">2048</button>
+            </div>
             
-                <!-- Container für Simon Button und Überschrift -->
+            <!-- Container für Simon Button und Überschrift -->
             <div class="game-container">
                 <h3>Gedächtnistrainer</h3>
                 <button onclick="window.location.href='simon/index.html';">Gedächtnistrainer</button>
+            </div>
 
-                 <!-- Container für Breaklock Button und Überschrift -->
+            <!-- Container für Breaklock Button und Überschrift -->
             <div class="game-container">
                 <h3>CodeKnacker - Sperrmuster Edition</h3>
                 <button onclick="window.location.href='breaklock/index.html';">Codeknacker</button>
+            </div>
 
             <div class="game-container">
                 <h3>Puzzel Spaß</h3>
                 <button onclick="window.location.href='puzzle-master/index.html';">Puzzel</button>
-
-                
+            </div>
         </div>
     </main>
-    <script>
-    // Zugriff auf das Menü-Icon und die Sidebar
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
 
-    // Event-Listener für das Menü
-    menuToggle.addEventListener('click', () => {
-        // Toggle-Klasse für das Menü, um es zu öffnen oder zu schließen
-        sidebar.classList.toggle('active');
-    });
-</script>
-                
+    <script>
+        // Zugriff auf das Menü-Icon und die Sidebar
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        // Event-Listener für das Menü
+        menuToggle.addEventListener('click', () => {
+            // Toggle-Klasse für das Menü, um es zu öffnen oder zu schließen
+            sidebar.classList.toggle('active');
+        });
+    </script>
 </body>
 </html>
