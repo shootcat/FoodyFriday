@@ -43,7 +43,7 @@
         /* Wetter-Widget Anpassung */
         .weather-widget iframe {
             width: 100%;
-            height: 500px; /* Erhöhte Höhe für das Wetter-Widget */
+            height: 600px; /* Erhöhte Höhe für das Wetter-Widget */
             border: none;
             border-radius: 8px;
         }
@@ -88,7 +88,7 @@
 
             /* Wetter-Widget auf kleineren Geräten */
             .weather-widget iframe {
-                height: 400px; /* Höhe für kleinere Geräte */
+                height: 500px; /* Höhe für kleinere Geräte */
             }
 
             /* Newsfeed optimieren */
@@ -178,19 +178,22 @@
                 </noscript>
             </div>
 
-            <!-- Wetter-Widget unter dem Radio Player -->
-            <div class="weather-widget">
-                <h2>Aktuelles Wetter in Maulburg</h2>
-                <iframe 
-                    src="https://www.meteoblue.com/de/wetter/widget/three/maulburg_de_2872372?geoloc=fixed&nocurrent=0&nocity=0&noforecast=0&days=5" 
-                    style="height: 500px;">
-                </iframe>
-            </div>
+            <!-- Mehr Abstand zwischen Radio Player und Wetter -->
+            <div class="widgets-container">
+                <!-- Wetter-Widget unter dem Radio Player -->
+                <div class="weather-widget">
+                    <h2>Aktuelles Wetter in Maulburg</h2>
+                    <iframe 
+                        src="https://www.meteoblue.com/de/wetter/widget/three/maulburg_de_2872372?geoloc=fixed&nocurrent=0&nocity=0&noforecast=0&days=5" 
+                        style="height: 600px;">
+                    </iframe>
+                </div>
 
-            <!-- Newsfeed -->
-            <div class="news-feed">
-                <h2>Aktuelle Nachrichten</h2>
-                <div id="news-list">Nachrichten werden geladen...</div>
+                <!-- Newsfeed -->
+                <div class="news-feed">
+                    <h2>Aktuelle Nachrichten</h2>
+                    <div id="news-list">Nachrichten werden geladen...</div>
+                </div>
             </div>
         </div>
     </main>
