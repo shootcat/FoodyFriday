@@ -66,6 +66,25 @@
         .widgets-container > div {
             flex: 1;
         }
+
+        /* Radio Player Anpassung */
+        .ng-app-embedded {
+            max-width: 100%;
+            margin: 20px 0;
+        }
+
+        .microsite.embedded-radio-player {
+            width: 100%;
+            max-width: 600px; /* Maximalbreite für größere Bildschirme */
+        }
+
+        /* Anpassungen für mobile Geräte */
+        @media (max-width: 768px) {
+            .microsite.embedded-radio-player {
+                max-width: 100%; /* Auf mobilen Geräten die volle Breite */
+                height: 100px;  /* Kleinere Höhe für mobile Ansicht */
+            }
+        }
     </style>
 </head>
 <body>
