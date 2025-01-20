@@ -67,7 +67,7 @@
             width: 30px;
             height: 25px;
             cursor: pointer;
-            z-index: 99; /* Damit der Button immer oben bleibt */
+            z-index: 1000; /* Sicherstellen, dass es immer oben bleibt */
         }
 
         #menu-toggle .bar {
@@ -183,7 +183,6 @@
         // Funktion zum Öffnen/Schließen der Sidebar
         menuToggle.addEventListener("click", function () {
             sidebar.classList.toggle("active");
-            menuToggle.classList.toggle("active");
         });
     </script>
 </body>
