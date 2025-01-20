@@ -6,20 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
     <style>
+        /* CSS für die Überschrift und den Text */
+        h1 {
+            font-size: 48px; /* Große Schriftgröße für "FUN" */
+            text-align: center; /* Zentriert die Überschrift */
+            margin-bottom: 20px; /* Abstand nach unten */
+        }
+
+        h3 {
+            font-size: 24px; /* Kleinere Schriftgröße für den Text darunter */
+            text-align: center; /* Zentriert den Text */
+            margin-bottom: 10px; /* Abstand nach unten */
+        }
+
+        p {
+            font-size: 16px; /* Noch kleinere Schriftgröße für den Hinweis */
+            text-align: center; /* Zentriert den Text */
+            color: #555; /* Etwas dunklerer Farbton für den Text */
+        }
+
         /* CSS für das Layout der Buttons und Überschriften */
         .game-container {
-            margin-bottom: 30px; /* Abstand zwischen den Containern */
+            margin-bottom: 30px; /* Mehr Abstand zwischen den Containern */
         }
 
         .game-container h3 {
             margin: 0 0 10px 0; /* Abstand unter der Überschrift */
         }
 
+        /* Button Styling */
         button {
             display: block;
             margin: 0 auto; /* Zentriert den Button */
             padding: 10px 20px; /* Etwas Polsterung für den Button */
             font-size: 16px;
+            background-color: #4CAF50; /* Grüner Hintergrund */
+            color: white; /* Weißer Text */
+            border: none; /* Keine Randlinien */
+            border-radius: 5px; /* Abgerundete Ecken */
+            cursor: pointer; /* Mauszeiger als Hand */
+        }
+
+        button:hover {
+            background-color: #45a049; /* Dunklerer Grünton bei Hover */
         }
     </style>
     <!-- Firebase App (Zwingend erforderlich) -->
@@ -58,9 +87,14 @@
     <!-- Hauptinhalt -->
     <main>
         <div class="content">
-            <!-- Have Fun -->
-            <h2>Ersten Spiele bereits verfügbar</h2>
-            <h2>Have Fun </h2>
+            <!-- Große Überschrift "FUN" -->
+            <h1>FUN</h1>
+
+            <!-- Kleinere Überschrift darunter -->
+            <h3>Freut euch auf diverse Spiele für zwischendurch.</h3>
+
+            <!-- Noch kleinere Textzeile -->
+            <p>Seite noch in Arbeit. Weitere Spiele und Co. folgen.</p>
 
             <!-- Container für Sodoku Button und Überschrift -->
             <div class="game-container">
