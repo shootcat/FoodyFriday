@@ -9,32 +9,33 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <!-- Firebase Firestore -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-    <!-- Sudoku CSS -->
+    <!-- Einbindung der Sudoku-Bibliothek -->
+    <script src="sudoku.js"></script>
     <style>
-        .sudoku-container {
+        /* Sudoku-spezifische Stile */
+        #sudoku-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: Arial, sans-serif;
             margin: 20px 0;
         }
-        .sudoku-board {
+        #sudoku-grid {
             border-collapse: collapse;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
         }
-        .sudoku-board td {
-            width: 50px;
-            height: 50px;
+        #sudoku-grid td {
+            width: 40px;
+            height: 40px;
             text-align: center;
             border: 1px solid #000;
-            font-size: 20px;
+            font-size: 18px;
             position: relative;
         }
-        .sudoku-board input {
+        #sudoku-grid input {
             width: 100%;
             height: 100%;
             text-align: center;
-            font-size: 20px;
+            font-size: 18px;
             border: none;
             outline: none;
             background-color: transparent;
@@ -51,7 +52,7 @@
         .bold-border-bottom {
             border-bottom-width: 2px;
         }
-        .sudoku-button {
+        #sudoku-container button {
             margin: 5px;
             padding: 10px 20px;
             font-size: 16px;
@@ -89,21 +90,22 @@
 
     <!-- Hauptinhalt -->
     <main>
-                    
-            <!-- Sudoku-Spiel -->
-            <div class="sudoku-container">
-                <h2>Sudoku-Spiel</h2>
-                <table id="sudoku-grid" class="sudoku-board">
+        <div class="content">
+            <!-- Seite in Arbeit -->
+            <h2>SEITE IST NOCH IN ARBEIT</h2>
+            
+            <!-- Sudoku -->
+            <h2>Sudoku</h2>
+            <div id="sudoku-container">
+                <table id="sudoku-grid">
                     <!-- Das Sudoku-Gitter wird hier generiert -->
                 </table>
-                <button class="sudoku-button" onclick="checkSudoku()">Auf Korrektheit prüfen</button>
-                <button class="sudoku-button" onclick="generateNewSudoku()">Neues Sudoku generieren</button>
+                <button onclick="checkSudoku()">Auf Korrektheit prüfen</button>
+                <button onclick="generateNewSudoku()">Neues Sudoku generieren</button>
             </div>
         </div>
     </main>
 
-    <!-- Sudoku JavaScript -->
-    <script src="sudoku.js"></script>
     <script>
         function createSudokuGrid(puzzle) {
             const table = document.getElementById('sudoku-grid');
@@ -156,6 +158,5 @@
         // Initiales Sudoku-Rätsel generieren
         generateNewSudoku();
     </script>
-    <script src="script.js"></script>
 </body>
 </html>
