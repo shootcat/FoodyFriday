@@ -75,9 +75,11 @@
 
         /* Für kleinere Geräte */
         @media (max-width: 768px) {
-            /* Radio Player optimieren */
+            /* Radio Player für mobile Geräte optimieren */
             .microsite.embedded-radio-player {
-                height: 80px; /* Kleinere Höhe auf mobilen Geräten */
+                height: 70px; /* Kleinere Höhe auf mobilen Geräten */
+                max-width: 100%; /* Der Player nimmt 100% der verfügbaren Breite ein */
+                margin-bottom: 20px; /* Etwas mehr Abstand */
             }
 
             /* Flexbox für Widgets */
@@ -88,7 +90,7 @@
 
             /* Wetter-Widget auf kleineren Geräten */
             .weather-widget iframe {
-                height: 500px; /* Höhe für kleinere Geräte */
+                height: 450px; /* Reduzierte Höhe für kleinere Geräte */
             }
 
             /* Newsfeed optimieren */
@@ -143,7 +145,7 @@
     <!-- Hauptinhalt -->
     <main>
         <div class="content-container">
-            <h2>Willkommen auf unserem Foody Friday NewsBlog!</h2>
+             <h2>Willkommen auf unserem Foody Friday NewsBlog!</h2>
             <h2>Nur für GAB Mitarbeiter und Mitarbeiterinnen</h2>
             <p>Hier findest du alle Informationen rund um bevorstehende Events, alle Informationen rund um die Gerichte an bevorstehenden Freitagen sowie spontane Änderungen.</p>
             <p>Auch einen NewsFeed für aktuelle News und auch eine Seite für Kommentare (Voll Anonym).</p>
@@ -154,6 +156,7 @@
             <p>Willkommen auf deiner neuen lieblings Seite</p>
             <p>                                        </p>
             <p>                                        </p>
+
 
             <!-- Eingebetteter Radio Player -->
             <div class="microsite embedded-radio-player">
@@ -242,9 +245,9 @@
         fetchNews();
 
         // Automatische Aktualisierung des Newsfeeds alle 10 Minuten (600000 ms)
-        setInterval(fetchNews, 600000); // alle 10 Minuten
+        setInterval(fetchNews, 600000);
     </script>
-       <script>
+   <script>
     // Zugriff auf das Menü-Icon und die Sidebar
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
