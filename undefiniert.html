@@ -38,6 +38,8 @@
         /* Sudoku-Container anpassen */
         #sudoku-container {
             margin-top: 20px;
+            display: flex;
+            justify-content: center;
         }
     </style>
 </head>
@@ -87,28 +89,29 @@
 
             <script>
                 $(document).ready(function() {
-                    // Initialisierung des Sudoku-Plugins
-                    $('#sudoku-container').Sudoku({
+                    // Sudoku initialisieren und nur ein Gitter erstellen
+                    var sudokuContainer = $('#sudoku-container');
+                    sudokuContainer.Sudoku({
                         dropTimerOnReset: true,        // Timer zurücksetzen bei Reset
-                        markWrongCellsOnFly: false,    // Verhindern, dass Zellen beim Schreiben blockiert werden
+                        markWrongCellsOnFly: false,    // Keine Sperrung der Zellen bei Eingabe
                         useTimer: true,                // Timer aktivieren
                         timerOnly: true,               // Spiel startet nur mit Timer
-                        useCustomButtons: true,        // Eigene Buttons nutzen
-                        sudokuMixIterations: 500      // Anzahl der Iterationen für das Mischen des Sudokus
+                        useCustomButtons: true,        // Eigene Buttons verwenden
+                        sudokuMixIterations: 500      // Sudoku mischen
                     });
 
                     // Benutzerdefinierte Steuerknöpfe
                     $('#start-sudoku').click(function() {
-                        // Startet das Spiel
-                        $('#sudoku-container').Sudoku('start');
+                        // Startet das Sudoku
+                        sudokuContainer.Sudoku('start');
                     });
                     $('#r-sudoku').click(function() {
                         // Setzt das Sudoku zurück
-                        $('#sudoku-container').Sudoku('reset');
+                        sudokuContainer.Sudoku('reset');
                     });
                     $('#gn-sudoku').click(function() {
                         // Generiert ein neues Sudoku
-                        $('#sudoku-container').Sudoku('generate');
+                        sudokuContainer.Sudoku('generate');
                     });
                 });
             </script>
