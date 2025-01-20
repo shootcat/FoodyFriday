@@ -205,7 +205,7 @@
                     </iframe>
                 </div>
 
-                <!-- Newsfeed -->
+                 <!-- Newsfeed -->
                 <div class="news-feed">
                     <h2>Aktuelle Nachrichten</h2>
                     <div id="news-list">Nachrichten werden geladen...</div>
@@ -248,8 +248,10 @@
             });
         }
 
-        // Aufrufen der Funktion, um die Nachrichten zu laden
         fetchNews();
+
+        // Automatische Aktualisierung des Newsfeeds alle 10 Minuten (600000 ms)
+        setInterval(fetchNews, 600000); // alle 10 Minuten
     </script>
       <script>
     // Zugriff auf das Menü-Icon und die Sidebar
