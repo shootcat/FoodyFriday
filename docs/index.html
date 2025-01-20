@@ -42,6 +42,10 @@
 
     <script>
         $(document).ready(function() { 
+            // Füge 'inputmode="numeric"' zu allen Sudoku-Eingabefeldern hinzu
+            $('#sudoku-example input').attr('inputmode', 'numeric');
+            
+            // Initialisiere das Sudoku
             $('#sudoku-example').Sudoku({
                 markWrongCellsOnFly: true
             });
