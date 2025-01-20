@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <title>Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <!-- Favicon Links -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="android-chrome-192x192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="android-chrome-512x512.png" sizes="512x512" type="image/png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png">
+
+    <!-- Webmanifest für PWA -->
+    <link rel="manifest" href="site.webmanifest">
+   
     <link rel="stylesheet" href="styles.css">
     <style>
         /* Transparenter Hintergrund für den gesamten Body */
@@ -11,7 +23,7 @@
             background-color: rgba(0, 0, 0, 0.1); /* leichter transparenter Hintergrund */
             padding: 0;
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif; /* Einheitliche Schriftart */
             color: #333;
         }
 
@@ -33,24 +45,22 @@
         }
 
         /* Radio Player */
-        .radio-player-container {
-            text-align: left;
-        }
-
-        .radio-player-container h2 {
-            margin: 0;
-            font-size: 1.5em;
-            font-weight: normal;
-            color: #333;
-        }
-
         .microsite.embedded-radio-player {
             width: 100%;
             max-width: 100%; /* Sicherstellen, dass der Player nicht breiter als der Container ist */
-            margin-top: 10px;
+            margin: 20px 0;
             height: 100px;
-            background-color: transparent; /* Hintergrund transparent */
-            border: none;
+        }
+
+        /* Links anpassen */
+        a {
+            text-decoration: none;
+            color: #007BFF; /* Blau für Links */
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #0056b3; /* Dunkleres Blau bei Hover */
         }
 
         /* Wetter-Widget Anpassung */
@@ -127,7 +137,6 @@
         @media (max-width: 480px) {
             .microsite.embedded-radio-player {
                 max-width: 100%; /* Player bleibt innerhalb der Bildschirmbreite */
-                height: 70px; /* Höhe des Players auch hier reduzieren */
             }
         }
     </style>
@@ -168,45 +177,46 @@
             <h2>Willkommen auf unserem Foody Friday NewsBlog!</h2>
             <h2>Nur für GAB Mitarbeiter und Mitarbeiterinnen</h2>
             <p>Hier findest du alle Informationen rund um bevorstehende Events, alle Informationen rund um die Gerichte an bevorstehenden Freitagen sowie spontane Änderungen.</p>
-            <p>Auch einen NewsFeed für aktuelle News und auch eine Seite für Kommentare (Voll Anonym).</p>
+            <p>Auch einen NewsFeed für aktuelle News und auch eine Seite für Kommentare.</p>
+            <p>JETZT NEU!!! Wetter, Radio und aktuelle Nachrichten</p>
+            <p>Und für die beste Pause gibt es jetzt auch Spiele für Mobil und Browser</p>
+            <p>Willkommen auf deiner neuen Lieblingsseite</p>
 
             <!-- Eingebetteter Radio Player -->
-            <div class="radio-player-container">
+            <div class="microsite embedded-radio-player">
                 <h2>Radio: SWR3</h2>
-                <div class="microsite embedded-radio-player">
-                    <script>
-                        (function(d, s) {
-                            if (!window.rel) {
-                                s = d.createElement("script");
-                                s.type = "text/javascript";
-                                s.async = true;
-                                s.id = "radio-de-embedded";
-                                s.src = "https://www.radio.de/inc/microsite/js/full.js";
-                                d.getElementsByTagName("head")[0].appendChild(s);
-                                window.rel = true;
-                            }
-                        }(document));
-                    </script>
-                    <div class="ng-app-embedded">
-                        <div ui-view class="microsite embedded-radio-player" 
-                             data-playerwidth="100%" 
-                             data-playertype="web_embedded" 
-                             data-playstation="swr3" 
-                             data-autoplay="true" 
-                             data-apikey="df04ff67dd3339a6fc19c9b8be164d5b5245ae93">
-                        </div>
+                <script>
+                    (function(d, s) {
+                        if (!window.rel) {
+                            s = d.createElement("script");
+                            s.type = "text/javascript";
+                            s.async = true;
+                            s.id = "radio-de-embedded";
+                            s.src = "https://www.radio.de/inc/microsite/js/full.js";
+                            d.getElementsByTagName("head")[0].appendChild(s);
+                            window.rel = true;
+                        }
+                    }(document));
+                </script>
+                <div class="ng-app-embedded">
+                    <div ui-view class="microsite embedded-radio-player" 
+                         data-playerwidth="300px" 
+                         data-playertype="web_embedded" 
+                         data-playstation="swr3" 
+                         data-autoplay="true" 
+                         data-apikey="df04ff67dd3339a6fc19c9b8be164d5b5245ae93">
                     </div>
-                    <noscript>
-                        <a href="https://www.radio.de/s/swr3" target="_blank">SWR3 auf radio.de</a>
-                    </noscript>
                 </div>
+                <noscript>
+                    <a href="https://www.radio.de/s/swr3" target="_blank">SWR3 auf radio.de</a>
+                </noscript>
             </div>
 
             <!-- Mehr Abstand zwischen Radio Player und Wetter -->
             <div class="widgets-container">
                 <!-- Wetter-Widget unter dem Radio Player -->
                 <div class="weather-widget">
-                    <h2>Aktuelles Wetter in Maulburg</h2>
+                    <h2>Wetter</h2>
                     <iframe 
                         src="https://www.meteoblue.com/de/wetter/widget/three/maulburg_de_2872372?geoloc=fixed&nocurrent=0&nocity=0&noforecast=0&days=5" 
                         style="height: 600px;">
@@ -239,16 +249,16 @@
                     const title = item.querySelector('title').textContent;
                     const link = item.querySelector('link').textContent;
                     const description = item.querySelector('description').textContent;
-                    const imageUrl = item.querySelector('enclosure') ? item.querySelector('enclosure').getAttribute('url') : null;
+                    const imageUrl = item.querySelector('media\\:content') ? item.querySelector('media\\:content').getAttribute('url') : '';
 
-                    const article = document.createElement('div');
-                    article.className = 'article';
+                    const article = document.createElement('article');
+                    const img = imageUrl ? `<img src="${imageUrl}" alt="Bild">` : '';
                     const content = `
-                        <div class="article-header">
+                        <div>
+                            ${img}
                             <h3><a href="${link}" target="_blank">${title}</a></h3>
-                            ${imageUrl ? `<img src="${imageUrl}" alt="Image">` : ''}
+                            <p>${description}</p>
                         </div>
-                        <p>${description}</p>
                     `;
                     article.innerHTML = content;
                     newsList.appendChild(article);
@@ -256,8 +266,22 @@
             });
         }
 
-        // Aufrufen der Funktion, um die Nachrichten zu laden
         fetchNews();
+
+        // Automatische Aktualisierung des Newsfeeds alle 10 Minuten (600000 ms)
+        setInterval(fetchNews, 600000); // alle 10 Minuten
+    </script>
+
+    <script>
+        // Zugriff auf das Menü-Icon und die Sidebar
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        // Event-Listener für das Menü
+        menuToggle.addEventListener('click', () => {
+            // Toggle-Klasse für das Menü, um es zu öffnen oder zu schließen
+            sidebar.classList.toggle('active');
+        });
     </script>
 </body>
 </html>
