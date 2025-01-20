@@ -34,6 +34,11 @@
         .button:hover {
             background-color: #45a049;
         }
+
+        /* Sudoku-Container anpassen */
+        #sudoku-container {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -84,21 +89,24 @@
                 $(document).ready(function() {
                     // Sudoku initialisieren
                     $('#sudoku-container').Sudoku({
-                        dropTimerOnReset: true,
-                        markWrongCellsOnFly: false, // Verhindert das Blockieren der Eingabe
-                        useTimer: true,
-                        timerOnly: true,
-                        useCustomButtons: true // Custom Buttons aktiviert
+                        dropTimerOnReset: true,        // Timer zurücksetzen bei Reset
+                        markWrongCellsOnFly: false,    // Verhindern, dass Zellen beim Schreiben blockiert werden
+                        useTimer: true,                // Timer aktivieren
+                        timerOnly: true,               // Spiel startet nur mit Timer
+                        useCustomButtons: true         // Eigene Buttons nutzen
                     });
 
                     // Benutzerdefinierte Steuerknöpfe
                     $('#start-sudoku').click(function() {
+                        // Startet das Spiel
                         $('#sudoku-container').Sudoku('start');
                     });
                     $('#r-sudoku').click(function() {
+                        // Setzt das Sudoku zurück
                         $('#sudoku-container').Sudoku('reset');
                     });
                     $('#gn-sudoku').click(function() {
+                        // Generiert ein neues Sudoku
                         $('#sudoku-container').Sudoku('generate');
                     });
                 });
