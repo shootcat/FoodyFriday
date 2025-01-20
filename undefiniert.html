@@ -17,6 +17,24 @@
     <!-- Sudoku Script und Stylesheet -->
     <script src="https://cdn.jsdelivr.net/gh/denissdubinin/javascript-sudoku@latest/dist/sudoku.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/denissdubinin/javascript-sudoku@latest/dist/sudoku.min.css">
+
+    <!-- Custom CSS für Buttons -->
+    <style>
+        /* Buttons sichtbar machen und formatieren */
+        .button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
     <!-- Hamburger Menü -->
@@ -67,7 +85,7 @@
                     // Sudoku initialisieren
                     $('#sudoku-container').Sudoku({
                         dropTimerOnReset: true,
-                        markWrongCellsOnFly: true, // Mark wrong cells on the fly
+                        markWrongCellsOnFly: false, // Verhindert das Blockieren der Eingabe
                         useTimer: true,
                         timerOnly: true,
                         useCustomButtons: true // Custom Buttons aktiviert
