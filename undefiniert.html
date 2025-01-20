@@ -87,13 +87,14 @@
 
             <script>
                 $(document).ready(function() {
-                    // Sudoku initialisieren
+                    // Initialisierung des Sudoku-Plugins
                     $('#sudoku-container').Sudoku({
                         dropTimerOnReset: true,        // Timer zurücksetzen bei Reset
                         markWrongCellsOnFly: false,    // Verhindern, dass Zellen beim Schreiben blockiert werden
                         useTimer: true,                // Timer aktivieren
                         timerOnly: true,               // Spiel startet nur mit Timer
-                        useCustomButtons: true         // Eigene Buttons nutzen
+                        useCustomButtons: true,        // Eigene Buttons nutzen
+                        sudokuMixIterations: 500      // Anzahl der Iterationen für das Mischen des Sudokus
                     });
 
                     // Benutzerdefinierte Steuerknöpfe
