@@ -35,7 +35,7 @@
         /* Radio Player Anpassung */
         .microsite.embedded-radio-player {
             width: 100%;
-            max-width: 600px;
+            max-width: 100%; /* Sicherstellen, dass der Player nicht breiter als der Container ist */
             margin: 20px 0;
             height: 100px;
         }
@@ -78,7 +78,6 @@
             /* Radio Player für mobile Geräte optimieren */
             .microsite.embedded-radio-player {
                 height: 70px; /* Kleinere Höhe auf mobilen Geräten */
-                max-width: 100%; /* Der Player nimmt 100% der verfügbaren Breite ein */
                 margin-bottom: 20px; /* Etwas mehr Abstand */
             }
 
@@ -108,6 +107,13 @@
                 margin-bottom: 10px;
                 width: 80px;
                 height: 80px;
+            }
+        }
+
+        /* Zusätzlich für sehr kleine Geräte, um sicherzustellen, dass der Radio Player nicht breiter wird */
+        @media (max-width: 480px) {
+            .microsite.embedded-radio-player {
+                max-width: 100%; /* Player bleibt innerhalb der Bildschirmbreite */
             }
         }
     </style>
@@ -145,7 +151,7 @@
     <!-- Hauptinhalt -->
     <main>
         <div class="content-container">
-             <h2>Willkommen auf unserem Foody Friday NewsBlog!</h2>
+            <h2>Willkommen auf unserem Foody Friday NewsBlog!</h2>
             <h2>Nur für GAB Mitarbeiter und Mitarbeiterinnen</h2>
             <p>Hier findest du alle Informationen rund um bevorstehende Events, alle Informationen rund um die Gerichte an bevorstehenden Freitagen sowie spontane Änderungen.</p>
             <p>Auch einen NewsFeed für aktuelle News und auch eine Seite für Kommentare (Voll Anonym).</p>
@@ -157,7 +163,7 @@
             <p>                                        </p>
             <p>                                        </p>
 
-
+            
             <!-- Eingebetteter Radio Player -->
             <div class="microsite embedded-radio-player">
                 <h2>Radio: SWR3</h2>
@@ -242,12 +248,10 @@
             });
         }
 
+        // Aufrufen der Funktion, um die Nachrichten zu laden
         fetchNews();
-
-        // Automatische Aktualisierung des Newsfeeds alle 10 Minuten (600000 ms)
-        setInterval(fetchNews, 600000);
     </script>
-   <script>
+      <script>
     // Zugriff auf das Menü-Icon und die Sidebar
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
