@@ -5,43 +5,10 @@
     <title>FUN - Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
-    
     <!-- Firebase App (Zwingend erforderlich) -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <!-- Firebase Firestore -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-
-    <!-- jQuery 3.6.0 einbinden (Neueste stabile Version) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <!-- Sudoku Script und Stylesheet -->
-    <script src="https://cdn.jsdelivr.net/gh/denissdubinin/javascript-sudoku@latest/dist/sudoku.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/denissdubinin/javascript-sudoku@latest/dist/sudoku.min.css">
-
-    <!-- Custom CSS für Buttons -->
-    <style>
-        /* Buttons sichtbar machen und formatieren */
-        .button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 10px;
-        }
-
-        .button:hover {
-            background-color: #45a049;
-        }
-
-        /* Sudoku-Container anpassen */
-        #sudoku-container {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-        }
-    </style>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+<!-- Firebase Firestore -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 </head>
 <body>
     <!-- Hamburger Menü -->
@@ -50,7 +17,6 @@
         <div class="bar"></div>
         <div class="bar"></div>
     </div>
-    
     <!-- Seitenleiste -->
     <div class="sidebar" id="sidebar">
         <nav>
@@ -64,7 +30,6 @@
             </ul>
         </nav>
     </div>
-    
     <!-- Banner mit Logo und Titel -->
     <header>
         <div class="banner-content">
@@ -78,44 +43,8 @@
         <div class="content">
             <!-- Seite in Arbeit -->
             <h2>SEITE IST NOCH IN ARBEIT</h2>
-            
-            <!-- Sudoku -->
-            <div id="sudoku-container"></div>
-            
-            <!-- Steuerknöpfe -->
-            <div class="button" id="start-sudoku">START</div>
-            <div class="button" id="r-sudoku">RESET</div>
-            <div class="button" id="gn-sudoku">GENERATE NEW SUDOKU</div>
 
-            <script>
-                $(document).ready(function() {
-                    // Sudoku initialisieren und nur ein Gitter erstellen
-                    var sudokuContainer = $('#sudoku-container');
-                    sudokuContainer.Sudoku({
-                        dropTimerOnReset: true,        // Timer zurücksetzen bei Reset
-                        markWrongCellsOnFly: false,    // Keine Sperrung der Zellen bei Eingabe
-                        useTimer: true,                // Timer aktivieren
-                        timerOnly: true,               // Spiel startet nur mit Timer
-                        useCustomButtons: true,        // Eigene Buttons verwenden
-                        sudokuMixIterations: 500      // Sudoku mischen
-                    });
-
-                    // Benutzerdefinierte Steuerknöpfe
-                    $('#start-sudoku').click(function() {
-                        // Startet das Sudoku
-                        sudokuContainer.Sudoku('start');
-                    });
-                    $('#r-sudoku').click(function() {
-                        // Setzt das Sudoku zurück
-                        sudokuContainer.Sudoku('reset');
-                    });
-                    $('#gn-sudoku').click(function() {
-                        // Generiert ein neues Sudoku
-                        sudokuContainer.Sudoku('generate');
-                    });
-                });
-            </script>
-        </div>
+           
     </main>
 
 </body>
