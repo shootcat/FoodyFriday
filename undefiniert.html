@@ -5,10 +5,27 @@
     <title>FUN - Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* CSS für das Layout der Buttons und Überschriften */
+        .game-container {
+            margin-bottom: 20px; /* Abstand zwischen den Containern */
+        }
+
+        .game-container h3 {
+            margin: 0 0 10px 0; /* Abstand unter der Überschrift */
+        }
+
+        button {
+            display: block;
+            margin: 0 auto; /* Zentriert den Button */
+            padding: 10px 20px; /* Etwas Polsterung für den Button */
+            font-size: 16px;
+        }
+    </style>
     <!-- Firebase App (Zwingend erforderlich) -->
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-<!-- Firebase Firestore -->
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 </head>
 <body>
     <!-- Hamburger Menü -->
@@ -40,25 +57,23 @@
 
     <!-- Hauptinhalt -->
     <main>
-    <div class="content">
-        <!-- Have Fun -->
-        <h2>Ersten Spiele bereits verfügbar</h2>
-        <h2>Have Fun </h2>
+        <div class="content">
+            <!-- Have Fun -->
+            <h2>Ersten Spiele bereits verfügbar</h2>
+            <h2>Have Fun </h2>
 
-        <!-- Container für Sodoku Button und Überschrift -->
-        <div class="game-container">
-            <h3>Sodoku</h3>
-            <button onclick="window.location.href='docs/index.html';">Sodoku</button>
+            <!-- Container für Sodoku Button und Überschrift -->
+            <div class="game-container">
+                <h3>Sodoku</h3>
+                <button onclick="window.location.href='docs/index.html';">Sodoku</button>
+            </div>
+
+            <!-- Container für Tetris Button und Überschrift -->
+            <div class="game-container">
+                <h3>Tetris</h3>
+                <button onclick="window.location.href='Tetris-master/Tetris.html';">Tetris</button>
+            </div>
         </div>
-
-        <!-- Container für Tetris Button und Überschrift -->
-        <div class="game-container">
-            <h3>Tetris</h3>
-            <button onclick="window.location.href='Tetris-master/Tetris.html';">Tetris</button>
-        </div>
-    </div>
-</main>
-
-
+    </main>
 </body>
 </html>
