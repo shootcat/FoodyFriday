@@ -12,9 +12,22 @@
             max-width: 800px;
             text-align: center;
         }
-        .news-feed iframe, .weather-widget iframe {
-            width: 100%;
-            border: none;
+        .news-feed ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+        .news-feed li {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+        .news-feed a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .news-feed a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -49,9 +62,14 @@
     <main>
         <div class="content">
             <h2>Willkommen auf unserem Foody Friday NewsBlog!</h2>
-            <h2>Nur für GAB Mitarbeiter und Mitarbeiterinnen</h2>
-            <p>Hier findest du alle Informationen rund um bevorstehende Events, alle Informationen rund um die Gerichte an bevorstehenden Freitagen sowie spontane Änderungen.</p>
+            <h2>Deine Seite für jede Pause und zwischendurch</h2>
+            <p>Nur für GAB Mitarbeiter und Mitarbeiterinnen</p>
+            <p>Hier findest du alle Informationen rund um bevorstehende Events, alle Informationen zum Essen an Freitagen.</p>
             <p>Auch einen NewsFeed für aktuelle News und auch eine Seite für Kommentare (Voll Anonym).</p>
+            <p>                                                                                </p>
+            <p>JETZT NEU!!! Radioplayer, aktuelle Nachrichten und das Wetter in der Region immer auf einer Seite.</p>
+            <p>Zudem wurde die FUN Seite endlich ausgebaut und bietet diverse Spiele für Mobil und PC. FUN in jeder Pause!!!</p>
+            
         </div>
 
         <!-- Eingebetteter Radio.de Player -->
@@ -84,13 +102,10 @@
             </noscript>
         </div>
 
-        <!-- Google News Feed -->
+        <!-- Nachrichten Feed (Tagesschau RSS) -->
         <div class="news-feed">
             <h2>Aktuelle Nachrichten</h2>
-            <iframe 
-                src="https://news.google.com/news/rss/headlines/section/topic/WORLD?hl=de&gl=DE&ceid=DE:de" 
-                style="height: 400px;">
-            </iframe>
+            <ul id="news-list">Nachrichten werden geladen...</ul>
         </div>
 
         <!-- Wetter-Widget für Lörrach/Maulburg -->
@@ -102,5 +117,32 @@
             </iframe>
         </div>
     </main>
+
+    <script>
+        // Lade RSS-Feed von Tagesschau.de
+        async function fetchNews() {
+            const response = await fetch('https://www.tagesschau.de/xml/rss2');
+            const text = await response.text();
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(text, 'application/xml');
+            const items = xml.querySelectorAll('item');
+
+            const newsList = document.getElementById('news-list');
+            newsList.innerHTML = ''; // Vorherige Einträge entfernen
+
+            items.forEach((item, index) => {
+                if (index < 5) { // Zeige nur die ersten 5 Artikel
+                    const title = item.querySelector('title').textContent;
+                    const link = item.querySelector('link').textContent;
+
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="${link}" target="_blank">${title}</a>`;
+                    newsList.appendChild(li);
+                }
+            });
+        }
+
+        fetchNews();
+    </script>
 </body>
 </html>
