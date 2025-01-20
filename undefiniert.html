@@ -54,7 +54,7 @@
         #menu-toggle {
             position: absolute;
             top: 20px;
-            right: 20px;
+            left: 20px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -71,31 +71,17 @@
             transition: all 0.3s ease;
         }
 
-        #menu-toggle.active .bar:nth-child(1) {
-            transform: rotate(45deg);
-            transform-origin: 7px 7px;
-        }
-
-        #menu-toggle.active .bar:nth-child(2) {
-            opacity: 0;
-        }
-
-        #menu-toggle.active .bar:nth-child(3) {
-            transform: rotate(-45deg);
-            transform-origin: 7px -7px;
-        }
-
-        /* Seitenleiste */
+        /* Sidebar */
         .sidebar {
             position: fixed;
-            left: -250px;
             top: 0;
+            left: -250px;
             width: 250px;
             height: 100%;
             background-color: #333;
             color: white;
             transition: 0.3s;
-            padding-top: 50px;
+            padding-top: 60px;
         }
 
         .sidebar a {
@@ -131,8 +117,6 @@
             }
         }
     </style>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 </head>
 
 <body>
