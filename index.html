@@ -23,7 +23,7 @@
             background-color: rgba(0, 0, 0, 0.1); /* leichter transparenter Hintergrund */
             padding: 0;
             margin: 0;
-            font-family: 'Arial', sans-serif; /* Einheitliche Schriftart */
+            font-family: Arial, sans-serif;
             color: #333;
         }
 
@@ -44,25 +44,13 @@
             justify-content: space-between;
         }
 
-        /* Radio Player */
-        .microsite.embedded-radio-player {
+          .microsite.embedded-radio-player {
             width: 100%;
             max-width: 100%; /* Sicherstellen, dass der Player nicht breiter als der Container ist */
             margin: 20px 0;
             height: 100px;
         }
-
-        /* Links anpassen */
-        a {
-            text-decoration: none;
-            color: #007BFF; /* Blau für Links */
-        }
-
-        a:hover {
-            text-decoration: underline;
-            color: #0056b3; /* Dunkleres Blau bei Hover */
-        }
-
+       
         /* Wetter-Widget Anpassung */
         .weather-widget iframe {
             width: 100%;
@@ -178,10 +166,15 @@
             <h2>Nur für GAB Mitarbeiter und Mitarbeiterinnen</h2>
             <p>Hier findest du alle Informationen rund um bevorstehende Events, alle Informationen rund um die Gerichte an bevorstehenden Freitagen sowie spontane Änderungen.</p>
             <p>Auch einen NewsFeed für aktuelle News und auch eine Seite für Kommentare.</p>
+            <p>                                        </p>
+            <p>                                        </p>
             <p>JETZT NEU!!! Wetter, Radio und aktuelle Nachrichten</p>
             <p>Und für die beste Pause gibt es jetzt auch Spiele für Mobil und Browser</p>
             <p>Willkommen auf deiner neuen Lieblingsseite</p>
+            <p>                                        </p>
+            <p>                                        </p>
 
+            
             <!-- Eingebetteter Radio Player -->
             <div class="microsite embedded-radio-player">
                 <h2>Radio: SWR3</h2>
@@ -216,6 +209,9 @@
             <div class="widgets-container">
                 <!-- Wetter-Widget unter dem Radio Player -->
                 <div class="weather-widget">
+                    <h2>.</h2>
+                    <h2></h2>
+                    <h2>☁️</h2>
                     <h2>Wetter</h2>
                     <iframe 
                         src="https://www.meteoblue.com/de/wetter/widget/three/maulburg_de_2872372?geoloc=fixed&nocurrent=0&nocity=0&noforecast=0&days=5" 
@@ -223,7 +219,7 @@
                     </iframe>
                 </div>
 
-                <!-- Newsfeed -->
+                 <!-- Newsfeed -->
                 <div class="news-feed">
                     <h2>Aktuelle Nachrichten</h2>
                     <div id="news-list">Nachrichten werden geladen...</div>
@@ -271,17 +267,16 @@
         // Automatische Aktualisierung des Newsfeeds alle 10 Minuten (600000 ms)
         setInterval(fetchNews, 600000); // alle 10 Minuten
     </script>
+      <script>
+    // Zugriff auf das Menü-Icon und die Sidebar
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
 
-    <script>
-        // Zugriff auf das Menü-Icon und die Sidebar
-        const menuToggle = document.getElementById('menu-toggle');
-        const sidebar = document.getElementById('sidebar');
-
-        // Event-Listener für das Menü
-        menuToggle.addEventListener('click', () => {
-            // Toggle-Klasse für das Menü, um es zu öffnen oder zu schließen
-            sidebar.classList.toggle('active');
-        });
-    </script>
+    // Event-Listener für das Menü
+    menuToggle.addEventListener('click', () => {
+        // Toggle-Klasse für das Menü, um es zu öffnen oder zu schließen
+        sidebar.classList.toggle('active');
+    });
+</script>
 </body>
 </html>
