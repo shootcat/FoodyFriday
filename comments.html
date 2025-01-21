@@ -38,18 +38,34 @@
     <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.4.0/dist/emoji-picker-element.js"></script>
 
     <style>
-        /* Sicherstellen, dass das Layout erhalten bleibt */
+        /* Basisdesign für das Layout */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         header {
             background: #f8f9fa;
-            padding: 20px;
             text-align: center;
+            padding: 20px 0;
+        }
+
+        .banner-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .banner-title {
+            margin: 0 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo {
+            width: 60px;
+            height: auto;
         }
 
         .content {
@@ -58,16 +74,41 @@
             margin: auto;
         }
 
-        textarea, input[type="text"] {
-            width: 100%;
-            margin-bottom: 10px;
-            padding: 10px;
-            box-sizing: border-box;
+        .menu-icon {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            margin: 10px;
         }
 
-        button {
-            padding: 10px 20px;
-            margin-top: 10px;
+        .menu-icon .bar {
+            width: 25px;
+            height: 3px;
+            background-color: black;
+            margin: 3px 0;
+        }
+
+        .sidebar {
+            display: none;
+            background-color: #f4f4f4;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 200px;
+            padding: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar li a {
+            text-decoration: none;
+            color: black;
+            display: block;
+            padding: 5px 0;
         }
 
         #giphy-results img {
@@ -77,9 +118,9 @@
         }
 
         .comment {
-            margin-bottom: 15px;
-            padding: 10px;
             border-bottom: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding: 10px;
         }
 
         img {
@@ -89,10 +130,36 @@
     </style>
 </head>
 <body>
+    <!-- Hamburger Menü -->
+    <div id="menu-toggle" class="menu-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="daily-news.html">Daily News</a></li>
+                <li><a href="essensliste.html">Essensliste</a></li>
+                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
+                <li><a href="undefiniert.html">FUN</a></li>
+                <li><a href="comments.html">Kommentare</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Header Banner -->
     <header>
-        <h1>FOODY FRIDAY NEWSBLOG</h1>
+        <div class="banner-content">
+            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
+            <h1 class="banner-title">FOODY FRIDAY NEWSBLOG</h1>
+        </div>
     </header>
     
+    <!-- Hauptinhalt -->
     <main>
         <div class="content">
             <h2>Hinterlasse einen Kommentar</h2>
@@ -119,6 +186,13 @@
     </main>
 
     <script>
+        // Hamburger Menü
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        menuToggle.addEventListener('click', () => {
+            sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block';
+        });
+
         // Emoji Picker
         document.querySelector('#comment').addEventListener('focus', function() {
             const emojiPicker = document.createElement('emoji-picker');
@@ -150,7 +224,7 @@
                 img.alt = gif.title;
                 img.addEventListener('click', () => {
                     const commentField = document.querySelector('#comment');
-                    commentField.value += `<img src="${img.src}" alt="${gif.title}">`; // GIF in Kommentar einfügen
+                    commentField.value += `<img src="${img.src}" alt="${gif.title}">`;
                     document.getElementById('giphy-search').style.display = 'none';
                 });
 
@@ -165,49 +239,44 @@
             const name = document.getElementById('name').value;
             const commentText = document.getElementById('comment').value;
 
-            // Kommentar in Firestore speichern
             await db.collection("comments").add({
                 name: name,
                 comment: commentText,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             });
 
-            // Sofortiges Anzeigen des neuen Kommentars
+            // Neues Kommentar sofort hinzufügen
             addCommentToUI(name, commentText);
-
-            // Formular zurücksetzen
             document.getElementById('comment-form').reset();
         });
 
         // Kommentar zur UI hinzufügen
         function addCommentToUI(name, commentText) {
             const commentsList = document.getElementById('comments-list');
-
             const commentDiv = document.createElement('div');
             commentDiv.classList.add('comment');
             commentDiv.innerHTML = `
                 <p><strong>${name}</strong></p>
                 <p>${commentText}</p>
             `;
-
             commentsList.prepend(commentDiv);
         }
 
-        // Kommentare aus Firestore laden
+        // Kommentare regelmäßig aktualisieren
+        setInterval(() => displayComments(), 5000);
+
         async function displayComments() {
             const commentsList = document.getElementById('comments-list');
-            commentsList.innerHTML = ''; // Vorherige Kommentare löschen
+            commentsList.innerHTML = '';
 
             const snapshot = await db.collection("comments").orderBy("timestamp", "desc").get();
-
             snapshot.forEach(doc => {
-                const commentData = doc.data();
-                addCommentToUI(commentData.name, commentData.comment);
+                const comment = doc.data();
+                addCommentToUI(comment.name, comment.comment);
             });
         }
 
-        // Initial Kommentare laden
-        displayComments();
+        displayComments(); // Beim Laden Kommentare abrufen
     </script>
 </body>
 </html>
