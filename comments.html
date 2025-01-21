@@ -2,28 +2,19 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kommentare - Foody Friday NewsBlog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <!-- Favicon Links -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
-    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="android-chrome-192x192.png" sizes="192x192" type="image/png">
-    <link rel="icon" href="android-chrome-512x512.png" sizes="512x512" type="image/png">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png">
-
-    <!-- Webmanifest für PWA -->
-    <link rel="manifest" href="site.webmanifest">
-    
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Firebase SDKs Version 8.6.8 einbinden (für statische HTML-Seiten geeignet) -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
-
-    <!-- Firebase-Konfiguration und Initialisierung -->
+    
+    <!-- Firebase Configuration -->
     <script>
-        // Firebase-Konfiguration für Ihre Web-App
         const firebaseConfig = {
             apiKey: "AIzaSyCnJByYr-O4k174w1IXRz1QcrS1b-TVPow",
             authDomain: "ff-komentare.firebaseapp.com",
@@ -32,22 +23,65 @@
             messagingSenderId: "1007258832780",
             appId: "1:1007258832780:web:779e56da27b0948f5350a9"
         };
-
-        // Firebase initialisieren
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore(); // Firestore-Datenbankreferenz erstellen
+        const db = firebase.firestore();
     </script>
+    
+    <!-- Emoji Picker -->
+    <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.4.0/dist/emoji-picker-element.js"></script>
+
+    <style>
+        /* Styles für Layout und Anpassungen */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header, .sidebar, .content {
+            padding: 15px;
+        }
+        header {
+            background-color: #ff8800;
+            text-align: center;
+            color: white;
+        }
+        .sidebar {
+            background-color: #eee;
+            width: 20%;
+            float: left;
+            min-height: calc(100vh - 50px);
+        }
+        .content {
+            width: 75%;
+            margin-left: 22%;
+        }
+        #emoji-picker {
+            margin: 10px 0;
+        }
+        #giphy-search {
+            margin: 10px 0;
+        }
+        #giphy-results img {
+            margin: 5px;
+            cursor: pointer;
+        }
+        #comments-list .comment {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
-    <!-- Hamburger Menü -->
-    <div id="menu-toggle" class="menu-icon">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
-    
-    <!-- Seitenleiste -->
-    <div class="sidebar" id="sidebar">
+    <!-- Navigation Sidebar -->
+    <div class="sidebar">
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -59,34 +93,122 @@
             </ul>
         </nav>
     </div>
-    
-    <!-- Banner mit Logo und Titel -->
-    <header>
-        <div class="banner-content">
-            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
-            <h1 class="banner-title">FOODY FRIDAY NEWSBLOG</h1>
-        </div>
-    </header>
-    
-    <!-- Hauptinhalt -->
-    <main>
-        <div class="content">
+
+    <!-- Main Content -->
+    <div class="content">
+        <header>
+            <h1>Foody Friday NewsBlog</h1>
+        </header>
+        
+        <main>
             <h2>Hinterlasse einen Kommentar</h2>
             <form id="comment-form">
                 <label for="name">Name:</label>
                 <input type="text" id="name" required>
                 <label for="comment">Kommentar:</label>
                 <textarea id="comment" required></textarea>
+                <div id="emoji-picker"></div>
                 <button type="submit">Abschicken</button>
             </form>
+            
+            <button id="giphy-btn">GIF hinzufügen</button>
+            <div id="giphy-search" style="display:none;">
+                <input type="text" id="giphy-query" placeholder="Suche nach GIFs...">
+                <div id="giphy-results"></div>
+            </div>
+            
             <div id="comments-section">
                 <h3>Letzte Kommentare</h3>
                 <div id="comments-list"></div>
             </div>
-        </div>
-    </main>
-    
-    <!-- Einbindung von script.js für Firebase-Kommentarfunktion und Hamburger Menü -->
-    <script src="script.js"></script>
+        </main>
+    </div>
+
+    <script>
+        // Emoji Picker Setup
+        document.querySelector('#comment').addEventListener('focus', function() {
+            const emojiPicker = document.createElement('emoji-picker');
+            document.getElementById('emoji-picker').appendChild(emojiPicker);
+
+            emojiPicker.addEventListener('emoji-click', (event) => {
+                document.querySelector('#comment').value += event.detail.unicode;
+            });
+        });
+
+        // Giphy API Setup
+        const tenorApiKey = "LIVDSRZULELA";
+        const tenorApiUrl = `https://tenor.googleapis.com/v2/search?q=`;
+
+        document.getElementById('giphy-btn').addEventListener('click', () => {
+            document.getElementById('giphy-search').style.display = 'block';
+        });
+
+        document.getElementById('giphy-query').addEventListener('input', async (event) => {
+            const query = event.target.value;
+            const response = await fetch(`${tenorApiUrl}${query}&key=${tenorApiKey}&limit=5`);
+            const data = await response.json();
+
+            const results = document.getElementById('giphy-results');
+            results.innerHTML = '';
+
+            data.results.forEach(gif => {
+                const img = document.createElement('img');
+                img.src = gif.media_formats.gif.url;
+                img.alt = gif.title;
+                img.addEventListener('click', () => {
+                    const gifUrl = img.src;
+                    const commentField = document.querySelector('#comment');
+                    commentField.value += `![GIF](${gifUrl})`;
+                    document.getElementById('giphy-search').style.display = 'none';
+                });
+                results.appendChild(img);
+            });
+        });
+
+        // Kommentar absenden und anzeigen
+        document.getElementById('comment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const commentText = document.getElementById('comment').value;
+
+            await db.collection("comments").add({
+                name: name,
+                comment: commentText,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            });
+
+            displayComments();
+            document.getElementById('comment-form').reset();
+        });
+
+        async function displayComments() {
+            const commentsList = document.getElementById('comments-list');
+            commentsList.innerHTML = '';
+
+            const snapshot = await db.collection("comments").orderBy("timestamp", "desc").get();
+
+            snapshot.forEach(doc => {
+                const commentData = doc.data();
+                const commentDiv = document.createElement('div');
+                commentDiv.classList.add('comment');
+
+                const commentText = convertMarkdownToHTML(commentData.comment);
+
+                commentDiv.innerHTML = `
+                    <p><strong>${commentData.name}</strong></p>
+                    <p>${commentText}</p>
+                `;
+
+                commentsList.appendChild(commentDiv);
+            });
+        }
+
+        function convertMarkdownToHTML(text) {
+            return text.replace(/!\[GIF\]\((.*?)\)/g, '<img src="$1" alt="GIF">');
+        }
+
+        displayComments();
+    </script>
 </body>
 </html>
