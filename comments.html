@@ -38,14 +38,53 @@
     <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.4.0/dist/emoji-picker-element.js"></script>
 
     <style>
-        img {
-            max-width: 100%;
-            height: auto;
+        /* Sicherstellen, dass das Layout erhalten bleibt */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        header {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .content {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+
         #giphy-results img {
             max-width: 100px;
             cursor: pointer;
             margin: 5px;
+        }
+
+        .comment {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
         }
     </style>
 </head>
@@ -133,14 +172,28 @@
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             });
 
-            // Kommentare aktualisieren
-            displayComments();
+            // Sofortiges Anzeigen des neuen Kommentars
+            addCommentToUI(name, commentText);
 
             // Formular zurücksetzen
             document.getElementById('comment-form').reset();
         });
 
-        // Kommentare anzeigen
+        // Kommentar zur UI hinzufügen
+        function addCommentToUI(name, commentText) {
+            const commentsList = document.getElementById('comments-list');
+
+            const commentDiv = document.createElement('div');
+            commentDiv.classList.add('comment');
+            commentDiv.innerHTML = `
+                <p><strong>${name}</strong></p>
+                <p>${commentText}</p>
+            `;
+
+            commentsList.prepend(commentDiv);
+        }
+
+        // Kommentare aus Firestore laden
         async function displayComments() {
             const commentsList = document.getElementById('comments-list');
             commentsList.innerHTML = ''; // Vorherige Kommentare löschen
@@ -149,16 +202,7 @@
 
             snapshot.forEach(doc => {
                 const commentData = doc.data();
-                const commentDiv = document.createElement('div');
-                commentDiv.classList.add('comment');
-
-                // Direktes Rendern von HTML-Inhalten (GIFs und Text)
-                commentDiv.innerHTML = `
-                    <p><strong>${commentData.name}</strong></p>
-                    <p>${commentData.comment}</p>
-                `;
-
-                commentsList.appendChild(commentDiv);
+                addCommentToUI(commentData.name, commentData.comment);
             });
         }
 
