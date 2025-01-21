@@ -181,10 +181,10 @@
             commentsList.prepend(commentDiv);
         }
 
-      function displayComments() {
+function displayComments() {
     db.collection("comments")
-        .orderBy("timestamp", "desc")  // Dies sorgt für eine absteigende Sortierung nach Zeitstempel
-        .onSnapshot((snapshot) => {  // Echtzeit-Updates
+        .orderBy("timestamp", "asc")  // Sortiert nun in aufsteigender Reihenfolge
+        .onSnapshot((snapshot) => {
             const commentsList = document.getElementById('comments-list');
             commentsList.innerHTML = ''; // Vorhandene Kommentare löschen
 
@@ -198,7 +198,7 @@
 // Echtzeit-Kommentare bei Seitenaufruf aktivieren
 displayComments();
     </script>
-        <script>
+         <script>
     // Zugriff auf das Menü-Icon und die Sidebar
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
@@ -208,5 +208,6 @@ displayComments();
         // Toggle-Klasse für das Menü, um es zu öffnen oder zu schließen
         sidebar.classList.toggle('active');
     });
+</script>  
 </body>
 </html>
