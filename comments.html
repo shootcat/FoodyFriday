@@ -11,13 +11,12 @@
     <link rel="icon" href="android-chrome-192x192.png" sizes="192x192" type="image/png">
     <link rel="icon" href="android-chrome-512x512.png" sizes="512x512" type="image/png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png">
-
     <!-- Webmanifest für PWA -->
     <link rel="manifest" href="site.webmanifest">
     
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Firebase SDKs Version 8.6.8 einbinden (für statische HTML-Seiten geeignet) -->
+    <!-- Firebase SDKs Version 8.6.8 einbinden -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
 
@@ -73,7 +72,7 @@
                 <input type="text" id="name" required>
                 <label for="comment">Kommentar:</label>
                 <textarea id="comment" required></textarea>
-                <div id="emoji-picker"></div>
+                <div id="emoji-picker"></div> <!-- Emoji-Tastatur -->
                 <button type="submit">Abschicken</button>
             </form>
             
@@ -93,6 +92,7 @@
     <script src="script.js"></script>
 
     <script>
+        // Emoji Picker initialisieren
         document.querySelector('#comment').addEventListener('focus', function() {
             const emojiPicker = document.createElement('emoji-picker');
             document.getElementById('emoji-picker').appendChild(emojiPicker);
@@ -104,10 +104,12 @@
 
         const tenorApiUrl = "https://g.tenor.com/v1/search?key=LIVDSRZULELA&q=";
 
+        // GIF-Suche anzeigen
         document.getElementById('giphy-btn').addEventListener('click', () => {
             document.getElementById('giphy-search').style.display = 'block';
         });
 
+        // GIF-Ergebnisse laden und anzeigen
         document.getElementById('giphy-query').addEventListener('input', async (event) => {
             const query = event.target.value;
             const response = await fetch(`${tenorApiUrl}${query}&limit=5`);
@@ -168,7 +170,7 @@
                 // Wenn der Kommentar ein Bild/GIF enthält, wird es als Bild dargestellt
                 const commentText = convertMarkdownToHTML(commentData.comment);
 
-                commentDiv.innerHTML = `
+                commentDiv.innerHTML = ` 
                     <p><strong>${commentData.name}</strong></p>
                     <p>${commentText}</p>
                 `;
