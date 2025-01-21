@@ -103,7 +103,7 @@
             });
         });
 
-        const tenorApiUrl = "https://g.tenor.com/v1/search?key=LIVDSRZULELA&q=";
+        const tenorApiUrl = "https://api.tenor.com/v1/search?key=LIVDSRZULELA&q=";
 
         // GIF hinzufügen Button
         document.getElementById('giphy-btn').addEventListener('click', () => {
@@ -115,31 +115,36 @@
             const query = event.target.value;
             
             if (query.length > 2) {  // Nur GIFs suchen, wenn der Benutzer mehr als 2 Zeichen eingibt
-                const response = await fetch(`${tenorApiUrl}${query}&limit=5}`);
-                const data = await response.json();
+                try {
+                    const response = await fetch(`${tenorApiUrl}${query}&limit=5}`);
+                    const data = await response.json();
+                    
+                    // Ergebnisse rendern
+                    const results = document.getElementById('giphy-results');
+                    results.innerHTML = ''; // Clear previous results
 
-                const results = document.getElementById('giphy-results');
-                results.innerHTML = ''; // Clear previous results
+                    if (data.results && data.results.length > 0) {
+                        data.results.forEach(gif => {
+                            const img = document.createElement('img');
+                            img.src = gif.media[0].gif.url;
+                            img.alt = gif.title;
+                            img.style.width = "100px"; // Optional: Größe der GIFs anpassen
+                            img.style.cursor = "pointer"; // Zeigt an, dass es klickbar ist
 
-                if (data.results && data.results.length > 0) {
-                    data.results.forEach(gif => {
-                        const img = document.createElement('img');
-                        img.src = gif.media[0].gif.url;
-                        img.alt = gif.title;
-                        img.style.width = "100px"; // Optional: Größe der GIFs anpassen
-                        img.style.cursor = "pointer"; // Zeigt an, dass es klickbar ist
+                            img.addEventListener('click', () => {
+                                const gifUrl = img.src;
+                                const commentField = document.querySelector('#comment');
+                                commentField.value += `![GIF](${gifUrl})`; // GIF im Kommentar hinzufügen
+                                document.getElementById('giphy-search').style.display = 'none'; // Schließt die Suche
+                            });
 
-                        img.addEventListener('click', () => {
-                            const gifUrl = img.src;
-                            const commentField = document.querySelector('#comment');
-                            commentField.value += `![GIF](${gifUrl})`; // GIF im Kommentar hinzufügen
-                            document.getElementById('giphy-search').style.display = 'none'; // Schließt die Suche
+                            results.appendChild(img);
                         });
-
-                        results.appendChild(img);
-                    });
-                } else {
-                    results.innerHTML = 'Keine GIFs gefunden.';
+                    } else {
+                        results.innerHTML = 'Keine GIFs gefunden.';
+                    }
+                } catch (error) {
+                    console.error('Fehler beim Abrufen von GIFs:', error);
                 }
             }
         });
