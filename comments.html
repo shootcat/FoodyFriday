@@ -4,20 +4,11 @@
     <meta charset="UTF-8">
     <title>Kommentare - Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <!-- Favicon Links -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
-    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png">
 
-    <!-- Webmanifest für PWA -->
-    <link rel="manifest" href="site.webmanifest">
-    
     <!-- Externe CSS-Datei -->
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- Firebase SDKs Version 8.6.8 -->
+
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
 
@@ -35,15 +26,11 @@
         const db = firebase.firestore();
     </script>
 
-    <!-- Emoji Picker -->
     <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.4.0/dist/emoji-picker-element.js"></script>
+
+    <!-- Dein CSS für Sidebar und GIF (siehe oben) -->
     <style>
-         /* Maximale Größe für die angezeigten GIFs im Chat */
-    .comment img {
-        max-width: 150px;  /* Maximale Breite der GIFs */
-        max-height: 150px; /* Maximale Höhe der GIFs */
-        object-fit: contain; /* Verhindert Verzerrungen */
-    }
+        /* Dein CSS kommt hier (siehe oben) */
     </style>
 </head>
 <body>
@@ -68,49 +55,20 @@
         </nav>
     </div>
 
-    <!-- Header Banner -->
-    <header>
-        <div class="banner-content">
-            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
-            <h1 class="banner-title">FOODY FRIDAY NEWSBLOG</h1>
-        </div>
-    </header>
-    
-    <!-- Hauptinhalt -->
-    <main>
-        <div class="content">
-            <h2>Hinterlasse einen Kommentar</h2>
-            <form id="comment-form">
-                <label for="name">Name:</label>
-                <input type="text" id="name" required>
-                <label for="comment">Kommentar:</label>
-                <textarea id="comment" required></textarea>
-                <div id="emoji-picker"></div>
-                <button type="submit">Abschicken</button>
-            </form>
-            
-            <button id="giphy-btn">GIF hinzufügen</button>
-            <div id="giphy-search" style="display:none;">
-                <input type="text" id="giphy-query" placeholder="Suche nach GIFs...">
-                <div id="giphy-results"></div>
-            </div>
-            
-            <div id="comments-section">
-                <h3>Letzte Kommentare</h3>
-                <div id="comments-list"></div>
-            </div>
-        </div>
-    </main>
+    <!-- Dein übriger HTML-Code für Kommentare, Formular, etc. -->
 
     <script>
-        // Hamburger Menü
+        // Menü und Sidebar Logik
         const menuToggle = document.getElementById('menu-toggle');
         const sidebar = document.getElementById('sidebar');
+
+        // Event-Listener für das Menü
         menuToggle.addEventListener('click', () => {
-            sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block';
+            sidebar.classList.toggle('active');
+            menuToggle.classList.toggle('active');
         });
 
-        // Emoji Picker
+        // Emoji Picker und Kommentar-Logik
         document.querySelector('#comment').addEventListener('focus', function() {
             const emojiPicker = document.createElement('emoji-picker');
             document.getElementById('emoji-picker').appendChild(emojiPicker);
@@ -120,41 +78,9 @@
             });
         });
 
-        // GIF-Suche mit Tenor API
-        const tenorApiUrl = "https://g.tenor.com/v1/search?key=LIVDSRZULELA&q=";
-
-        document.getElementById('giphy-btn').addEventListener('click', () => {
-            document.getElementById('giphy-search').style.display = 'block';
-        });
-
-        document.getElementById('giphy-query').addEventListener('input', async (event) => {
-            const query = event.target.value;
-            const response = await fetch(`${tenorApiUrl}${query}&limit=20`);
-            const data = await response.json();
-
-            const results = document.getElementById('giphy-results');
-            results.innerHTML = ''; // Vorherige Ergebnisse löschen
-
-            data.results.forEach(gif => {
-                const img = document.createElement('img');
-                img.src = gif.media[0].gif.url;
-                img.style.maxWidth = "100px"; // Größe der GIFs anpassen
-                img.style.maxHeight = "100px"; // Höhe festlegen
-                img.alt = gif.title;
-                img.addEventListener('click', () => {
-                    const commentField = document.querySelector('#comment');
-                    commentField.value += `<img src="${img.src}" alt="${gif.title}">`;
-                    document.getElementById('giphy-search').style.display = 'none';
-                });
-
-                results.appendChild(img);
-            });
-        });
-
-        // Kommentar absenden
+        // Kommentarabsendung (Firebase Logik)
         document.getElementById('comment-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-
             const name = document.getElementById('name').value;
             const commentText = document.getElementById('comment').value;
 
@@ -181,32 +107,22 @@
             commentsList.prepend(commentDiv);
         }
 
-function displayComments() {
-    db.collection("comments")
-        .orderBy("timestamp", "asc")  // Sortiert nun in aufsteigender Reihenfolge
-        .onSnapshot((snapshot) => {
-            const commentsList = document.getElementById('comments-list');
-            commentsList.innerHTML = ''; // Vorhandene Kommentare löschen
+        // Echtzeit-Kommentare anzeigen
+        function displayComments() {
+            db.collection("comments")
+                .orderBy("timestamp", "desc") // Neueste Kommentare oben
+                .onSnapshot((snapshot) => {
+                    const commentsList = document.getElementById('comments-list');
+                    commentsList.innerHTML = ''; // Vorherige Kommentare löschen
 
-            snapshot.forEach((doc) => {
-                const comment = doc.data();
-                addCommentToUI(comment.name, comment.comment);
-            });
-        });
-}
+                    snapshot.forEach((doc) => {
+                        const comment = doc.data();
+                        addCommentToUI(comment.name, comment.comment);
+                    });
+                });
+        }
 
-// Echtzeit-Kommentare bei Seitenaufruf aktivieren
-displayComments();
-        
-    // Zugriff auf das Menü-Icon und die Sidebar
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-
-    // Event-Listener für das Menü
-    menuToggle.addEventListener('click', () => {
-        // Toggle-Klasse für das Menü, um es zu öffnen oder zu schließen
-        sidebar.classList.toggle('active');
-    });
-</script>
+        displayComments(); // Echtzeit-Kommentare anzeigen
+    </script>
 </body>
 </html>
