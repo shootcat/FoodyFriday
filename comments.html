@@ -175,7 +175,7 @@
 
         function displayComments() {
     db.collection("comments")
-        .orderBy("timestamp", "desc")
+        .orderBy("timestamp", "asc")
         .onSnapshot((snapshot) => {
             const commentsList = document.getElementById('comments-list');
             commentsList.innerHTML = ''; // Aktuelle Liste löschen
