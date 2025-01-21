@@ -37,14 +37,6 @@
 
     <!-- Emoji Picker -->
     <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.4.0/dist/emoji-picker-element.js"></script>
-    <style>
-         /* Maximale Größe für die angezeigten GIFs im Chat */
-    .comment img {
-        max-width: 150px;  /* Maximale Breite der GIFs */
-        max-height: 150px; /* Maximale Höhe der GIFs */
-        object-fit: contain; /* Verhindert Verzerrungen */
-    }
-    </style>
 </head>
 <body>
     <!-- Hamburger Menü -->
@@ -129,7 +121,7 @@
 
         document.getElementById('giphy-query').addEventListener('input', async (event) => {
             const query = event.target.value;
-            const response = await fetch(${tenorApiUrl}${query}&limit=20);
+            const response = await fetch(`${tenorApiUrl}${query}&limit=5`);
             const data = await response.json();
 
             const results = document.getElementById('giphy-results');
@@ -138,12 +130,12 @@
             data.results.forEach(gif => {
                 const img = document.createElement('img');
                 img.src = gif.media[0].gif.url;
-                img.style.maxWidth = "100px"; // Größe der GIFs anpassen
-                img.style.maxHeight = "100px"; // Höhe festlegen
+img.style.maxWidth = "50px"; // Größe der GIFs anpassen
+img.style.maxHeight = "50px"; // Höhe festlegen
                 img.alt = gif.title;
                 img.addEventListener('click', () => {
                     const commentField = document.querySelector('#comment');
-                    commentField.value += <img src="${img.src}" alt="${gif.title}">;
+                    commentField.value += `<img src="${img.src}" alt="${gif.title}">`;
                     document.getElementById('giphy-search').style.display = 'none';
                 });
 
@@ -174,19 +166,19 @@
             const commentsList = document.getElementById('comments-list');
             const commentDiv = document.createElement('div');
             commentDiv.classList.add('comment');
-            commentDiv.innerHTML = 
+            commentDiv.innerHTML = `
                 <p><strong>${name}</strong></p>
                 <p>${commentText}</p>
-            ;
+            `;
             commentsList.prepend(commentDiv);
         }
 
-function displayComments() {
+        function displayComments() {
     db.collection("comments")
-        .orderBy("timestamp", "asc")  // Sortiert nun in aufsteigender Reihenfolge
+        .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
             const commentsList = document.getElementById('comments-list');
-            commentsList.innerHTML = ''; // Vorhandene Kommentare löschen
+            commentsList.innerHTML = ''; // Aktuelle Liste löschen
 
             snapshot.forEach((doc) => {
                 const comment = doc.data();
@@ -195,18 +187,8 @@ function displayComments() {
         });
 }
 
-// Echtzeit-Kommentare bei Seitenaufruf aktivieren
+// Aufruf der Funktion, um Echtzeit-Kommentare zu erhalten
 displayComments();
-        
-    // Zugriff auf das Menü-Icon und die Sidebar
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-
-    // Event-Listener für das Menü
-    menuToggle.addEventListener('click', () => {
-        // Toggle-Klasse für das Menü, um es zu öffnen oder zu schließen
-        sidebar.classList.toggle('active');
-    });
-</script>
+    </script>
 </body>
 </html>
