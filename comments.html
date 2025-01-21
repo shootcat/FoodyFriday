@@ -2,18 +2,25 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kommentare - Foody Friday NewsBlog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <!-- Favicon Links -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png">
+
+    <!-- Webmanifest für PWA -->
+    <link rel="manifest" href="site.webmanifest">
+    
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Firebase SDK -->
+    <!-- Firebase SDKs Version 8.6.8 -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
-    
-    <!-- Firebase Configuration -->
+
+    <!-- Firebase-Konfiguration -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCnJByYr-O4k174w1IXRz1QcrS1b-TVPow",
@@ -26,81 +33,29 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
     </script>
-    
+
     <!-- Emoji Picker -->
     <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.4.0/dist/emoji-picker-element.js"></script>
 
     <style>
-        /* Styles für Layout und Anpassungen */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        header, .sidebar, .content {
-            padding: 15px;
-        }
-        header {
-            background-color: #ff8800;
-            text-align: center;
-            color: white;
-        }
-        .sidebar {
-            background-color: #eee;
-            width: 20%;
-            float: left;
-            min-height: calc(100vh - 50px);
-        }
-        .content {
-            width: 75%;
-            margin-left: 22%;
-        }
-        #emoji-picker {
-            margin: 10px 0;
-        }
-        #giphy-search {
-            margin: 10px 0;
-        }
-        #giphy-results img {
-            margin: 5px;
-            cursor: pointer;
-        }
-        #comments-list .comment {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin: 10px 0;
-        }
         img {
             max-width: 100%;
             height: auto;
         }
+        #giphy-results img {
+            max-width: 100px;
+            cursor: pointer;
+            margin: 5px;
+        }
     </style>
 </head>
 <body>
-    <!-- Navigation Sidebar -->
-    <div class="sidebar">
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="daily-news.html">Daily News</a></li>
-                <li><a href="essensliste.html">Essensliste</a></li>
-                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
-                <li><a href="undefiniert.html">FUN</a></li>
-                <li><a href="comments.html">Kommentare</a></li>
-            </ul>
-        </nav>
-    </div>
-
-    <!-- Main Content -->
-    <div class="content">
-        <header>
-            <h1>Foody Friday NewsBlog</h1>
-        </header>
-        
-        <main>
+    <header>
+        <h1>FOODY FRIDAY NEWSBLOG</h1>
+    </header>
+    
+    <main>
+        <div class="content">
             <h2>Hinterlasse einen Kommentar</h2>
             <form id="comment-form">
                 <label for="name">Name:</label>
@@ -121,11 +76,11 @@
                 <h3>Letzte Kommentare</h3>
                 <div id="comments-list"></div>
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
 
     <script>
-        // Emoji Picker Setup
+        // Emoji Picker
         document.querySelector('#comment').addEventListener('focus', function() {
             const emojiPicker = document.createElement('emoji-picker');
             document.getElementById('emoji-picker').appendChild(emojiPicker);
@@ -135,9 +90,8 @@
             });
         });
 
-        // Giphy API Setup
-        const tenorApiKey = "LIVDSRZULELA";
-        const tenorApiUrl = `https://tenor.googleapis.com/v2/search?q=`;
+        // GIF-Suche mit Tenor API
+        const tenorApiUrl = "https://g.tenor.com/v1/search?key=LIVDSRZULELA&q=";
 
         document.getElementById('giphy-btn').addEventListener('click', () => {
             document.getElementById('giphy-search').style.display = 'block';
@@ -145,46 +99,51 @@
 
         document.getElementById('giphy-query').addEventListener('input', async (event) => {
             const query = event.target.value;
-            const response = await fetch(`${tenorApiUrl}${query}&key=${tenorApiKey}&limit=5`);
+            const response = await fetch(`${tenorApiUrl}${query}&limit=5`);
             const data = await response.json();
 
             const results = document.getElementById('giphy-results');
-            results.innerHTML = '';
+            results.innerHTML = ''; // Vorherige Ergebnisse löschen
 
             data.results.forEach(gif => {
                 const img = document.createElement('img');
-                img.src = gif.media_formats.gif.url;
+                img.src = gif.media[0].gif.url;
                 img.alt = gif.title;
                 img.addEventListener('click', () => {
-                    const gifUrl = img.src;
                     const commentField = document.querySelector('#comment');
-                    commentField.value += `![GIF](${gifUrl})`;
+                    commentField.value += `<img src="${img.src}" alt="${gif.title}">`; // GIF in Kommentar einfügen
                     document.getElementById('giphy-search').style.display = 'none';
                 });
+
                 results.appendChild(img);
             });
         });
 
-        // Kommentar absenden und anzeigen
+        // Kommentar absenden
         document.getElementById('comment-form').addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const name = document.getElementById('name').value;
             const commentText = document.getElementById('comment').value;
 
+            // Kommentar in Firestore speichern
             await db.collection("comments").add({
                 name: name,
                 comment: commentText,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             });
 
+            // Kommentare aktualisieren
             displayComments();
+
+            // Formular zurücksetzen
             document.getElementById('comment-form').reset();
         });
 
+        // Kommentare anzeigen
         async function displayComments() {
             const commentsList = document.getElementById('comments-list');
-            commentsList.innerHTML = '';
+            commentsList.innerHTML = ''; // Vorherige Kommentare löschen
 
             const snapshot = await db.collection("comments").orderBy("timestamp", "desc").get();
 
@@ -193,21 +152,17 @@
                 const commentDiv = document.createElement('div');
                 commentDiv.classList.add('comment');
 
-                const commentText = convertMarkdownToHTML(commentData.comment);
-
+                // Direktes Rendern von HTML-Inhalten (GIFs und Text)
                 commentDiv.innerHTML = `
                     <p><strong>${commentData.name}</strong></p>
-                    <p>${commentText}</p>
+                    <p>${commentData.comment}</p>
                 `;
 
                 commentsList.appendChild(commentDiv);
             });
         }
 
-        function convertMarkdownToHTML(text) {
-            return text.replace(/!\[GIF\]\((.*?)\)/g, '<img src="$1" alt="GIF">');
-        }
-
+        // Initial Kommentare laden
         displayComments();
     </script>
 </body>
