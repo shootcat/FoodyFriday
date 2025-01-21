@@ -198,5 +198,15 @@
 // Echtzeit-Kommentare bei Seitenaufruf aktivieren
 displayComments();
     </script>
+        <script>
+    // Zugriff auf das Menü-Icon und die Sidebar
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+
+    // Event-Listener für das Menü
+    menuToggle.addEventListener('click', () => {
+        // Toggle-Klasse für das Menü, um es zu öffnen oder zu schließen
+        sidebar.classList.toggle('active');
+    });
 </body>
 </html>
