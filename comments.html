@@ -37,6 +37,14 @@
 
     <!-- Emoji Picker -->
     <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.4.0/dist/emoji-picker-element.js"></script>
+    <style>
+         /* Maximale Größe für die angezeigten GIFs im Chat */
+    .comment img {
+        max-width: 150px;  /* Maximale Breite der GIFs */
+        max-height: 150px; /* Maximale Höhe der GIFs */
+        object-fit: contain; /* Verhindert Verzerrungen */
+    }
+    </style>
 </head>
 <body>
     <!-- Hamburger Menü -->
