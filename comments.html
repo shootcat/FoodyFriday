@@ -34,65 +34,39 @@
         const db = firebase.firestore();
     </script>
 
+    
     <!-- Emoji Picker -->
     <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.4.0/dist/emoji-picker-element.js"></script>
 </head>
 <body>
-    <div id="menu-toggle" class="menu-icon">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
-    
-    <div class="sidebar" id="sidebar">
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="daily-news.html">Daily News</a></li>
-                <li><a href="essensliste.html">Essensliste</a></li>
-                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
-                <li><a href="undefiniert.html">FUN</a></li>
-                <li><a href="comments.html">Kommentare</a></li>
-            </ul>
-        </nav>
+    <!-- Kommentarbereich -->
+    <div class="content">
+        <h2>Hinterlasse einen Kommentar</h2>
+        <form id="comment-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+            <label for="comment">Kommentar:</label>
+            <textarea id="comment" required></textarea>
+            <div id="emoji-picker"></div> <!-- Emoji-Tastatur -->
+            <button type="submit">Abschicken</button>
+        </form>
+        
+        <button id="giphy-btn">GIF hinzufügen</button>
+        <div id="giphy-search" style="display:none;">
+            <input type="text" id="giphy-query" placeholder="Suche nach GIFs...">
+            <div id="giphy-results"></div>
+        </div>
+        
+        <div id="comments-section">
+            <h3>Letzte Kommentare</h3>
+            <div id="comments-list"></div>
+        </div>
     </div>
 
-    <header>
-        <div class="banner-content">
-            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
-            <h1 class="banner-title">FOODY FRIDAY NEWSBLOG</h1>
-        </div>
-    </header>
-    
-    <main>
-        <div class="content">
-            <h2>Hinterlasse einen Kommentar</h2>
-            <form id="comment-form">
-                <label for="name">Name:</label>
-                <input type="text" id="name" required>
-                <label for="comment">Kommentar:</label>
-                <textarea id="comment" required></textarea>
-                <div id="emoji-picker"></div> <!-- Emoji-Tastatur -->
-                <button type="submit">Abschicken</button>
-            </form>
-            
-            <button id="giphy-btn">GIF hinzufügen</button>
-            <div id="giphy-search" style="display:none;">
-                <input type="text" id="giphy-query" placeholder="Suche nach GIFs...">
-                <div id="giphy-results"></div>
-            </div>
-            
-            <div id="comments-section">
-                <h3>Letzte Kommentare</h3>
-                <div id="comments-list"></div>
-            </div>
-        </div>
-    </main>
-    
+    <!-- Firebase Script -->
     <script src="script.js"></script>
 
     <script>
-        // Emoji Picker initialisieren
         document.querySelector('#comment').addEventListener('focus', function() {
             const emojiPicker = document.createElement('emoji-picker');
             document.getElementById('emoji-picker').appendChild(emojiPicker);
@@ -104,12 +78,10 @@
 
         const tenorApiUrl = "https://g.tenor.com/v1/search?key=LIVDSRZULELA&q=";
 
-        // GIF-Suche anzeigen
         document.getElementById('giphy-btn').addEventListener('click', () => {
             document.getElementById('giphy-search').style.display = 'block';
         });
 
-        // GIF-Ergebnisse laden und anzeigen
         document.getElementById('giphy-query').addEventListener('input', async (event) => {
             const query = event.target.value;
             const response = await fetch(`${tenorApiUrl}${query}&limit=5`);
@@ -170,7 +142,7 @@
                 // Wenn der Kommentar ein Bild/GIF enthält, wird es als Bild dargestellt
                 const commentText = convertMarkdownToHTML(commentData.comment);
 
-                commentDiv.innerHTML = ` 
+                commentDiv.innerHTML = `
                     <p><strong>${commentData.name}</strong></p>
                     <p>${commentText}</p>
                 `;
