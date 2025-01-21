@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Kommentare - Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
     <!-- Favicon Links -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
@@ -12,12 +11,13 @@
     <link rel="icon" href="android-chrome-192x192.png" sizes="192x192" type="image/png">
     <link rel="icon" href="android-chrome-512x512.png" sizes="512x512" type="image/png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png">
+    
     <!-- Webmanifest für PWA -->
     <link rel="manifest" href="site.webmanifest">
-
+    
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Firebase SDKs Version 8.6.8 einbinden -->
+    <!-- Firebase SDKs Version 8.6.8 einbinden (für statische HTML-Seiten geeignet) -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
 
@@ -39,14 +39,12 @@
     <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.4.0/dist/emoji-picker-element.js"></script>
 </head>
 <body>
-    <!-- Menü Icon -->
     <div id="menu-toggle" class="menu-icon">
         <div class="bar"></div>
         <div class="bar"></div>
         <div class="bar"></div>
     </div>
-
-    <!-- Sidebar Navigation -->
+    
     <div class="sidebar" id="sidebar">
         <nav>
             <ul>
@@ -60,15 +58,13 @@
         </nav>
     </div>
 
-    <!-- Header mit Banner -->
     <header>
         <div class="banner-content">
             <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
             <h1 class="banner-title">FOODY FRIDAY NEWSBLOG</h1>
         </div>
     </header>
-
-    <!-- Hauptinhalt -->
+    
     <main>
         <div class="content">
             <h2>Hinterlasse einen Kommentar</h2>
@@ -80,26 +76,24 @@
                 <div id="emoji-picker"></div> <!-- Emoji-Tastatur -->
                 <button type="submit">Abschicken</button>
             </form>
-
-            <!-- GIF hinzufügen -->
+            
             <button id="giphy-btn">GIF hinzufügen</button>
             <div id="giphy-search" style="display:none;">
                 <input type="text" id="giphy-query" placeholder="Suche nach GIFs...">
                 <div id="giphy-results"></div>
             </div>
             
-            <!-- Kommentare anzeigen -->
             <div id="comments-section">
                 <h3>Letzte Kommentare</h3>
                 <div id="comments-list"></div>
             </div>
         </div>
     </main>
-
+    
     <script src="script.js"></script>
 
     <script>
-        // Emoji Picker initialisieren
+        // Emoji Picker anzeigen, wenn der Kommentarbereich fokussiert ist
         document.querySelector('#comment').addEventListener('focus', function() {
             const emojiPicker = document.createElement('emoji-picker');
             document.getElementById('emoji-picker').appendChild(emojiPicker);
@@ -111,34 +105,43 @@
 
         const tenorApiUrl = "https://g.tenor.com/v1/search?key=LIVDSRZULELA&q=";
 
-        // GIF-Suche anzeigen
+        // GIF hinzufügen Button
         document.getElementById('giphy-btn').addEventListener('click', () => {
             document.getElementById('giphy-search').style.display = 'block';
         });
 
-        // GIF-Ergebnisse laden und anzeigen
+        // GIF-Suche und Ergebnisse anzeigen
         document.getElementById('giphy-query').addEventListener('input', async (event) => {
             const query = event.target.value;
-            const response = await fetch(`${tenorApiUrl}${query}&limit=5`);
-            const data = await response.json();
+            
+            if (query.length > 2) {  // Nur GIFs suchen, wenn der Benutzer mehr als 2 Zeichen eingibt
+                const response = await fetch(`${tenorApiUrl}${query}&limit=5}`);
+                const data = await response.json();
 
-            const results = document.getElementById('giphy-results');
-            results.innerHTML = ''; // Clear previous results
+                const results = document.getElementById('giphy-results');
+                results.innerHTML = ''; // Clear previous results
 
-            data.results.forEach(gif => {
-                const img = document.createElement('img');
-                img.src = gif.media[0].gif.url;
-                img.alt = gif.title;
-                img.style.width = "100px"; // Optional: Größe der GIFs anpassen
-                img.addEventListener('click', () => {
-                    const gifUrl = img.src;
-                    const commentField = document.querySelector('#comment');
-                    commentField.value += `![GIF](${gifUrl})`; // GIF im Kommentar hinzufügen
-                    document.getElementById('giphy-search').style.display = 'none';
-                });
+                if (data.results && data.results.length > 0) {
+                    data.results.forEach(gif => {
+                        const img = document.createElement('img');
+                        img.src = gif.media[0].gif.url;
+                        img.alt = gif.title;
+                        img.style.width = "100px"; // Optional: Größe der GIFs anpassen
+                        img.style.cursor = "pointer"; // Zeigt an, dass es klickbar ist
 
-                results.appendChild(img);
-            });
+                        img.addEventListener('click', () => {
+                            const gifUrl = img.src;
+                            const commentField = document.querySelector('#comment');
+                            commentField.value += `![GIF](${gifUrl})`; // GIF im Kommentar hinzufügen
+                            document.getElementById('giphy-search').style.display = 'none'; // Schließt die Suche
+                        });
+
+                        results.appendChild(img);
+                    });
+                } else {
+                    results.innerHTML = 'Keine GIFs gefunden.';
+                }
+            }
         });
 
         // Kommentar absenden
@@ -177,7 +180,7 @@
                 // Wenn der Kommentar ein Bild/GIF enthält, wird es als Bild dargestellt
                 const commentText = convertMarkdownToHTML(commentData.comment);
 
-                commentDiv.innerHTML = ` 
+                commentDiv.innerHTML = `
                     <p><strong>${commentData.name}</strong></p>
                     <p>${commentText}</p>
                 `;
