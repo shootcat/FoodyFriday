@@ -130,6 +130,8 @@
             data.results.forEach(gif => {
                 const img = document.createElement('img');
                 img.src = gif.media[0].gif.url;
+                img.style.maxWidth = "50px"; // Größe der GIFs anpassen
+                img.style.maxHeight = "50px"; // Höhe festlegen
                 img.alt = gif.title;
                 img.addEventListener('click', () => {
                     const commentField = document.querySelector('#comment');
