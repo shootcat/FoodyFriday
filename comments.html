@@ -23,7 +23,6 @@
 
     <!-- Firebase-Konfiguration und Initialisierung -->
     <script>
-        // Firebase-Konfiguration für Ihre Web-App
         const firebaseConfig = {
             apiKey: "AIzaSyCnJByYr-O4k174w1IXRz1QcrS1b-TVPow",
             authDomain: "ff-komentare.firebaseapp.com",
@@ -32,21 +31,20 @@
             messagingSenderId: "1007258832780",
             appId: "1:1007258832780:web:779e56da27b0948f5350a9"
         };
-
-        // Firebase initialisieren
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore(); // Firestore-Datenbankreferenz erstellen
+        const db = firebase.firestore();
     </script>
+
+    <!-- Emoji Picker -->
+    <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.4.0/dist/emoji-picker-element.js"></script>
 </head>
 <body>
-    <!-- Hamburger Menü -->
     <div id="menu-toggle" class="menu-icon">
         <div class="bar"></div>
         <div class="bar"></div>
         <div class="bar"></div>
     </div>
     
-    <!-- Seitenleiste -->
     <div class="sidebar" id="sidebar">
         <nav>
             <ul>
@@ -59,8 +57,7 @@
             </ul>
         </nav>
     </div>
-    
-    <!-- Banner mit Logo und Titel -->
+
     <header>
         <div class="banner-content">
             <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
@@ -68,7 +65,6 @@
         </div>
     </header>
     
-    <!-- Hauptinhalt -->
     <main>
         <div class="content">
             <h2>Hinterlasse einen Kommentar</h2>
@@ -77,8 +73,16 @@
                 <input type="text" id="name" required>
                 <label for="comment">Kommentar:</label>
                 <textarea id="comment" required></textarea>
+                <div id="emoji-picker"></div>
                 <button type="submit">Abschicken</button>
             </form>
+            
+            <button id="giphy-btn">GIF hinzufügen</button>
+            <div id="giphy-search" style="display:none;">
+                <input type="text" id="giphy-query" placeholder="Suche nach GIFs...">
+                <div id="giphy-results"></div>
+            </div>
+            
             <div id="comments-section">
                 <h3>Letzte Kommentare</h3>
                 <div id="comments-list"></div>
@@ -86,7 +90,95 @@
         </div>
     </main>
     
-    <!-- Einbindung von script.js für Firebase-Kommentarfunktion und Hamburger Menü -->
     <script src="script.js"></script>
+
+    <script>
+        document.querySelector('#comment').addEventListener('focus', function() {
+            const emojiPicker = document.createElement('emoji-picker');
+            document.getElementById('emoji-picker').appendChild(emojiPicker);
+
+            emojiPicker.addEventListener('emoji-click', (event) => {
+                document.querySelector('#comment').value += event.detail.unicode;
+            });
+        });
+
+        const tenorApiUrl = "https://g.tenor.com/v1/search?key=LIVDSRZULELA&q=";
+
+        document.getElementById('giphy-btn').addEventListener('click', () => {
+            document.getElementById('giphy-search').style.display = 'block';
+        });
+
+        document.getElementById('giphy-query').addEventListener('input', async (event) => {
+            const query = event.target.value;
+            const response = await fetch(`${tenorApiUrl}${query}&limit=5`);
+            const data = await response.json();
+
+            const results = document.getElementById('giphy-results');
+            results.innerHTML = ''; // clear previous results
+
+            data.results.forEach(gif => {
+                const img = document.createElement('img');
+                img.src = gif.media[0].gif.url;
+                img.alt = gif.title;
+                img.style.width = "100px"; // Optional: Größe der GIFs anpassen
+                img.addEventListener('click', () => {
+                    const gifUrl = img.src;
+                    const commentField = document.querySelector('#comment');
+                    commentField.value += `![GIF](${gifUrl})`; // GIF im Kommentar hinzufügen
+                    document.getElementById('giphy-search').style.display = 'none';
+                });
+
+                results.appendChild(img);
+            });
+        });
+
+        // Kommentar absenden
+        document.getElementById('comment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const commentText = document.getElementById('comment').value;
+
+            // Kommentar in der Firestore-Datenbank speichern
+            await db.collection("comments").add({
+                name: name,
+                comment: commentText,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            });
+
+            // Kommentar im UI anzeigen (mit GIF als Bild, falls vorhanden)
+            displayComments();
+
+            // Formular zurücksetzen
+            document.getElementById('comment-form').reset();
+        });
+
+        // Kommentare aus Firestore abrufen und anzeigen
+        async function displayComments() {
+            const commentsList = document.getElementById('comments-list');
+            commentsList.innerHTML = ''; // Clear previous comments
+
+            const snapshot = await db.collection("comments").orderBy("timestamp", "desc").get();
+
+            snapshot.forEach(doc => {
+                const commentData = doc.data();
+                const commentDiv = document.createElement('div');
+                commentDiv.classList.add('comment');
+
+                // Wenn der Kommentar ein Bild/GIF enthält, wird es als Bild dargestellt
+                const commentText = commentData.comment.replace(/!\[GIF\]\((.*?)\)/g, '<img src="$1" alt="GIF">');
+
+                commentDiv.innerHTML = `
+                    <p><strong>${commentData.name}</strong></p>
+                    <p>${commentText}</p>
+                `;
+
+                commentsList.appendChild(commentDiv);
+            });
+        }
+
+        // Initiale Anzeige der Kommentare
+        displayComments();
+    </script>
 </body>
 </html>
