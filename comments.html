@@ -181,13 +181,12 @@
             commentsList.prepend(commentDiv);
         }
 
-       // Echtzeit-Kommentare bei Seitenaufruf aktivieren
-function displayComments() {
+      function displayComments() {
     db.collection("comments")
-        .orderBy("timestamp", "desc")
-        .onSnapshot((snapshot) => {
+        .orderBy("timestamp", "desc")  // Dies sorgt für eine absteigende Sortierung nach Zeitstempel
+        .onSnapshot((snapshot) => {  // Echtzeit-Updates
             const commentsList = document.getElementById('comments-list');
-            commentsList.innerHTML = ''; // Aktuelle Liste löschen
+            commentsList.innerHTML = ''; // Vorhandene Kommentare löschen
 
             snapshot.forEach((doc) => {
                 const comment = doc.data();
@@ -196,7 +195,7 @@ function displayComments() {
         });
 }
 
-// Kommentare anzeigen
+// Echtzeit-Kommentare bei Seitenaufruf aktivieren
 displayComments();
     </script>
 </body>
