@@ -198,19 +198,20 @@
 // Aufruf der Funktion, um Echtzeit-Kommentare zu erhalten
 displayComments();
     </script>
-    document.addEventListener('DOMContentLoaded', () => {
-    // Hamburger Menü
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-    
-    // Überprüfen, ob die Elemente existieren, bevor der Event-Listener hinzugefügt wird
-    if (menuToggle && sidebar) {
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('active');  // Sidebar ein-/ausblenden
-            menuToggle.classList.toggle('active');  // Menü-Icon animieren
+  <script>
+        // Hamburger Menü
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            
+            // Überprüfen, ob die Elemente existieren, bevor der Event-Listener hinzugefügt wird
+            if (menuToggle && sidebar) {
+                menuToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');  // Sidebar ein-/ausblenden
+                    menuToggle.classList.toggle('active');  // Menü-Icon animieren
+                });
+            }
         });
-    }
-});
-
+    </script>
 </body>
 </html>
