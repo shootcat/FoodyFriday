@@ -4,24 +4,13 @@
     <meta charset="UTF-8">
     <title>Kommentare - Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Favicon Links -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
-    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="android-chrome-192x192.png" sizes="192x192" type="image/png">
-    <link rel="icon" href="android-chrome-512x512.png" sizes="512x512" type="image/png">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png">
-    
-    <!-- Webmanifest für PWA -->
-    <link rel="manifest" href="site.webmanifest">
-    
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Firebase SDKs Version 8.6.8 einbinden (für statische HTML-Seiten geeignet) -->
+    <!-- Firebase SDKs Version 8.6.8 -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
 
-    <!-- Firebase-Konfiguration und Initialisierung -->
+    <!-- Firebase-Konfiguration -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCnJByYr-O4k174w1IXRz1QcrS1b-TVPow",
@@ -73,7 +62,7 @@
                 <input type="text" id="name" required>
                 <label for="comment">Kommentar:</label>
                 <textarea id="comment" required></textarea>
-                <div id="emoji-picker"></div> <!-- Emoji-Tastatur -->
+                <div id="emoji-picker"></div>
                 <button type="submit">Abschicken</button>
             </form>
             
@@ -93,7 +82,7 @@
     <script src="script.js"></script>
 
     <script>
-        // Emoji Picker anzeigen, wenn der Kommentarbereich fokussiert ist
+        // Emoji Picker anzeigen
         document.querySelector('#comment').addEventListener('focus', function() {
             const emojiPicker = document.createElement('emoji-picker');
             document.getElementById('emoji-picker').appendChild(emojiPicker);
@@ -105,37 +94,35 @@
 
         const tenorApiUrl = "https://api.tenor.com/v1/search?key=LIVDSRZULELA&q=";
 
-        // GIF hinzufügen Button
         document.getElementById('giphy-btn').addEventListener('click', () => {
             document.getElementById('giphy-search').style.display = 'block';
         });
 
-        // GIF-Suche und Ergebnisse anzeigen
         document.getElementById('giphy-query').addEventListener('input', async (event) => {
             const query = event.target.value;
-            
-            if (query.length > 2) {  // Nur GIFs suchen, wenn der Benutzer mehr als 2 Zeichen eingibt
+
+            if (query.length > 2) {
                 try {
+                    console.log("Sende Anfrage an Tenor API mit Query:", query);
                     const response = await fetch(`${tenorApiUrl}${query}&limit=5}`);
                     const data = await response.json();
-                    
-                    // Ergebnisse rendern
+                    console.log("Antwort von API erhalten:", data);
+
                     const results = document.getElementById('giphy-results');
-                    results.innerHTML = ''; // Clear previous results
+                    results.innerHTML = ''; // Vorherige Ergebnisse löschen
 
                     if (data.results && data.results.length > 0) {
                         data.results.forEach(gif => {
                             const img = document.createElement('img');
                             img.src = gif.media[0].gif.url;
                             img.alt = gif.title;
-                            img.style.width = "100px"; // Optional: Größe der GIFs anpassen
-                            img.style.cursor = "pointer"; // Zeigt an, dass es klickbar ist
-
+                            img.style.width = "100px";
+                            img.style.cursor = "pointer";
                             img.addEventListener('click', () => {
                                 const gifUrl = img.src;
                                 const commentField = document.querySelector('#comment');
-                                commentField.value += `![GIF](${gifUrl})`; // GIF im Kommentar hinzufügen
-                                document.getElementById('giphy-search').style.display = 'none'; // Schließt die Suche
+                                commentField.value += `![GIF](${gifUrl})`;
+                                document.getElementById('giphy-search').style.display = 'none';
                             });
 
                             results.appendChild(img);
@@ -156,24 +143,19 @@
             const name = document.getElementById('name').value;
             const commentText = document.getElementById('comment').value;
 
-            // Kommentar in der Firestore-Datenbank speichern
             await db.collection("comments").add({
                 name: name,
                 comment: commentText,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             });
 
-            // Kommentar im UI anzeigen (mit GIF als Bild, falls vorhanden)
             displayComments();
-
-            // Formular zurücksetzen
             document.getElementById('comment-form').reset();
         });
 
-        // Kommentare aus Firestore abrufen und anzeigen
         async function displayComments() {
             const commentsList = document.getElementById('comments-list');
-            commentsList.innerHTML = ''; // Clear previous comments
+            commentsList.innerHTML = '';
 
             const snapshot = await db.collection("comments").orderBy("timestamp", "desc").get();
 
@@ -181,8 +163,6 @@
                 const commentData = doc.data();
                 const commentDiv = document.createElement('div');
                 commentDiv.classList.add('comment');
-
-                // Wenn der Kommentar ein Bild/GIF enthält, wird es als Bild dargestellt
                 const commentText = convertMarkdownToHTML(commentData.comment);
 
                 commentDiv.innerHTML = `
@@ -194,12 +174,10 @@
             });
         }
 
-        // Markdown (![GIF](URL)) zu HTML <img> konvertieren
         function convertMarkdownToHTML(text) {
             return text.replace(/!\[GIF\]\((.*?)\)/g, '<img src="$1" alt="GIF" style="max-width: 100%; height: auto;">');
         }
 
-        // Initiale Anzeige der Kommentare
         displayComments();
     </script>
 </body>
