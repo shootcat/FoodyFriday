@@ -166,7 +166,7 @@
                 commentDiv.classList.add('comment');
 
                 // Wenn der Kommentar ein Bild/GIF enthält, wird es als Bild dargestellt
-                const commentText = commentData.comment.replace(/!\[GIF\]\((.*?)\)/g, '<img src="$1" alt="GIF">');
+                const commentText = convertMarkdownToHTML(commentData.comment);
 
                 commentDiv.innerHTML = `
                     <p><strong>${commentData.name}</strong></p>
@@ -175,6 +175,11 @@
 
                 commentsList.appendChild(commentDiv);
             });
+        }
+
+        // Markdown (![GIF](URL)) zu HTML <img> konvertieren
+        function convertMarkdownToHTML(text) {
+            return text.replace(/!\[GIF\]\((.*?)\)/g, '<img src="$1" alt="GIF" style="max-width: 100%; height: auto;">');
         }
 
         // Initiale Anzeige der Kommentare
