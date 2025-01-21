@@ -121,7 +121,7 @@
 
         document.getElementById('giphy-query').addEventListener('input', async (event) => {
             const query = event.target.value;
-            const response = await fetch(`${tenorApiUrl}${query}&limit=5`);
+            const response = await fetch(`${tenorApiUrl}${query}&limit=20`);
             const data = await response.json();
 
             const results = document.getElementById('giphy-results');
