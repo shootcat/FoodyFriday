@@ -130,8 +130,8 @@
             data.results.forEach(gif => {
                 const img = document.createElement('img');
                 img.src = gif.media[0].gif.url;
-                img.style.maxWidth = "50px"; // Größe der GIFs anpassen
-                img.style.maxHeight = "50px"; // Höhe festlegen
+                img.style.maxWidth = "100px"; // Größe der GIFs anpassen
+                img.style.maxHeight = "100px"; // Höhe festlegen
                 img.alt = gif.title;
                 img.addEventListener('click', () => {
                     const commentField = document.querySelector('#comment');
@@ -173,7 +173,8 @@
             commentsList.prepend(commentDiv);
         }
 
-       function displayComments() {
+       // Echtzeit-Kommentare bei Seitenaufruf aktivieren
+function displayComments() {
     db.collection("comments")
         .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
@@ -187,22 +188,8 @@
         });
 }
 
-// Echtzeit-Kommentare bei Seitenaufruf aktivieren
+// Kommentare anzeigen
 displayComments();
-
-
-        async function displayComments() {
-            const commentsList = document.getElementById('comments-list');
-            commentsList.innerHTML = '';
-
-            const snapshot = await db.collection("comments").orderBy("timestamp", "desc").get();
-            snapshot.forEach(doc => {
-                const comment = doc.data();
-                addCommentToUI(comment.name, comment.comment);
-            });
-        }
-
-        displayComments(); // Beim Laden Kommentare abrufen
     </script>
 </body>
 </html>
