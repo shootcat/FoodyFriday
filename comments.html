@@ -171,8 +171,23 @@
             commentsList.prepend(commentDiv);
         }
 
-        // Kommentare regelmäßig aktualisieren
-        setInterval(() => displayComments(), 5000);
+       function displayComments() {
+    db.collection("comments")
+        .orderBy("timestamp", "desc")
+        .onSnapshot((snapshot) => {
+            const commentsList = document.getElementById('comments-list');
+            commentsList.innerHTML = ''; // Aktuelle Liste löschen
+
+            snapshot.forEach((doc) => {
+                const comment = doc.data();
+                addCommentToUI(comment.name, comment.comment);
+            });
+        });
+}
+
+// Echtzeit-Kommentare bei Seitenaufruf aktivieren
+displayComments();
+
 
         async function displayComments() {
             const commentsList = document.getElementById('comments-list');
