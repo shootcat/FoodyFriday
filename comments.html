@@ -11,12 +11,13 @@
     <link rel="icon" href="android-chrome-192x192.png" sizes="192x192" type="image/png">
     <link rel="icon" href="android-chrome-512x512.png" sizes="512x512" type="image/png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png">
+
     <!-- Webmanifest für PWA -->
     <link rel="manifest" href="site.webmanifest">
     
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Firebase SDKs Version 8.6.8 einbinden -->
+    <!-- Firebase SDKs Version 8.6.8 einbinden (für statische HTML-Seiten geeignet) -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
 
@@ -34,36 +35,61 @@
         const db = firebase.firestore();
     </script>
 
-    
     <!-- Emoji Picker -->
     <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.4.0/dist/emoji-picker-element.js"></script>
 </head>
 <body>
-    <!-- Kommentarbereich -->
-    <div class="content">
-        <h2>Hinterlasse einen Kommentar</h2>
-        <form id="comment-form">
-            <label for="name">Name:</label>
-            <input type="text" id="name" required>
-            <label for="comment">Kommentar:</label>
-            <textarea id="comment" required></textarea>
-            <div id="emoji-picker"></div> <!-- Emoji-Tastatur -->
-            <button type="submit">Abschicken</button>
-        </form>
-        
-        <button id="giphy-btn">GIF hinzufügen</button>
-        <div id="giphy-search" style="display:none;">
-            <input type="text" id="giphy-query" placeholder="Suche nach GIFs...">
-            <div id="giphy-results"></div>
-        </div>
-        
-        <div id="comments-section">
-            <h3>Letzte Kommentare</h3>
-            <div id="comments-list"></div>
-        </div>
+    <div id="menu-toggle" class="menu-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+    
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="daily-news.html">Daily News</a></li>
+                <li><a href="essensliste.html">Essensliste</a></li>
+                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
+                <li><a href="undefiniert.html">FUN</a></li>
+                <li><a href="comments.html">Kommentare</a></li>
+            </ul>
+        </nav>
     </div>
 
-    <!-- Firebase Script -->
+    <header>
+        <div class="banner-content">
+            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
+            <h1 class="banner-title">FOODY FRIDAY NEWSBLOG</h1>
+        </div>
+    </header>
+    
+    <main>
+        <div class="content">
+            <h2>Hinterlasse einen Kommentar</h2>
+            <form id="comment-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" required>
+                <label for="comment">Kommentar:</label>
+                <textarea id="comment" required></textarea>
+                <div id="emoji-picker"></div>
+                <button type="submit">Abschicken</button>
+            </form>
+            
+            <button id="giphy-btn">GIF hinzufügen</button>
+            <div id="giphy-search" style="display:none;">
+                <input type="text" id="giphy-query" placeholder="Suche nach GIFs...">
+                <div id="giphy-results"></div>
+            </div>
+            
+            <div id="comments-section">
+                <h3>Letzte Kommentare</h3>
+                <div id="comments-list"></div>
+            </div>
+        </div>
+    </main>
+    
     <script src="script.js"></script>
 
     <script>
