@@ -152,34 +152,37 @@
         });
 
         // Kommentar absenden
-        document.getElementById('comment-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
+document.getElementById('comment-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-            const name = document.getElementById('name').value;
-            const commentText = document.getElementById('comment').value;
+    const name = document.getElementById('name').value;
+    let commentText = document.getElementById('comment').value;
 
-            await db.collection("comments").add({
-                name: name,
-                comment: commentText,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            });
+    // Umwandlung der Zeilenumbrüche in <br> Tags
+    commentText = commentText.replace(/\n/g, "<br>");
 
-            // Neues Kommentar sofort hinzufügen
-            addCommentToUI(name, commentText);
-            document.getElementById('comment-form').reset();
-        });
+    await db.collection("comments").add({
+        name: name,
+        comment: commentText,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
 
-        // Kommentar zur UI hinzufügen
-        function addCommentToUI(name, commentText) {
-            const commentsList = document.getElementById('comments-list');
-            const commentDiv = document.createElement('div');
-            commentDiv.classList.add('comment');
-            commentDiv.innerHTML = `
-                <p><strong>${name}</strong></p>
-                <p>${commentText}</p>
-            `;
-            commentsList.prepend(commentDiv);
-        }
+    // Neues Kommentar sofort hinzufügen
+    addCommentToUI(name, commentText);
+    document.getElementById('comment-form').reset();
+});
+
+       // Kommentar zur UI hinzufügen
+function addCommentToUI(name, commentText) {
+    const commentsList = document.getElementById('comments-list');
+    const commentDiv = document.createElement('div');
+    commentDiv.classList.add('comment');
+    commentDiv.innerHTML = `
+        <p><strong>${name}</strong></p>
+        <p>${commentText}</p> <!-- Hier wird der Kommentar inkl. <br> angezeigt -->
+    `;
+    commentsList.prepend(commentDiv);
+}
 
         function displayComments() {
     db.collection("comments")
