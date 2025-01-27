@@ -54,56 +54,18 @@
         .editor button:hover {
             background-color: #0056b3;
         }
-
-        .content img {
-            display: block;
-            max-width: 100%;
-            margin: 20px auto;
-        }
     </style>
 </head>
 <body>
-    <!-- Hamburger Menü -->
-    <div id="menu-toggle" class="menu-icon">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
-
-    <!-- Seitenleiste -->
-    <div class="sidebar" id="sidebar">
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="daily-news.html">Daily News</a></li>
-                <li><a href="essensliste.html">Essensliste</a></li>
-                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
-                <li><a href="undefiniert.html">FUN</a></li>
-                <li><a href="comments.html">Kommentare</a></li>
-                <li><a href="editor.html">Editor</a></li>
-            </ul>
-        </nav>
-    </div>
-
-    <!-- Banner mit Logo und Titel -->
     <header>
         <div class="banner-content">
             <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
-            <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
+            <span class="banner-title">FOODY FRIDAY NEWSBLOG - Editor</span>
         </div>
     </header>
 
-    <!-- Hauptinhalt -->
+    <!-- Editor-Bereich -->
     <main>
-        <!-- Anzeige des Inhalts -->
-        <div class="content" id="news-content">
-            <!-- Platzhalter für geladenen Text -->
-        </div>
-        <div class="content">
-            <img id="preview-image" src="https://www.grillwurst-shop.de/media/89/b9/98/1596614943/AdobeStock_77150113_passend.jpeg?ts=1596614945" alt="Bild Vorschau">
-        </div>
-
-        <!-- Editor-Bereich -->
         <div class="editor">
             <h2>Editor</h2>
             <textarea id="text-editor" placeholder="Hier den Text bearbeiten..."></textarea>
@@ -117,24 +79,20 @@
         fetch('news.txt')
             .then(response => response.text())
             .then(data => {
-                const newsContainer = document.getElementById('news-content');
                 const textEditor = document.getElementById('text-editor');
-
-                newsContainer.innerHTML = data.replace(/\n/g, '<br>');
                 textEditor.value = data;
             })
             .catch(error => console.error('Fehler beim Laden der News-Datei:', error));
 
         // Bildvorschau aktualisieren
         const imageUpload = document.getElementById('image-upload');
-        const previewImage = document.getElementById('preview-image');
 
         imageUpload.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    previewImage.src = e.target.result;
+                    console.log('Bild wurde ausgewählt:', e.target.result);
                 };
                 reader.readAsDataURL(file);
             }
@@ -144,11 +102,9 @@
         const saveButton = document.getElementById('save-button');
         saveButton.addEventListener('click', () => {
             const updatedText = document.getElementById('text-editor').value;
-            const updatedImage = previewImage.src;
 
             // Senden der Änderungen an den Server (falls erforderlich, hier simuliert)
             console.log('Gespeicherter Text:', updatedText);
-            console.log('Gespeichertes Bild:', updatedImage);
 
             alert('Änderungen wurden gespeichert!');
         });
