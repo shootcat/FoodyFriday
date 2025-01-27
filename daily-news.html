@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Daily News - Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <!-- Favicon Links -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
@@ -15,7 +15,7 @@
 
     <!-- Webmanifest für PWA -->
     <link rel="manifest" href="site.webmanifest">
-    
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -25,7 +25,7 @@
         <div class="bar"></div>
         <div class="bar"></div>
     </div>
-    
+
     <!-- Seitenleiste -->
     <div class="sidebar" id="sidebar">
         <nav>
@@ -39,7 +39,7 @@
             </ul>
         </nav>
     </div>
-    
+
     <!-- Banner mit Logo und Titel -->
     <header>
         <div class="banner-content">
@@ -51,46 +51,34 @@
     <!-- Hauptinhalt -->
     <main>
         <div class="content" id="news-content">
-            <!-- Der Inhalt von news.txt wird hier eingefügt -->
+            <!-- Der Inhalt von dnews.json wird hier geladen -->
         </div>
-        <!-- Neues Bild unter dem Text eingefügt -->
         <div class="content">
-            <img src="https://www.grillwurst-shop.de/media/89/b9/98/1596614943/AdobeStock_77150113_passend.jpeg?ts=1596614945" alt="Hot Dogs IKEA" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+            <img id="news-image" src="" alt="News Bild" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
         </div>
     </main>
 
-    <!-- Einbindung von script.js für Hamburger-Menü und andere Funktionen -->
     <script>
-        // Funktion zum Laden der Textdatei und Einfügen in die HTML-Seite
-        fetch('news.txt')
-            .then(response => response.text())
+        // Funktion zum Laden von dnews.json und Aktualisieren der Seite
+        fetch('dnews.json')
+            .then(response => response.json())
             .then(data => {
                 const newsContainer = document.getElementById('news-content');
+                const newsImage = document.getElementById('news-image');
 
-                // HTML-Sonderzeichen escapen, um Sicherheit zu gewährleisten
-                function escapeHTML(str) {
-                    return str.replace(/&/g, "&amp;")
-                              .replace(/</g, "&lt;")
-                              .replace(/>/g, "&gt;");
+                // Aktualisiere den Textinhalt
+                if (data.text) {
+                    newsContainer.innerHTML = data.text.replace(/\n/g, '<br>');
                 }
 
-                // Den Text escapen
-                let formattedData = escapeHTML(data);
-
-                // Ersetze Zeilen, die mit # beginnen und enden, durch größere Schrift
-                formattedData = formattedData.replace(/^#(.*?)#$/gm, '<span style="font-size: larger;">$1</span>');
-
-                // Ersetze *Text* durch <strong>Text</strong>
-                formattedData = formattedData.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
-
-                // Ersetze Zeilenumbrüche durch <br> Tags
-                formattedData = formattedData.replace(/\r?\n/g, '<br>');
-
-                // Füge den formatierten Text in den Container ein
-                newsContainer.innerHTML = formattedData;
+                // Aktualisiere das Bild
+                if (data.image) {
+                    newsImage.src = data.image;
+                } else {
+                    newsImage.style.display = 'none';
+                }
             })
-            .catch(error => console.error('Fehler beim Laden der News-Datei:', error));
+            .catch(error => console.error('Fehler beim Laden der News-Daten:', error));
     </script>
-    <script src="script.js"></script>
 </body>
-</html> 
+</html>
