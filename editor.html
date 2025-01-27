@@ -75,39 +75,53 @@
     </main>
 
     <script>
-        // Funktion zum Laden der News aus der Datei
-        fetch('news.txt')
-            .then(response => response.text())
+        // Initialer Text laden (falls nötig)
+        fetch('dnews.json')
+            .then(response => response.json())
             .then(data => {
                 const textEditor = document.getElementById('text-editor');
-                textEditor.value = data;
-            })
-            .catch(error => console.error('Fehler beim Laden der News-Datei:', error));
+                const imageUpload = document.getElementById('image-upload');
 
-        // Bildvorschau aktualisieren
-        const imageUpload = document.getElementById('image-upload');
+                if (data.text) textEditor.value = data.text;
+                if (data.image) {
+                    const previewImage = document.createElement('img');
+                    previewImage.src = data.image;
+                    previewImage.style.maxWidth = '100%';
+                    previewImage.style.marginTop = '10px';
+                    document.querySelector('.editor').appendChild(previewImage);
+                }
+            });
 
-        imageUpload.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    console.log('Bild wurde ausgewählt:', e.target.result);
+        // Speichern der Inhalte
+        document.getElementById('save-button').addEventListener('click', () => {
+            const updatedText = document.getElementById('text-editor').value;
+            const imageUpload = document.getElementById('image-upload');
+
+            const reader = new FileReader();
+            const saveData = { text: updatedText };
+
+            if (imageUpload.files[0]) {
+                reader.onload = function (event) {
+                    saveData.image = event.target.result;
+                    saveJSON(saveData);
                 };
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(imageUpload.files[0]);
+            } else {
+                saveJSON(saveData);
             }
         });
 
-        // Speichern des Inhalts
-        const saveButton = document.getElementById('save-button');
-        saveButton.addEventListener('click', () => {
-            const updatedText = document.getElementById('text-editor').value;
-
-            // Senden der Änderungen an den Server (falls erforderlich, hier simuliert)
-            console.log('Gespeicherter Text:', updatedText);
-
-            alert('Änderungen wurden gespeichert!');
-        });
+        function saveJSON(data) {
+            fetch('dnews.json', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(() => alert('Änderungen wurden gespeichert!'))
+                .catch(err => console.error('Fehler beim Speichern:', err));
+        }
     </script>
 </body>
 </html>
