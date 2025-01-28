@@ -17,6 +17,38 @@
     <link rel="manifest" href="site.webmanifest">
 
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .menu-icon {
+            cursor: pointer;
+        }
+
+        .sidebar {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+        }
+
+        .sidebar.active {
+            display: block;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .sidebar a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <!-- Hamburger Menü -->
@@ -51,7 +83,7 @@
     <!-- Hauptinhalt -->
     <main>
         <div class="content" id="news-content">
-            <!-- Der Inhalt von dnews.json wird hier geladen -->
+            <!-- Der Inhalt wird hier dynamisch geladen -->
         </div>
         <div class="content">
             <img id="news-image" src="" alt="News Bild" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
@@ -59,26 +91,28 @@
     </main>
 
     <script>
-        // Funktion zum Laden von dnews.json und Aktualisieren der Seite
-        fetch('dnews.json')
-            .then(response => response.json())
-            .then(data => {
-                const newsContainer = document.getElementById('news-content');
-                const newsImage = document.getElementById('news-image');
+        // Hamburger-Menü Logik
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        });
 
-                // Aktualisiere den Textinhalt
-                if (data.text) {
-                    newsContainer.innerHTML = data.text.replace(/\n/g, '<br>');
-                }
+        // Inhalte aus LocalStorage laden
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedData = JSON.parse(localStorage.getItem('dnewsData')) || {};
+            const newsContainer = document.getElementById('news-content');
+            const newsImage = document.getElementById('news-image');
 
-                // Aktualisiere das Bild
-                if (data.image) {
-                    newsImage.src = data.image;
-                } else {
-                    newsImage.style.display = 'none';
-                }
-            })
-            .catch(error => console.error('Fehler beim Laden der News-Daten:', error));
+            if (savedData.text) {
+                newsContainer.innerHTML = savedData.text.replace(/\n/g, '<br>');
+            }
+
+            if (savedData.image) {
+                newsImage.src = savedData.image;
+            } else {
+                newsImage.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
