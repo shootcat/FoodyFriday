@@ -65,9 +65,7 @@
             sidebar.classList.toggle('active');
         });
 
-          // Ersetze *Text* durch <strong>Text</strong>
-                formattedData = formattedData.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
-        
+            
         // Inhalte aus LocalStorage laden
         document.addEventListener('DOMContentLoaded', () => {
             const savedData = JSON.parse(localStorage.getItem('dnewsData')) || {};
