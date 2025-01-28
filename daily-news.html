@@ -49,7 +49,7 @@
     </header>
 
     <!-- Hauptinhalt -->
-   <main>
+  <main>
         <div class="content" id="news-content">
             <!-- Der Inhalt wird hier dynamisch geladen -->
         </div>
@@ -58,22 +58,14 @@
         </div>
     </main>
 
-    <!-- Einbindung von script.js für Hamburger-Menü und andere Funktionen -->
     <script>
-        // Funktion zum Laden der Textdatei und Einfügen in die HTML-Seite
-        fetch('news.txt')
-            .then(response => response.text())
-            .then(data => {
-                const newsContainer = document.getElementById('news-content');
+        // Hamburger-Menü Logik
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        });
 
-                // HTML-Sonderzeichen escapen, um Sicherheit zu gewährleisten
-                function escapeHTML(str) {
-                    return str.replace(/&/g, "&amp;")
-                              .replace(/</g, "&lt;")
-                              .replace(/>/g, "&gt;");
-                }
-
-                // Inhalte aus LocalStorage laden
+        // Inhalte aus LocalStorage laden
         document.addEventListener('DOMContentLoaded', () => {
             const savedData = JSON.parse(localStorage.getItem('dnewsData')) || {};
             const newsContainer = document.getElementById('news-content');
@@ -89,7 +81,7 @@
                 newsImage.style.display = 'none';
             }
         });
-    </script>
-    <script src="script.js"></script>
+         </script>
+    <script> src="script.js"></script>
 </body>
 </html> 
