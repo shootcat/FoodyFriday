@@ -49,46 +49,48 @@
     </header>
 
     <!-- Hauptinhalt -->
-  <main>
+    <main>
         <div class="content" id="news-content">
-            <!-- Der Inhalt wird hier dynamisch geladen -->
+            <!-- Der Inhalt von news.txt wird hier eingefügt -->
         </div>
+        <!-- Neues Bild unter dem Text eingefügt -->
         <div class="content">
-            <img id="news-image" src="" alt="News Bild" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+            <img src="https://www.grillwurst-shop.de/media/89/b9/98/1596614943/AdobeStock_77150113_passend.jpeg?ts=1596614945" alt="Hot Dogs IKEA" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
         </div>
     </main>
 
+    <!-- Einbindung von script.js für Hamburger-Menü und andere Funktionen -->
     <script>
-        // Hamburger-Menü Logik
-        document.getElementById('menu-toggle').addEventListener('click', () => {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('active');
-        });
+        // Funktion zum Laden der Textdatei und Einfügen in die HTML-Seite
+        fetch('news.txt')
+            .then(response => response.text())
+            .then(data => {
+                const newsContainer = document.getElementById('news-content');
 
-        // Inhalte aus LocalStorage laden
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedData = JSON.parse(localStorage.getItem('dnewsData')) || {};
-            const newsContainer = document.getElementById('news-content');
-            const newsImage = document.getElementById('news-image');
+                // HTML-Sonderzeichen escapen, um Sicherheit zu gewährleisten
+                function escapeHTML(str) {
+                    return str.replace(/&/g, "&amp;")
+                              .replace(/</g, "&lt;")
+                              .replace(/>/g, "&gt;");
+                }
 
-            if (savedData.text) {
-                // Text ersetzen, um *Text* in <strong>Text</strong> zu verwandeln
-                let formattedText = savedData.text;
+                // Den Text escapen
+                let formattedData = escapeHTML(data);
 
-                // Regulärer Ausdruck, um *Text* zu finden und in <strong>Text</strong> zu ersetzen
-                formattedText = formattedText.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+                // Ersetze Zeilen, die mit # beginnen und enden, durch größere Schrift
+                formattedData = formattedData.replace(/^#(.*?)#$/gm, '<span style="font-size: larger;">$1</span>');
 
-                // Den formatierten Text in den Container einfügen
-                newsContainer.innerHTML = formattedText.replace(/\n/g, '<br>');
-            }
+                // Ersetze *Text* durch <strong>Text</strong>
+                formattedData = formattedData.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
 
-            if (savedData.image) {
-                newsImage.src = savedData.image;
-            } else {
-                newsImage.style.display = 'none';
-            }
-        });
+                // Ersetze Zeilenumbrüche durch <br> Tags
+                formattedData = formattedData.replace(/\r?\n/g, '<br>');
+
+                // Füge den formatierten Text in den Container ein
+                newsContainer.innerHTML = formattedData;
+            })
+            .catch(error => console.error('Fehler beim Laden der News-Datei:', error));
     </script>
     <script src="script.js"></script>
 </body>
-</html>
+</html> 
