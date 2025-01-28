@@ -75,52 +75,44 @@
     </main>
 
     <script>
-        // Initialer Text laden (falls nötig)
-        fetch('dnews.json')
-            .then(response => response.json())
-            .then(data => {
-                const textEditor = document.getElementById('text-editor');
-                const imageUpload = document.getElementById('image-upload');
+        // Initialer Text und Bild aus LocalStorage laden (Ersatz für Server)
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedData = JSON.parse(localStorage.getItem('dnewsData')) || {};
+            const textEditor = document.getElementById('text-editor');
+            const imageUpload = document.getElementById('image-upload');
 
-                if (data.text) textEditor.value = data.text;
-                if (data.image) {
-                    const previewImage = document.createElement('img');
-                    previewImage.src = data.image;
-                    previewImage.style.maxWidth = '100%';
-                    previewImage.style.marginTop = '10px';
-                    document.querySelector('.editor').appendChild(previewImage);
-                }
-            });
+            if (savedData.text) textEditor.value = savedData.text;
+            if (savedData.image) {
+                const previewImage = document.createElement('img');
+                previewImage.src = savedData.image;
+                previewImage.style.maxWidth = '100%';
+                previewImage.style.marginTop = '10px';
+                document.querySelector('.editor').appendChild(previewImage);
+            }
+        });
 
-        // Speichern der Inhalte
+        // Speichern der Inhalte in LocalStorage
         document.getElementById('save-button').addEventListener('click', () => {
             const updatedText = document.getElementById('text-editor').value;
             const imageUpload = document.getElementById('image-upload');
-
             const reader = new FileReader();
+
             const saveData = { text: updatedText };
 
             if (imageUpload.files[0]) {
                 reader.onload = function (event) {
                     saveData.image = event.target.result;
-                    saveJSON(saveData);
+                    saveToLocalStorage(saveData);
                 };
                 reader.readAsDataURL(imageUpload.files[0]);
             } else {
-                saveJSON(saveData);
+                saveToLocalStorage(saveData);
             }
         });
 
-        function saveJSON(data) {
-            fetch('dnews.json', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                .then(() => alert('Änderungen wurden gespeichert!'))
-                .catch(err => console.error('Fehler beim Speichern:', err));
+        function saveToLocalStorage(data) {
+            localStorage.setItem('dnewsData', JSON.stringify(data));
+            alert('Änderungen wurden gespeichert!');
         }
     </script>
 </body>
