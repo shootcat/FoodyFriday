@@ -20,6 +20,17 @@
     <style>
         .menu-icon {
             cursor: pointer;
+            width: 30px;
+            height: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-icon .bar {
+            width: 100%;
+            height: 5px;
+            background-color: black;
         }
 
         .sidebar {
@@ -47,6 +58,20 @@
 
         .sidebar a:hover {
             text-decoration: underline;
+        }
+
+        /* Optional: Banner-Styling */
+        .banner-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .banner-title {
+            font-size: 2em;
+            margin-left: 15px;
+            color: #333;
         }
     </style>
 </head>
@@ -97,7 +122,37 @@
             sidebar.classList.toggle('active');
         });
 
-        // Inhalte aus LocalStorage laden
+        // Funktion zum Laden der Textdatei und Einfügen in die HTML-Seite
+        fetch('news.txt')
+            .then(response => response.text())
+            .then(data => {
+                const newsContainer = document.getElementById('news-content');
+
+                // HTML-Sonderzeichen escapen, um Sicherheit zu gewährleisten
+                function escapeHTML(str) {
+                    return str.replace(/&/g, "&amp;")
+                              .replace(/</g, "&lt;")
+                              .replace(/>/g, "&gt;");
+                }
+
+                // Den Text escapen
+                let formattedData = escapeHTML(data);
+
+                // Ersetze Zeilen, die mit # beginnen und enden, durch größere Schrift
+                formattedData = formattedData.replace(/^#(.*?)#$/gm, '<span style="font-size: larger;">$1</span>');
+
+                // Ersetze *Text* durch <strong>Text</strong>
+                formattedData = formattedData.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+
+                // Ersetze Zeilenumbrüche durch <br> Tags
+                formattedData = formattedData.replace(/\r?\n/g, '<br>');
+
+                // Füge den formatierten Text in den Container ein
+                newsContainer.innerHTML = formattedData;
+            })
+            .catch(error => console.error('Fehler beim Laden der News-Datei:', error));
+
+        // Inhalte aus LocalStorage laden (optional, je nach Bedarf)
         document.addEventListener('DOMContentLoaded', () => {
             const savedData = JSON.parse(localStorage.getItem('dnewsData')) || {};
             const newsContainer = document.getElementById('news-content');
