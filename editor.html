@@ -1,59 +1,110 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <title>Foody Friday News Editor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #ff6600;
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        main {
+            display: flex;
+            gap: 20px;
+            width: 80%;
+            max-width: 1000px;
+            margin-top: 20px;
+        }
+        .editor-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: #ff6600;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #e65c00;
+        }
+        .preview-container {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .preview-container img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
-    <!-- Hamburger Menü -->
-    <div id="menu-toggle" class="menu-icon">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
-    
-    <!-- Seitenleiste -->
-    <div class="sidebar" id="sidebar">
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="daily-news.html">Daily News</a></li>
-                <li><a href="editor.html">Editor</a></li>
-            </ul>
-        </nav>
-    </div>
-    
-    <header>
-        <div class="banner-content">
-            <span class="banner-title">FOODY FRIDAY NEWS EDITOR</span>
-        </div>
-    </header>
-    
+    <header>Foody Friday News Editor</header>
     <main>
-        <textarea id="news-text" placeholder="Schreibe deine News hier..."></textarea>
-        <input type="text" id="image-url" placeholder="Bild-URL eingeben">
-        <input type="file" id="image-upload" accept="image/*">
-        <button id="save-button">Speichern</button>
-        
-        <h2>Vorschau</h2>
-        <div id="preview"></div>
+        <div class="editor-container">
+            <textarea id="news-text" placeholder="Schreibe deine News hier..."></textarea>
+            <input type="text" id="image-url" placeholder="Bild-URL eingeben">
+            <input type="file" id="image-upload" accept="image/*">
+            <button id="save-button">Speichern</button>
+        </div>
+        <div class="preview-container">
+            <h3>Vorschau</h3>
+            <div id="preview"></div>
+        </div>
     </main>
-    
     <script>
         document.getElementById('news-text').addEventListener('input', updatePreview);
         document.getElementById('image-url').addEventListener('input', updatePreview);
         document.getElementById('image-upload').addEventListener('change', handleImageUpload);
         document.getElementById('save-button').addEventListener('click', saveToGitHub);
-        
+
         function updatePreview() {
             let text = document.getElementById('news-text').value;
             let imageUrl = document.getElementById('image-url').value;
             document.getElementById('preview').innerHTML = `<p>${text.replace(/\n/g, '<br>')}</p>`;
             if (imageUrl) document.getElementById('preview').innerHTML += `<img src="${imageUrl}" style="width:100%; max-width:600px;">`;
         }
-        
+
         function handleImageUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -65,7 +116,7 @@
                 reader.readAsDataURL(file);
             }
         }
-        
+
         async function saveToGitHub() {
             const text = document.getElementById('news-text').value;
             const imageUrl = document.getElementById('image-url').value;
