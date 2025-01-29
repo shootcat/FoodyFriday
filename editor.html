@@ -2,117 +2,93 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Editor - Foody Friday NewsBlog</title>
+    <title>Foody Friday News Editor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <!-- Favicon Links -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
-    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="android-chrome-192x192.png" sizes="192x192" type="image/png">
-    <link rel="icon" href="android-chrome-512x512.png" sizes="512x512" type="image/png">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png">
-
-    <!-- Webmanifest für PWA -->
-    <link rel="manifest" href="site.webmanifest">
-    
     <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .editor {
-            margin: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }
-
-        .editor textarea {
-            width: 100%;
-            height: 200px;
-            margin-bottom: 10px;
-        }
-
-        .editor input[type="file"] {
-            margin-bottom: 10px;
-        }
-
-        .editor button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .editor button:hover {
-            background-color: #0056b3;
-        }
-    </style>
 </head>
 <body>
+    <!-- Hamburger Menü -->
+    <div id="menu-toggle" class="menu-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+    
+    <!-- Seitenleiste -->
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="daily-news.html">Daily News</a></li>
+                <li><a href="editor.html">Editor</a></li>
+            </ul>
+        </nav>
+    </div>
+    
     <header>
         <div class="banner-content">
-            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
-            <span class="banner-title">FOODY FRIDAY NEWSBLOG - Editor</span>
+            <span class="banner-title">FOODY FRIDAY NEWS EDITOR</span>
         </div>
     </header>
-
-    <!-- Editor-Bereich -->
+    
     <main>
-        <div class="editor">
-            <h2>Editor</h2>
-            <textarea id="text-editor" placeholder="Hier den Text bearbeiten..."></textarea>
-            <input type="file" id="image-upload" accept="image/*">
-            <button id="save-button">Speichern</button>
-        </div>
+        <textarea id="news-text" placeholder="Schreibe deine News hier..."></textarea>
+        <input type="text" id="image-url" placeholder="Bild-URL eingeben">
+        <input type="file" id="image-upload" accept="image/*">
+        <button id="save-button">Speichern</button>
+        
+        <h2>Vorschau</h2>
+        <div id="preview"></div>
     </main>
-
+    
     <script>
-        // Initialer Text und Bild aus LocalStorage laden (Ersatz für Server)
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedData = JSON.parse(localStorage.getItem('dnewsData')) || {};
-            const textEditor = document.getElementById('text-editor');
-            const imageUpload = document.getElementById('image-upload');
-
-            if (savedData.text) textEditor.value = savedData.text;
-            if (savedData.image) {
-                const previewImage = document.createElement('img');
-                previewImage.src = savedData.image;
-                previewImage.style.maxWidth = '100%';
-                previewImage.style.marginTop = '10px';
-                document.querySelector('.editor').appendChild(previewImage);
-            }
-        });
-
-        // Speichern der Inhalte in LocalStorage
-        document.getElementById('save-button').addEventListener('click', () => {
-            const updatedText = document.getElementById('text-editor').value;
-            const imageUpload = document.getElementById('image-upload');
-            const reader = new FileReader();
-
-            const saveData = { text: updatedText };
-
-            if (imageUpload.files[0]) {
-                reader.onload = function (event) {
-                    saveData.image = event.target.result;
-                    saveToLocalStorage(saveData);
+        document.getElementById('news-text').addEventListener('input', updatePreview);
+        document.getElementById('image-url').addEventListener('input', updatePreview);
+        document.getElementById('image-upload').addEventListener('change', handleImageUpload);
+        document.getElementById('save-button').addEventListener('click', saveToGitHub);
+        
+        function updatePreview() {
+            let text = document.getElementById('news-text').value;
+            let imageUrl = document.getElementById('image-url').value;
+            document.getElementById('preview').innerHTML = `<p>${text.replace(/\n/g, '<br>')}</p>`;
+            if (imageUrl) document.getElementById('preview').innerHTML += `<img src="${imageUrl}" style="width:100%; max-width:600px;">`;
+        }
+        
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('image-url').value = e.target.result;
+                    updatePreview();
                 };
-                reader.readAsDataURL(imageUpload.files[0]);
-            } else {
-                saveToLocalStorage(saveData);
+                reader.readAsDataURL(file);
             }
-        });
-
-        function saveToLocalStorage(data) {
-            localStorage.setItem('dnewsData', JSON.stringify(data));
-            alert('Änderungen wurden gespeichert!');
+        }
+        
+        async function saveToGitHub() {
+            const text = document.getElementById('news-text').value;
+            const imageUrl = document.getElementById('image-url').value;
+            const content = btoa(`${text}\n${imageUrl}`);
+            
+            fetch('https://api.github.com/repos/shootcat/FoodyFriday/dispatches', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'token DEIN_GITHUB_TOKEN',
+                    'Accept': 'application/vnd.github.everest-preview+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    event_type: 'update-news',
+                    client_payload: { content }
+                })
+            }).then(response => {
+                if (response.ok) {
+                    alert('News gespeichert!');
+                } else {
+                    console.error('Fehler beim Speichern:', response);
+                }
+            }).catch(error => console.error('Fehler:', error));
         }
     </script>
 </body>
