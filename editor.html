@@ -57,7 +57,7 @@
             await fetch('https://api.github.com/repos/shootcat/FoodyFriday/contents/news.txt', {
                 method: 'PUT',
                 headers: {
-                    'Authorization': 'token HIER_DEIN_GITHUB_TOKEN', /* Hier den Token einfügen */
+                    'Authorization': 'token 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', /* Hier den Token einfügen */
                     'Accept': 'application/vnd.github.v3+json',
                     'Content-Type': 'application/json'
                 },
@@ -74,7 +74,7 @@
         async function getCurrentSha() {
             const response = await fetch('https://api.github.com/repos/shootcat/FoodyFriday/contents/news.txt', {
                 headers: {
-                    'Authorization': 'token HIER_DEIN_GITHUB_TOKEN' /* Hier den Token einfügen */
+                    'Authorization': 'token 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' /* Hier den Token einfügen */
                 }
             });
             const data = await response.json();
