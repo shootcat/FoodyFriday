@@ -2,111 +2,87 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Foody Friday Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Hamburger Menü -->
-    <div id="menu-toggle" class="menu-icon">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
 
-    <!-- Seitenleiste -->
-    <div class="sidebar" id="sidebar">
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="daily-news.html">Daily News</a></li>
-                <li><a href="essensliste.html">Essensliste</a></li>
-                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
-                <li><a href="comments.html">Kommentare</a></li>
-            </ul>
-        </nav>
-    </div>
+    <header class="editor-header">
+        <h1>News Editor</h1>
+    </header>
 
-    <!-- Hauptinhalt -->
-    <main>
-        <h1>Foody Friday News Editor</h1>
+    <main class="editor-container">
+        <!-- Eingabe-Bereich -->
+        <section class="editor-input">
+            <h2>News-Text eingeben</h2>
+            <textarea id="news-text" placeholder="Hier deine News eingeben..."></textarea>
 
-        <!-- Eingabefeld für den Text -->
-        <textarea id="news-text" placeholder="Gib hier deinen News-Text ein..."></textarea>
+            <h2>Bild hinzufügen</h2>
+            <input type="text" id="image-url" placeholder="Bild-URL hier einfügen">
+            
+            <button id="save-btn">Speichern</button>
+        </section>
 
-        <!-- Eingabefeld für das Bild -->
-        <input type="text" id="image-url" placeholder="Bild-URL eingeben..." />
-        
-        <!-- Vorschau -->
-        <h2>Vorschau:</h2>
-        <div id="preview">
-            <p id="preview-text"></p>
-            <img id="preview-image" src="" alt="Bildvorschau" style="width: 100%; max-width: 600px; display: none;">
-        </div>
-
-        <!-- Speichern-Button -->
-        <button onclick="saveToGitHub()">Speichern</button>
+        <!-- Vorschau-Bereich -->
+        <section class="editor-preview">
+            <h2>Live-Vorschau</h2>
+            <div id="preview-content">
+                <p>Hier erscheint die Vorschau...</p>
+            </div>
+        </section>
     </main>
 
     <script>
-        // Vorschau-Funktion
         document.getElementById('news-text').addEventListener('input', updatePreview);
         document.getElementById('image-url').addEventListener('input', updatePreview);
 
         function updatePreview() {
-            document.getElementById('preview-text').innerText = document.getElementById('news-text').value;
-            const imgUrl = document.getElementById('image-url').value;
-            const previewImage = document.getElementById('preview-image');
-
-            if (imgUrl) {
-                previewImage.src = imgUrl;
-                previewImage.style.display = "block";
-            } else {
-                previewImage.style.display = "none";
+            const text = document.getElementById('news-text').value;
+            const imageUrl = document.getElementById('image-url').value;
+            let previewHTML = `<p>${text}</p>`;
+            
+            if (imageUrl) {
+                previewHTML += `<img src="${imageUrl}" alt="News-Bild" style="width: 100%; max-width: 600px; display: block; margin: 10px auto;">`;
             }
+            
+            document.getElementById('preview-content').innerHTML = previewHTML;
         }
 
-        // Funktion zum Speichern der Daten in GitHub
         async function saveToGitHub() {
-            const token = "ghp_DEIN_GITHUB_TOKEN_HIER_EINFÜGEN"; // 🔑 Hier GitHub-Token einfügen!
             const text = document.getElementById('news-text').value;
             const imageUrl = document.getElementById('image-url').value;
             const content = btoa(`${text}\n${imageUrl}`);
 
-            // 1️⃣ Aktuelle SHA der Datei abrufen
-            let sha = "";
-            try {
-                const response = await fetch('https://api.github.com/repos/shootcat/FoodyFriday/contents/news.txt', {
-                    headers: { 'Authorization': `token ${token}` }
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    sha = data.sha;
-                }
-            } catch (error) {
-                console.error("Fehler beim Abrufen der SHA:", error);
-            }
-
-            // 2️⃣ Datei in GitHub speichern
-            fetch('https://api.github.com/repos/shootcat/FoodyFriday/contents/news.txt', {
+            await fetch('https://api.github.com/repos/shootcat/FoodyFriday/contents/news.txt', {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `token ${token}`, // 🔑 Hier GitHub-Token einfügen!
+                    'Authorization': 'token HIER_DEIN_GITHUB_TOKEN', /* Hier den Token einfügen */
                     'Accept': 'application/vnd.github.v3+json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    message: "Update news", // Commit-Nachricht
-                    content: content,       // Neuer Inhalt (Base64-kodiert)
-                    sha: sha                // GitHub benötigt die aktuelle SHA der Datei
+                    message: "Update news",
+                    content: content,
+                    sha: await getCurrentSha()
                 })
-            }).then(response => response.json())
-              .then(data => {
-                  console.log("Gespeichert:", data);
-                  alert("News erfolgreich gespeichert!");
-              })
-              .catch(error => console.error("Fehler beim Speichern:", error));
+            });
+
+            alert('News gespeichert!');
         }
+
+        async function getCurrentSha() {
+            const response = await fetch('https://api.github.com/repos/shootcat/FoodyFriday/contents/news.txt', {
+                headers: {
+                    'Authorization': 'token HIER_DEIN_GITHUB_TOKEN' /* Hier den Token einfügen */
+                }
+            });
+            const data = await response.json();
+            return data.sha;
+        }
+
+        document.getElementById('save-btn').addEventListener('click', saveToGitHub);
     </script>
+
 </body>
 </html>
