@@ -20,7 +20,7 @@
 
             <h2>Bild hinzufügen</h2>
             <input type="text" id="image-url" placeholder="Bild-URL hier einfügen">
-            
+
             <button id="save-btn">Speichern</button>
         </section>
 
@@ -34,13 +34,35 @@
     </main>
 
     <script>
+        document.addEventListener("DOMContentLoaded", loadNews);
         document.getElementById('news-text').addEventListener('input', updatePreview);
         document.getElementById('image-url').addEventListener('input', updatePreview);
+        document.getElementById('save-btn').addEventListener('click', saveToGitHub);
+
+        async function loadNews() {
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/shootcat/FoodyFriday/main/news.txt');
+                const data = await response.text();
+                
+                // Zerlege den Inhalt in Text und Bild-URL
+                const lines = data.split("\n");
+                const text = lines.slice(0, -1).join("\n"); // Alle Zeilen außer der letzten
+                const imageUrl = lines[lines.length - 1]; // Letzte Zeile als Bild-URL
+
+                // Werte in die Felder setzen
+                document.getElementById('news-text').value = text;
+                document.getElementById('image-url').value = imageUrl;
+
+                updatePreview();
+            } catch (error) {
+                console.error("Fehler beim Laden der News:", error);
+            }
+        }
 
         function updatePreview() {
             const text = document.getElementById('news-text').value;
             const imageUrl = document.getElementById('image-url').value;
-            let previewHTML = `<p>${text}</p>`;
+            let previewHTML = `<p>${text.replace(/\n/g, '<br>')}</p>`;
             
             if (imageUrl) {
                 previewHTML += `<img src="${imageUrl}" alt="News-Bild" style="width: 100%; max-width: 600px; display: block; margin: 10px auto;">`;
@@ -52,36 +74,35 @@
         async function saveToGitHub() {
             const text = document.getElementById('news-text').value;
             const imageUrl = document.getElementById('image-url').value;
-            const content = btoa(`${text}\n${imageUrl}`);
+            const content = btoa(unescape(encodeURIComponent(`${text}\n${imageUrl}`)));
 
-            await fetch('https://api.github.com/repos/shootcat/FoodyFriday/contents/news.txt', {
-                method: 'PUT',
-                headers: {
-                    'Authorization': 'token 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', /* Hier den Token einfügen */
-                    'Accept': 'application/vnd.github.v3+json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    message: "Update news",
-                    content: content,
-                    sha: await getCurrentSha()
-                })
-            });
+            try {
+                const response = await fetch('https://api.github.com/repos/shootcat/FoodyFriday/contents/news.txt', {
+                    headers: { 'Authorization': 'token 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' } // Hier dein GitHub-Token einfügen
+                });
+                const fileData = await response.json();
+                const sha = fileData.sha; // Aktuelle Datei-Referenz für das Update
 
-            alert('News gespeichert!');
+                await fetch('https://api.github.com/repos/shootcat/FoodyFriday/contents/news.txt', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': 'token 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', // Hier dein GitHub-Token einfügen
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: "Update news",
+                        content: content,
+                        sha: sha
+                    })
+                });
+
+                alert('News gespeichert!');
+            } catch (error) {
+                console.error("Fehler beim Speichern:", error);
+                alert("Speichern fehlgeschlagen!");
+            }
         }
-
-        async function getCurrentSha() {
-            const response = await fetch('https://api.github.com/repos/shootcat/FoodyFriday/contents/news.txt', {
-                headers: {
-                    'Authorization': 'token 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' /* Hier den Token einfügen */
-                }
-            });
-            const data = await response.json();
-            return data.sha;
-        }
-
-        document.getElementById('save-btn').addEventListener('click', saveToGitHub);
     </script>
 
 </body>
