@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>DOOM im Browser</title>
+    <script src="https://js-dos.com/6.22/current/js-dos.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #000;
+            color: #fff;
+        }
+        #dosbox {
+            margin: 20px auto;
+            width: 800px;
+            height: 600px;
+            border: 2px solid #fff;
+        }
+        .instructions {
+            margin: 20px auto;
+            width: 800px;
+            text-align: left;
+            background-color: #111;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .instructions h2 {
+            text-align: center;
+        }
+        .instructions table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .instructions th, .instructions td {
+            border: 1px solid #444;
+            padding: 8px;
+            text-align: center;
+        }
+        .instructions th {
+            background-color: #222;
+        }
+        .key-icon {
+            font-size: 20px;
+            color: #67CC00;
+        }
+    </style>
+</head>
+<body>
+    <h1>DOOM im Browser</h1>
+    <div id="dosbox"></div>
+    <div class="instructions">
+        <h2>Steuerung</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Funktion</th>
+                    <th>Taste</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Nach vorne bewegen</td>
+                    <td><i class="fa-solid fa-arrow-up key-icon"></i></td>
+                </tr>
+                <tr>
+                    <td>Nach hinten bewegen</td>
+                    <td><i class="fa-solid fa-arrow-down key-icon"></i></td>
+                </tr>
+                <tr>
+                    <td>Nach links drehen</td>
+                    <td><i class="fa-solid fa-arrow-left key-icon"></i></td>
+                </tr>
+                <tr>
+                    <td>Nach rechts drehen</td>
+                    <td><i class="fa-solid fa-arrow-right key-icon"></i></td>
+                </tr>
+                <tr>
+                    <td>Feuern</td>
+                    <td><i class="fa-solid fa-keyboard key-icon"></i> (Strg)</td>
+                </tr>
+                <tr>
+                    <td>Öffnen/Benutzen</td>
+                    <td><i class="fa-solid fa-space-bar key-icon"></i> (Leertaste)</td>
+                </tr>
+                <tr>
+                    <td>Strafen (Seitwärts gehen)</td>
+                    <td><i class="fa-solid fa-keyboard key-icon"></i> (Alt halten + Pfeile)</td>
+                </tr>
+                <tr>
+                    <td>Laufen</td>
+                    <td><i class="fa-solid fa-keyboard key-icon"></i> (Umschalt halten)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        Dos(document.getElementById("dosbox")).run("https://js-dos.com/games/doom.exe.zip");
+    </script>
+</body>
+</html>
