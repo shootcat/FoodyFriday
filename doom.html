@@ -96,7 +96,11 @@
         </table>
     </div>
     <script>
-        Dos(document.getElementById("dosbox")).run("https://js-dos.com/games/doom.exe.zip");
+        Dos(document.getElementById("dosbox")).ready((fs, main) => {
+            fs.extract("https://js-dos.com/games/doom.jsdos").then(() => {
+                main(["-c", "doom"]);
+            });
+        });
     </script>
 </body>
 </html>
