@@ -1,0 +1,26 @@
+name: Save News
+
+on:
+  repository_dispatch:
+    types: [update-news]
+
+jobs:
+  save:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository klonen
+        uses: actions/checkout@v3
+
+      - name: Datei aktualisieren
+        run: |
+          echo -e "${{ github.event.client_payload.content }}" > news.txt
+
+      - name: Änderungen committen & pushen
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add news.txt
+          git commit -m "News updated via Editor"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
