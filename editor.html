@@ -21,32 +21,32 @@
         <div id="preview"></div>
     </main>
     
-    <script>
-        async function saveToGitHub() {
-            const text = document.getElementById('news-text').value;
-            const imageUrl = document.getElementById('image-url').value;
-            const content = `${text}\n${imageUrl}`;
+ <button onclick="saveToGitHub()">💾 Speichern</button>
+<script>
+async function saveToGitHub() {
+    const text = document.getElementById('news-text').value;
+    const imageUrl = document.getElementById('image-url').value;
+    const content = `${text}\n${imageUrl}`;
 
-            const response = await fetch('https://api.github.com/repos/shootcat/FoodyFriday/dispatches', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer GITHUB_TOKEN_HIER_NICHT_REIN!`, // 🔴 Token kommt aus Actions!
-                    'Accept': 'application/vnd.github.everest-preview+json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    event_type: 'update-news',
-                    client_payload: { content }
-                })
-            });
+    const response = await fetch('https://api.github.com/repos/shootcat/FoodyFriday/dispatches', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/vnd.github.everest-preview+json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            event_type: 'update-news',
+            client_payload: { content }
+        })
+    });
 
-            if (response.ok) {
-                alert('News gespeichert!');
-            } else {
-                console.error('Fehler beim Speichern:', await response.text());
-                alert('Fehler beim Speichern! Siehe Konsole.');
-            }
-        }
-    </script>
+    if (response.ok) {
+        alert('News gespeichert!');
+    } else {
+        console.error('Fehler beim Speichern:', await response.text());
+        alert('Fehler beim Speichern! Siehe Konsole.');
+    }
+}
+</script>
 </body>
 </html>
