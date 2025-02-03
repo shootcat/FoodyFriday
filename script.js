@@ -5,12 +5,12 @@ document.getElementById("menu-toggle").addEventListener("click", function() {
 
 // Firebase initialisieren
 const firebaseConfig = {
-  apiKey: "DEINE_API_KEY",
-  authDomain: "DEIN_AUTH_DOMAIN",
-  projectId: "DEIN_PROJECT_ID",
-  storageBucket: "DEIN_STORAGE_BUCKET",
-  messagingSenderId: "DEIN_MESSAGING_SENDER_ID",
-  appId: "DEINE_APP_ID"
+  apiKey: "AIzaSyCnJByYr-O4k174w1IXRz1QcrS1b-TVPow",
+            authDomain: "ff-komentare.firebaseapp.com",
+            projectId: "ff-komentare",
+            storageBucket: "ff-komentare.firebasestorage.app",
+            messagingSenderId: "1007258832780",
+            appId: "1:1007258832780:web:779e56da27b0948f5350a9"
 };
 
 // Firebase App initialisieren
