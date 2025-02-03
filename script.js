@@ -3,21 +3,7 @@ document.getElementById("menu-toggle").addEventListener("click", function() {
     document.getElementById("sidebar").classList.toggle("active");
 });
 
-// Firebase initialisieren
-const firebaseConfig = {
-  apiKey: "AIzaSyCnJByYr-O4k174w1IXRz1QcrS1b-TVPow",
-            authDomain: "ff-komentare.firebaseapp.com",
-            projectId: "ff-komentare",
-            storageBucket: "ff-komentare.firebasestorage.app",
-            messagingSenderId: "1007258832780",
-            appId: "1:1007258832780:web:779e56da27b0948f5350a9"
-};
-
-// Firebase App initialisieren
-firebase.initializeApp(firebaseConfig);
-// Firestore initialisieren
-const db = firebase.firestore();
-
+// Firestore-Kommentarfunktionalität
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('comment-form');
     const commentsList = document.getElementById('comments-list');
@@ -42,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Echtzeit-Listener für die Kommentare
+    // Echtzeit-Listener für die Kommentare (nur einmal registriert)
     db.collection("comments")
         .orderBy("timestamp", "desc")
         .limit(30)
