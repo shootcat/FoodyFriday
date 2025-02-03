@@ -1,75 +1,78 @@
-// netlify/functions/update-news.js
-
 const fetch = require('node-fetch');
 
 exports.handler = async (event, context) => {
-    // Nur POST-Anfragen erlauben
-    if (event.httpMethod !== 'POST') {
-        return {
-            statusCode: 405,
-            body: 'Method Not Allowed',
-        };
+  // Nur POST-Anfragen akzeptieren
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      body: 'Method Not Allowed',
+    };
+  }
+
+  const { newsText, imageUrl } = JSON.parse(event.body);
+
+  const owner = 'shootcat';
+  const repo = 'FoodyFriday';
+  const filePath = 'news.txt';
+  const branch = 'main';
+  const token = process.env.GITHUB_TOKEN; // GitHub Token aus Umgebungsvariablen
+
+  const content = `${newsText}\n[IMAGE_URL]\n${imageUrl}`;
+  const encodedContent = Buffer.from(content, 'utf-8').toString('base64');
+
+  try {
+    // Aktuelle Datei abrufen, um die SHA zu erhalten
+    const getResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+      },
+    });
+
+    if (!getResponse.ok) {
+      throw new Error(`Failed to get file: ${getResponse.statusText}`);
     }
 
-    // Anfragedaten auslesen
-    const { newsText, imageUrl } = JSON.parse(event.body);
+    const getData = await getResponse.json();
+    const sha = getData.sha;
 
-    // GitHub Repo Informationen
-    const owner = 'shootcat'; // Dein GitHub-Benutzername
-    const repo = 'FoodyFriday'; // Der Name deines Repositories
-    const filePath = 'news.txt'; // Pfad zur Datei im Repository
-    const branch = 'main'; // Dein Branch-Name
-    const token = process.env.GITHUB_TOKEN; // GitHub-Token aus Umgebungsvariablen
+    // Datei aktualisieren
+    const putResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message: 'Update news.txt via Netlify Function',
+        content: encodedContent,
+        sha: sha,
+        branch: branch,
+      }),
+    });
 
-    const content = `${newsText}\n[IMAGE_URL]\n${imageUrl}`;
-    const encodedContent = Buffer.from(content, 'utf-8').toString('base64');
-
-    try {
-        // Aktuelle Datei abrufen, um die SHA zu erhalten
-        const getResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `token ${token}`,
-                'Accept': 'application/vnd.github.v3+json',
-            },
-        });
-
-        const getData = await getResponse.json();
-
-        const sha = getData.sha;
-
-        // Datei aktualisieren
-        const putResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `token ${token}`,
-                'Accept': 'application/vnd.github.v3+json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: 'Update news.txt via Netlify Function',
-                content: encodedContent,
-                sha: sha,
-                branch: branch,
-            }),
-        });
-
-        if (putResponse.ok) {
-            return {
-                statusCode: 200,
-                body: JSON.stringify({ message: 'Die News wurden erfolgreich aktualisiert.' }),
-            };
-        } else {
-            const errorData = await putResponse.json();
-            return {
-                statusCode: putResponse.status,
-                body: JSON.stringify({ error: errorData.message }),
-            };
-        }
-    } catch (error) {
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: error.message }),
-        };
+    if (!putResponse.ok) {
+      const errorData = await putResponse.json();
+      throw new Error(`Failed to update file: ${errorData.message}`);
     }
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: 'Die News wurden erfolgreich gespeichert!' }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+  } catch (error) {
+    console.error('Fehler beim Aktualisieren der Datei:', error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Serverfehler: ${error.message}` }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+  }
 };
