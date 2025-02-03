@@ -3,28 +3,7 @@ document.getElementById("menu-toggle").addEventListener("click", function() {
     document.getElementById("sidebar").classList.toggle("active");
 });
 
-// Firebase SDKs importieren (falls nicht bereits im HTML eingebunden)
-// Falls sie im HTML eingebunden sind, diesen Schritt überspringen
-/*
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js';
-import { getFirestore, collection, query, orderBy, limit, onSnapshot, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js';
-*/
-
-// Firebase initialisieren
-const firebaseConfig = {
-  apiKey: "DEINE_API_KEY",
-  authDomain: "DEIN_AUTH_DOMAIN",
-  projectId: "DEIN_PROJECT_ID",
-  storageBucket: "DEIN_STORAGE_BUCKET",
-  messagingSenderId: "DEIN_MESSAGING_SENDER_ID",
-  appId: "DEINE_APP_ID"
-};
-
-// Firebase App initialisieren
-firebase.initializeApp(firebaseConfig);
-// Firestore initialisieren
-const db = firebase.firestore();
-
+// Firestore-Kommentarfunktionalität
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('comment-form');
     const commentsList = document.getElementById('comments-list');
@@ -77,11 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-
-    // Sudoku-Setup
-    // ... (Rest deines Codes bleibt unverändert)
-});
-
 
     // Sudoku-Setup
     const sudokuBoard = [
@@ -189,24 +163,4 @@ document.addEventListener('DOMContentLoaded', function() {
         ["", "", "", "", "p", "", "", ""],
         ["", "", "", "", "", "P", "", ""],
         ["", "", "", "K", "", "", "", ""],
-        ["", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", ""],
-        ["R", "", "", "", "", "", "", "R"]
-    ];
-
-    chessPuzzle.forEach((row, i) => {
-        row.forEach((piece, j) => {
-            const cell = document.createElement("div");
-            cell.style.width = "50px";
-            cell.style.height = "50px";
-            cell.style.display = "flex";
-            cell.style.alignItems = "center";
-            cell.style.justifyContent = "center";
-            cell.style.fontSize = "24px";
-            cell.style.backgroundColor = (i + j) % 2 === 0 ? "#f0d9b5" : "#b58863";
-            cell.textContent = piece.toUpperCase();
-            chessboard.appendChild(cell);
-        });
-    });
-});
+        [_{{{CITATION{{{_1{](https://github.com/soundswarm/sudoku/tree/9fdd7ff3c4d99e02b6b7adb41cc25efe0cadcff9/client%2Fdist%2Fjs%2Fsudoku.js)[_{{{CITATION{{{_2{](https://github.com/alkorr37/alevel/tree/f3d372d94c616f21e791fe74b2d6ad9ad587f827/module3%2Fsrc%2Fmain%2Fwebapp%2Fjs%2Fmain.js)
