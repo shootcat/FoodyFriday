@@ -23,31 +23,35 @@ function generatePreview(text, imageUrl) {
 }
 
 function saveToServer(newsText, imageUrl) {
-  fetch('/.netlify/functions/update-news', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      newsText: newsText,
-      imageUrl: imageUrl
+    fetch('/.netlify/functions/update-news', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            newsText: newsText,
+            imageUrl: imageUrl
+        })
     })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (response.ok) {
-      alert('Die News wurden erfolgreich gespeichert!');
-    } else {
-      alert('Fehler beim Speichern der News: ' + data.error);
-    }
-  })
-  .catch(error => {
-    console.error('Fehler beim Speichern der News:', error);
-    alert('Es ist ein Fehler aufgetreten. Bitte versuche es erneut.');
-  });
+    .then(response => response.json().then(data => ({
+        status: response.status,
+        ok: response.ok,
+        body: data
+    })))
+    .then(({ status, ok, body }) => {
+        if (ok) {
+            alert('Die News wurden erfolgreich gespeichert!');
+        } else {
+            alert('Fehler beim Speichern der News: ' + body.error);
+        }
+    })
+    .catch(error => {
+        console.error('Fehler beim Speichern der News:', error);
+        alert('Es ist ein Fehler aufgetreten. Bitte versuche es erneut.');
+    });
 }
 
-// Hilfsfunktion zum Escapen von HTML
+ // Hilfsfunktion zum Escapen von HTML
 function escapeHTML(str) {
   return str.replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
