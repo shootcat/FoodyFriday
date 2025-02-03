@@ -1,8 +1,8 @@
 // editor.js
 
 // GitHub Repo Informationen
-const owner = 'DEIN_GITHUB_USERNAME';
-const repo = 'DEIN_REPOSITORY_NAME';
+const owner = 'shootcat'; // Dein GitHub-Benutzername
+const repo = 'FoodyFriday'; // Der Name deines Repositories
 const filePath = 'news.txt'; // Pfad zur Datei im Repository
 const branch = 'main'; // Oder dein spezifischer Branch
 const token = 'DEIN_GITHUB_TOKEN';
