@@ -1,52 +1,54 @@
-<!-- editor.html - News Editor -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>News Editor - Foody Friday</title>
+    <title>Editor - Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Dein vorhandenes Stylesheet einbinden -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>News Editor</h1>
-    </header>
+    <!-- Hamburger Menü -->
+    <div id="menu-toggle" class="menu-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
     
+    <!-- Seitenleiste -->
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="daily-news.html">Daily News</a></li>
+                <li><a href="essensliste.html">Essensliste</a></li>
+                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
+                <li><a href="undefiniert.html">FUN</a></li>
+                <li><a href="comments.html">Kommentare</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Hauptinhalt -->
     <main>
-        <textarea id="news-text" placeholder="Schreibe hier deine News..."></textarea>
-        <input type="text" id="image-url" placeholder="Bild-URL eingeben">
-        <button onclick="saveToGitHub()">Speichern</button>
-        
-        <h2>Live Vorschau:</h2>
+        <h1>Editor - Foody Friday NewsBlog</h1>
+        <form id="editor-form">
+            <label for="news-text">News Text:</label><br>
+            <textarea id="news-text" name="news-text" rows="15" cols="80"></textarea><br><br>
+            
+            <label for="image-url">Bild-URL:</label><br>
+            <input type="text" id="image-url" name="image-url" size="80"><br><br>
+
+            <button type="button" id="preview-button">Vorschau anzeigen</button>
+            <button type="button" id="save-button">Speichern</button>
+        </form>
+
+        <h2>Vorschau</h2>
         <div id="preview"></div>
     </main>
-    
- <button onclick="saveToGitHub()">💾 Speichern</button>
-<script>
-async function saveToGitHub() {
-    const text = document.getElementById('news-text').value;
-    const imageUrl = document.getElementById('image-url').value;
-    const content = `${text}\n${imageUrl}`;
 
-    const response = await fetch('https://api.github.com/repos/shootcat/FoodyFriday/dispatches', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/vnd.github.everest-preview+json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            event_type: 'update-news',
-            client_payload: { content }
-        })
-    });
-
-    if (response.ok) {
-        alert('News gespeichert!');
-    } else {
-        console.error('Fehler beim Speichern:', await response.text());
-        alert('Fehler beim Speichern! Siehe Konsole.');
-    }
-}
-</script>
+    <!-- Skripte -->
+    <script src="editor.js"></script>
+    <script src="script.js"></script> <!-- Dein bestehendes Skript -->
 </body>
 </html>
