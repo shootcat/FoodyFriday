@@ -7,6 +7,15 @@
     
     <!-- Favicon Links -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="android-chrome-192x192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="android-chrome-512x512.png" sizes="512x512" type="image/png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png">
+
+    <!-- Webmanifest für PWA -->
+    <link rel="manifest" href="site.webmanifest">
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -25,6 +34,7 @@
                 <li><a href="daily-news.html">Daily News</a></li>
                 <li><a href="essensliste.html">Essensliste</a></li>
                 <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
+                <li><a href="undefiniert.html">FUN</a></li>
                 <li><a href="comments.html">Kommentare</a></li>
             </ul>
         </nav>
@@ -41,39 +51,54 @@
     <!-- Hauptinhalt -->
     <main>
         <div class="content" id="news-content">
-            <!-- News werden hier geladen -->
+            <!-- Der Inhalt von news.txt wird hier eingefügt -->
         </div>
     </main>
 
+    <!-- Einbindung von script.js für Hamburger-Menü und andere Funktionen -->
     <script>
-        async function loadNews() {
-            try {
-                const response = await fetch('https://raw.githubusercontent.com/shootcat/FoodyFriday/main/news.txt'); // Holt `news.txt` direkt von GitHub
-                if (!response.ok) throw new Error("Fehler beim Laden der News");
+        // Funktion zum Laden der Textdatei und Einfügen in die HTML-Seite
+        fetch('news.txt')
+            .then(response => response.text())
+            .then(data => {
+                const newsContainer = document.getElementById('news-content');
 
-                const data = await response.text();
-                const lines = data.split("\n");
+                // Trenne Text und Bild-URL
+                const [textContent, ...imageParts] = data.split('\n[IMAGE_URL]\n');
+                const imageUrl = imageParts.join('').trim();
 
-                // 1️⃣ Text-Inhalt holen (erste Zeile)
-                const text = lines[0] || "";
-
-                // 2️⃣ Bild-URL holen (zweite Zeile)
-                const imageUrl = lines.length > 1 ? lines[1].trim() : "";
-
-                // 3️⃣ HTML generieren
-                let html = `<p>${text}</p>`;
-                if (imageUrl) {
-                    html += `<img src="${imageUrl}" alt="News-Bild" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">`;
+                // HTML-Sonderzeichen escapen, um Sicherheit zu gewährleisten
+                function escapeHTML(str) {
+                    return str.replace(/&/g, "&amp;")
+                              .replace(/</g, "&lt;")
+                              .replace(/>/g, "&gt;");
                 }
 
-                document.getElementById('news-content').innerHTML = html;
-            } catch (error) {
-                console.error("Fehler beim Laden der News:", error);
-                document.getElementById('news-content').innerHTML = "<p>News konnten nicht geladen werden.</p>";
-            }
-        }
+                // Den Text escapen
+                let formattedData = escapeHTML(textContent);
 
-        loadNews();
+                // Ersetze Zeilen, die mit # beginnen und enden, durch größere Schrift
+                formattedData = formattedData.replace(/^#(.*?)#$/gm, '<span style="font-size: larger;">$1</span>');
+
+                // Ersetze *Text* durch <strong>Text</strong>
+                formattedData = formattedData.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+
+                // Ersetze Zeilenumbrüche durch <br> Tags
+                formattedData = formattedData.replace(/\r?\n/g, '<br>');
+
+                // Füge den formatierten Text und das Bild in den Container ein
+                const imageHtml = imageUrl ? `<img src="${escapeHTML(imageUrl)}" alt="News Bild" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">` : '';
+
+                newsContainer.innerHTML = formattedData + '<br>' + imageHtml;
+            })
+            .catch(error => console.error('Fehler beim Laden der News-Datei:', error));
+
+        // Funktion zum Escapen von HTML-Sonderzeichen
+        function escapeHTML(str) {
+            return str.replace(/&/g, "&amp;")
+                      .replace(/</g, "&lt;")
+                      .replace(/>/g, "&gt;");
+        }
     </script>
     <script src="script.js"></script>
 </body>
