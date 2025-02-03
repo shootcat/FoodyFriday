@@ -5,7 +5,7 @@ exports.handler = async (event, context) => {
   const repo = 'FoodyFriday';
   const filePath = 'news.txt';
   const branch = 'main';
-  const token = process.env.GITHUB_TOKEN;
+  const token = process.env.GITHUB_TOKEN; // Stelle sicher, dass der Token in Netlify als Umgebungsvariable gesetzt ist
 
   try {
     const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`, {
