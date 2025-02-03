@@ -17,6 +17,18 @@ exports.handler = async (event, context) => {
   const branch = 'main';
   const token = process.env.GITHUB_TOKEN; // GitHub Token aus Umgebungsvariablen
 
+  // Hier fügst du den neuen Code ein
+  if (!token) {
+    console.error('GITHUB_TOKEN ist nicht definiert.');
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Serverfehler: GITHUB_TOKEN ist nicht definiert.' }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+  }
+
   const content = `${newsText}\n[IMAGE_URL]\n${imageUrl}`;
   const encodedContent = Buffer.from(content, 'utf-8').toString('base64');
 
