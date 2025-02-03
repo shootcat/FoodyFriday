@@ -1,26 +1,36 @@
 name: Save News
 
 on:
-  repository_dispatch:
-    types: [update-news]
+  workflow_dispatch:
+    inputs:
+      news_content:
+        description: 'Content of the news'
+        required: true
+        default: ''
+      image_url:
+        description: 'URL of the image'
+        required: false
+        default: ''
 
 jobs:
-  save:
+  save_news_job:
     runs-on: ubuntu-latest
     steps:
-      - name: Repository klonen
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Datei aktualisieren
+      - name: Update news.txt
         run: |
-          echo -e "${{ github.event.client_payload.content }}" > news.txt
+          echo "${{ github.event.inputs.news_content }}" > news.txt
+          echo "\n[IMAGE_URL]\n" >> news.txt
+          echo "${{ github.event.inputs.image_url }}" >> news.txt
 
-      - name: Änderungen committen & pushen
+      - name: Commit and Push changes
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           git add news.txt
-          git commit -m "News updated via Editor"
+          git commit -m "Update news.txt via GitHub Action"
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
