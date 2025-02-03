@@ -55,7 +55,7 @@
         </div>
     </main>
 
-    <!-- Einbindung von script.js für Hamburger-Menü und andere Funktionen -->
+    <!-- Skripte -->
     <script>
         // Funktion zum Laden der Textdatei und Einfügen in die HTML-Seite
         fetch('news.txt')
@@ -86,10 +86,12 @@
                 // Ersetze Zeilenumbrüche durch <br> Tags
                 formattedData = formattedData.replace(/\r?\n/g, '<br>');
 
-                // Füge den formatierten Text und das Bild in den Container ein
-                const imageHtml = imageUrl ? `<img src="${escapeHTML(imageUrl)}" alt="News Bild" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">` : '';
+                // Füge den formatierten Text und das Bild in separaten Containern ein
+                const textHtml = `<div>${formattedData}</div>`;
+                const imageHtml = imageUrl ? `<div><img src="${escapeHTML(imageUrl)}" alt="News Bild" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;"></div>` : '';
 
-                newsContainer.innerHTML = formattedData + '<br>' + imageHtml;
+                // Kombiniere Text und Bild
+                newsContainer.innerHTML = textHtml + imageHtml;
             })
             .catch(error => console.error('Fehler beim Laden der News-Datei:', error));
 
