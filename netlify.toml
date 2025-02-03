@@ -1,2 +1,14 @@
 [[plugins]]
 package = "@netlify/plugin-functions-install-core"
+
+[functions]
+  node_bundler = "esbuild"
+
+[functions."update-news"]
+  node_bundler = "esbuild"
+
+[build]
+  command = "npm install"
+
+[build.environment]
+  NODE_VERSION = "16"
