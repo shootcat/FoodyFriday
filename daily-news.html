@@ -7,50 +7,45 @@
     
     <!-- Favicon Links -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
-    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="android-chrome-192x192.png" sizes="192x192" type="image/png">
-    <link rel="icon" href="android-chrome-512x512.png" sizes="512x512" type="image/png">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png">
-
-    <!-- Webmanifest für PWA -->
-    <link rel="manifest" href="site.webmanifest">
-    
+    <!-- Weitere Favicon-Links -->
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Zusätzliche CSS-Styles -->
+    <style>
+        /* Gesamtcontainer zentrieren */
+        .news-content {
+            text-align: center;
+        }
+        /* Bild zentrieren */
+        .news-content img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+        }
+        /* Optional: Textblock begrenzen und zentrieren */
+        .news-content .text-block {
+            display: inline-block;
+            text-align: left; /* Falls du den Text linksbündig innerhalb des zentrierten Blocks haben möchtest */
+            max-width: 800px; /* Maximale Breite des Textblocks */
+            width: 100%;
+        }
+        /* Überschriften zentrieren */
+        .news-content h2 {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <!-- Hamburger Menü -->
-    <div id="menu-toggle" class="menu-icon">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
-    
-    <!-- Seitenleiste -->
-    <div class="sidebar" id="sidebar">
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="daily-news.html">Daily News</a></li>
-                <li><a href="essensliste.html">Essensliste</a></li>
-                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
-                <li><a href="undefiniert.html">FUN</a></li>
-                <li><a href="comments.html">Kommentare</a></li>
-            </ul>
-        </nav>
-    </div>
-    
+    <!-- ... dein bestehender Code ... -->
+
     <!-- Banner mit Logo und Titel -->
-    <header>
-        <div class="banner-content">
-            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
-            <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
-        </div>
-    </header>
+    <!-- ... dein bestehender Code ... -->
 
     <!-- Hauptinhalt -->
     <main>
-        <div class="content" id="news-content">
+        <div class="content news-content" id="news-content">
             <!-- Der Inhalt von news.txt wird hier eingefügt -->
         </div>
     </main>
@@ -77,31 +72,31 @@
                 // Den Text escapen
                 let formattedData = escapeHTML(textContent);
 
-                // Ersetze Zeilen, die mit # beginnen und enden, durch größere Schrift
-                formattedData = formattedData.replace(/^#(.*?)#$/gm, '<span style="font-size: larger;">$1</span>');
-
                 // Ersetze *Text* durch <strong>Text</strong>
                 formattedData = formattedData.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
 
-                // Ersetze Zeilenumbrüche durch <br> Tags
-                formattedData = formattedData.replace(/\r?\n/g, '<br>');
+                // Ersetze Zeilen, die mit # beginnen und enden, durch größere Schrift und zentriert
+                formattedData = formattedData.replace(/^#(.*?)#$/gm, '<h2>$1</h2>');
 
-                // Füge den formatierten Text und das Bild in separaten Containern ein
-                const textHtml = `<div>${formattedData}</div>`;
-                const imageHtml = imageUrl ? `<div><img src="${escapeHTML(imageUrl)}" alt="News Bild" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;"></div>` : '';
+                // Ersetze doppelte Zeilenumbrüche durch Absatztags
+                formattedData = formattedData.replace(/\r?\n\r?\n/g, '</p><p>');
 
-                // Kombiniere Text und Bild
+                // Den restlichen Text in Absatz-Tags einschließen
+                formattedData = '<p>' + formattedData + '</p>';
+
+                // Entferne überflüssige Absatz-Tags
+                formattedData = formattedData.replace('<p></p>', '');
+
+                // Füge den formatierten Text und das Bild ein
+                const textHtml = `<div class="text-block">${formattedData}</div>`;
+                const imageHtml = imageUrl ? `<div><img src="${escapeHTML(imageUrl)}" alt="News Bild"></div>` : '';
+
+                // Kombiniere Text und Bild (Bild unter dem Text)
                 newsContainer.innerHTML = textHtml + imageHtml;
             })
             .catch(error => console.error('Fehler beim Laden der News-Datei:', error));
-
-        // Funktion zum Escapen von HTML-Sonderzeichen
-        function escapeHTML(str) {
-            return str.replace(/&/g, "&amp;")
-                      .replace(/</g, "&lt;")
-                      .replace(/>/g, "&gt;");
-        }
     </script>
+    <!-- Dein vorhandenes script.js -->
     <script src="script.js"></script>
 </body>
 </html>
