@@ -3,7 +3,21 @@ document.getElementById("menu-toggle").addEventListener("click", function() {
     document.getElementById("sidebar").classList.toggle("active");
 });
 
-// Firestore-Kommentarfunktionalität
+// Firebase initialisieren
+const firebaseConfig = {
+  apiKey: "DEINE_API_KEY",
+  authDomain: "DEIN_AUTH_DOMAIN",
+  projectId: "DEIN_PROJECT_ID",
+  storageBucket: "DEIN_STORAGE_BUCKET",
+  messagingSenderId: "DEIN_MESSAGING_SENDER_ID",
+  appId: "DEINE_APP_ID"
+};
+
+// Firebase App initialisieren
+firebase.initializeApp(firebaseConfig);
+// Firestore initialisieren
+const db = firebase.firestore();
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('comment-form');
     const commentsList = document.getElementById('comments-list');
@@ -28,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Echtzeit-Listener für die Kommentare (nur einmal registriert)
+    // Echtzeit-Listener für die Kommentare
     db.collection("comments")
         .orderBy("timestamp", "desc")
         .limit(30)
@@ -56,111 +70,4 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-
-    // Sudoku-Setup
-    const sudokuBoard = [
-        [5, 3, "", "", 7, "", "", "", ""],
-        [6, "", "", 1, 9, 5, "", "", ""],
-        ["", 9, 8, "", "", "", "", 6, ""],
-        [8, "", "", "", 6, "", "", "", 3],
-        [4, "", "", 8, "", 3, "", "", 1],
-        [7, "", "", "", 2, "", "", "", 6],
-        ["", 6, "", "", "", "", 2, 8, ""],
-        ["", "", "", 4, 1, 9, "", "", 5],
-        ["", "", "", "", 8, "", "", 7, 9]
-    ];
-
-    const sudokuContainer = document.getElementById("sudoku-board");
-
-    function createSudokuBoard() {
-        sudokuContainer.innerHTML = "";
-        sudokuBoard.forEach((row, i) => {
-            const tr = document.createElement("tr");
-            row.forEach((cell, j) => {
-                const td = document.createElement("td");
-                const input = document.createElement("input");
-                input.type = "number";
-                input.min = 1;
-                input.max = 9;
-                input.value = cell ? cell : "";
-                input.disabled = cell !== "";
-                td.appendChild(input);
-                tr.appendChild(td);
-            });
-            sudokuContainer.appendChild(tr);
-        });
-    }
-
-    function checkSudoku() {
-        const rows = sudokuContainer.getElementsByTagName("tr");
-        let isCorrect = true;
-
-        for (let i = 0; i < 9; i++) {
-            const rowSet = new Set();
-            const colSet = new Set();
-            for (let j = 0; j < 9; j++) {
-                const rowVal = rows[i].cells[j].querySelector("input").value;
-                const colVal = rows[j].cells[i].querySelector("input").value;
-
-                if (rowVal) rowSet.add(rowVal);
-                if (colVal) colSet.add(colVal);
-
-                if (rowSet.size !== i + 1 || colSet.size !== i + 1) {
-                    isCorrect = false;
-                }
-            }
-        }
-
-        alert(isCorrect ? "Sudoku korrekt!" : "Noch nicht richtig!");
-    }
-
-    createSudokuBoard();
-
-    // Minigame "Fang den Ball"
-    const canvas = document.getElementById("minigame-canvas");
-    const ctx = canvas.getContext("2d");
-    let ball = { x: 150, y: 150, radius: 15 };
-    let score = 0;
-
-    canvas.addEventListener("click", function (e) {
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        if (Math.hypot(ball.x - x, ball.y - y) < ball.radius) {
-            score++;
-            moveBall();
-        }
-    });
-
-    function moveBall() {
-        ball.x = Math.random() * (canvas.width - ball.radius * 2) + ball.radius;
-        ball.y = Math.random() * (canvas.height - ball.radius * 2) + ball.radius;
-        drawBall();
-    }
-
-    function drawBall() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.beginPath();
-        ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.closePath();
-    }
-
-    moveBall();
-
-    // Schachrätsel-Setup
-    const chessboard = document.getElementById("chessboard");
-    chessboard.style.display = "grid";
-    chessboard.style.gridTemplateColumns = "repeat(8, 50px)";
-    chessboard.style.gridTemplateRows = "repeat(8, 50px)";
-    chessboard.style.width = "400px";
-    chessboard.style.height = "400px";
-    chessboard.style.border = "2px solid black";
-
-    const chessPuzzle = [
-        ["r", "", "", "", "k", "", "", "r"],
-        ["", "", "", "", "p", "", "", ""],
-        ["", "", "", "", "", "P", "", ""],
-        ["", "", "", "K", "", "", "", ""],
-        [_{{{CITATION{{{_1{](https://github.com/soundswarm/sudoku/tree/9fdd7ff3c4d99e02b6b7adb41cc25efe0cadcff9/client%2Fdist%2Fjs%2Fsudoku.js)[_{{{CITATION{{{_2{](https://github.com/alkorr37/alevel/tree/f3d372d94c616f21e791fe74b2d6ad9ad587f827/module3%2Fsrc%2Fmain%2Fwebapp%2Fjs%2Fmain.js)
+});
