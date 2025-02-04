@@ -19,8 +19,8 @@
             margin: 0;
             font-family: Arial, sans-serif;
             color: #333;
-            position: relative; /* Für den Radioplayer am unteren Rand */
-            min-height: 100vh;  /* Für den Radioplayer am unteren Rand */
+            position: relative;
+            min-height: 100vh;
         }
 
         /* Container für alle Widgets */
@@ -98,14 +98,15 @@
         .slide img {
             width: 100%;
             height: auto;
+            object-fit: cover;
         }
         .overlay {
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 25%; /* 1/4 des Bildes */
+            width: 25%;
             height: 25%;
-            background-color: rgba(128, 128, 128, 0.5); /* Transparenter grauer Rahmen */
+            background-color: rgba(128, 128, 128, 0.5);
             color: white;
             padding: 10px;
             box-sizing: border-box;
@@ -118,7 +119,7 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background-color: rgba(128, 128, 128, 0.5); /* Transparente graue Vierecke */
+            background-color: rgba(128, 128, 128, 0.5);
             color: white;
             border: none;
             border-radius: 4px;
@@ -149,17 +150,16 @@
             width: 100%;
             background-color: #f9f9f9;
             border-top: 1px solid #ccc;
-            padding: 10px;
+            padding: 0;
             box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             z-index: 1000;
+            height: 80px; /* Passe die Höhe nach Bedarf an */
+            overflow: hidden;
         }
+
         .radio-player iframe {
             width: 100%;
-            max-width: 1200px;
-            height: 80px;
+            height: 100%;
             border: none;
         }
 
@@ -173,7 +173,7 @@
                 font-size: 24px;
                 padding: 8px;
             }
-            .radio-player iframe {
+            .radio-player {
                 height: 60px;
             }
         }
@@ -250,85 +250,10 @@
 
     <!-- Radioplayer als Taskleiste -->
     <div class="radio-player">
-        <iframe src="https://www.swr3.de/webradio/radioplayer-swr3-100.html"></iframe>
+        <iframe src="https://www.swr3.de/export/sites/swr3/mediaplayer/swr3_mediaplayer.html" scrolling="no"></iframe>
     </div>
 
     <!-- JavaScript -->
-    <script>
-        const feedUrl = 'https://www.tagesschau.de/xml/rss2/';
-
-        let currentIndex = 0;
-        let slidesData = [];
-
-        async function fetchRSS() {
-            try {
-                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`);
-                const data = await response.json();
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(data.contents, "text/xml");
-                const items = xmlDoc.querySelectorAll('item');
-                slidesData = [];
-
-                items.forEach(item => {
-                    const title = item.querySelector('title').textContent;
-                    let imageUrl = '';
-
-                    // Versuche, das Bild aus dem <description>-Feld zu extrahieren
-                    const description = item.querySelector('description').textContent;
-                    const imgMatch = description.match(/<img.*?src="(.*?)"/);
-                    if (imgMatch && imgMatch[1]) {
-                        imageUrl = imgMatch[1];
-                    } else {
-                        // Fallback-Bild verwenden, falls kein Bild gefunden wurde
-                        imageUrl = 'fallback.jpg'; // Ersetze durch den Pfad zu deinem Fallback-Bild
-                    }
-
-                    slidesData.push({ title, imageUrl });
-                });
-
-                if (slidesData.length > 0) {
-                    updateSlide();
-                    setInterval(nextSlide, 5000); // 5 Sekunden Intervall
-                }
-            } catch (error) {
-                console.error('Fehler beim Laden des RSS-Feeds:', error);
-            }
-        }
-
-        function updateSlide() {
-            if (slidesData.length === 0) return;
-
-            const { title, imageUrl } = slidesData[currentIndex];
-            const newsImage = document.getElementById('news-image');
-            const newsOverlay = document.getElementById('news-overlay');
-
-            newsImage.src = imageUrl;
-            newsOverlay.innerHTML = `<h3>${title}</h3>`;
-        }
-
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % slidesData.length;
-            updateSlide();
-        }
-
-        function prevSlide() {
-            currentIndex = (currentIndex - 1 + slidesData.length) % slidesData.length;
-            updateSlide();
-        }
-
-        document.getElementById('next').addEventListener('click', nextSlide);
-        document.getElementById('prev').addEventListener('click', prevSlide);
-
-        // Initialer Aufruf
-        fetchRSS();
-
-        // Menü-Skript
-        const menuToggle = document.getElementById('menu-toggle');
-        const sidebar = document.getElementById('sidebar');
-
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-        });
-    </script>
+    <!-- Füge hier den aktualisierten JavaScript-Code von oben ein -->
 </body>
 </html>
