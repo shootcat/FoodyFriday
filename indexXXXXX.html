@@ -99,8 +99,7 @@
         <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1E4DTZUur7HqeC?utm_source=generator" width="100%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     </div>
 
-    <!-- JavaScript -->
-   <script>
+  <script>
     const feedUrl = 'https://www.tagesschau.de/infoservices/alle-meldungen-100~rss2.xml';
     const slideInterval = 10000; // 10 Sekunden
     const feedRefreshInterval = 300000; // 5 Minuten
@@ -115,33 +114,7 @@
             const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`);
             const data = await response.json();
 
-            slidesData = data.items.map(item => {
-                let imageUrl = '';
-
-                // 1. Versuche, das Bild aus dem 'enclosure' Feld zu bekommen
-                if (item.enclosure && item.enclosure.link) {
-                    imageUrl = item.enclosure.link;
-                }
-                // 2. Falls nicht vorhanden, versuche 'thumbnail'
-                else if (item.thumbnail) {
-                    imageUrl = item.thumbnail;
-                }
-                // 3. Falls nicht vorhanden, versuche das Bild aus dem 'description' Feld zu extrahieren
-                else {
-                    const imgMatch = item.description.match(/<img.*?src="(.*?)"/);
-                    if (imgMatch && imgMatch[1]) {
-                        imageUrl = imgMatch[1];
-                    } else {
-                        // Fallback-Bild verwenden
-                        imageUrl = 'https://via.placeholder.com/800x400?text=Keine+Vorschau';
-                    }
-                }
-
-                return {
-                    title: item.title,
-                    imageUrl: imageUrl
-                };
-            });
+            slidesData = data.items.filter(item => item.thumbnail);
 
             if (slidesData.length > 0) {
                 currentIndex = 0; // Zurück zum ersten Slide
@@ -155,21 +128,23 @@
     function updateSlide() {
         if (slidesData.length === 0) return;
 
-        const { title, imageUrl } = slidesData[currentIndex];
+        const { title, thumbnail } = slidesData[currentIndex];
         const newsImage = document.getElementById('news-image');
         const newsOverlay = document.getElementById('news-overlay').querySelector('h3');
 
-        newsImage.src = imageUrl;
+        newsImage.src = thumbnail;
         newsOverlay.textContent = title;
     }
 
     function nextSlide() {
-        currentIndex = (currentIndex + 1) % slidesData.length;
+        currentIndex++;
+        if (currentIndex >= slidesData.length) currentIndex = 0;
         updateSlide();
     }
 
     function prevSlide() {
-        currentIndex = (currentIndex - 1 + slidesData.length) % slidesData.length;
+        currentIndex--;
+        if (currentIndex < 0) currentIndex = slidesData.length - 1;
         updateSlide();
     }
 
@@ -200,14 +175,6 @@
     fetchRSS().then(() => {
         startSlideTimer();
         startFeedTimer();
-    });
-
-    // Menü-Skript
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-
-    menuToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
     });
 </script>
 </body>
