@@ -100,7 +100,7 @@
     </div>
 
  <script>
-    const feedUrl = 'https://www.tagesschau.de/infoservices/alle-meldungen-100~rss2.xml';
+    const feedUrl = 'https://www.tagesschau.de/xml/rss2/';
     const slideInterval = 10000; // 10 Sekunden
     const feedRefreshInterval = 300000; // 5 Minuten
 
@@ -114,8 +114,33 @@
             const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`);
             const data = await response.json();
 
-            // ÄNDERUNG HIER:
-            slidesData = data.items.filter(item => item.thumbnail);
+            slidesData = data.items.map(item => {
+                let imageUrl = '';
+
+                // Versuche, das Bild aus dem 'enclosure' Feld zu bekommen
+                if (item.enclosure && item.enclosure.link) {
+                    imageUrl = item.enclosure.link;
+                }
+                // Falls nicht vorhanden, versuche 'thumbnail'
+                else if (item.thumbnail) {
+                    imageUrl = item.thumbnail;
+                }
+                // Falls nicht vorhanden, versuche das Bild aus dem 'description' Feld zu extrahieren
+                else {
+                    const imgMatch = item.description.match(/<img.*?src="(.*?)"/);
+                    if (imgMatch && imgMatch[1]) {
+                        imageUrl = imgMatch[1];
+                    } else {
+                        // Fallback-Bild verwenden
+                        imageUrl = 'https://via.placeholder.com/800x400?text=Keine+Vorschau';
+                    }
+                }
+
+                return {
+                    title: item.title,
+                    imageUrl: imageUrl
+                };
+            });
 
             if (slidesData.length > 0) {
                 currentIndex = 0; // Zurück zum ersten Slide
@@ -129,26 +154,21 @@
     function updateSlide() {
         if (slidesData.length === 0) return;
 
-        // ÄNDERUNG HIER:
-        const { title, thumbnail } = slidesData[currentIndex];
-
+        const { title, imageUrl } = slidesData[currentIndex];
         const newsImage = document.getElementById('news-image');
         const newsOverlay = document.getElementById('news-overlay').querySelector('h3');
 
-        // ÄNDERUNG HIER:
-        newsImage.src = thumbnail;
+        newsImage.src = imageUrl;
         newsOverlay.textContent = title;
     }
 
     function nextSlide() {
-        currentIndex++;
-        if (currentIndex >= slidesData.length) currentIndex = 0;
+        currentIndex = (currentIndex + 1) % slidesData.length;
         updateSlide();
     }
 
     function prevSlide() {
-        currentIndex--;
-        if (currentIndex < 0) currentIndex = slidesData.length - 1;
+        currentIndex = (currentIndex - 1 + slidesData.length) % slidesData.length;
         updateSlide();
     }
 
@@ -181,6 +201,7 @@
         startFeedTimer();
     });
 </script>
+
 
 </body>
 </html>
