@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
+
     <!-- Favicon Links -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <!-- Weitere Favicon-Links -->
@@ -30,7 +30,7 @@
             margin: 0 auto;
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
-            padding-bottom: 100px; /* Platz für den Radioplayer unten */
+            padding-bottom: 80px; /* Platz für den Radioplayer unten */
         }
 
         /* Widgets-Container */
@@ -74,12 +74,6 @@
             border-radius: 50%;
             cursor: pointer;
         }
-        .search-bar button:hover {
-            background-color: #3071E8;
-        }
-        .search-bar button:active {
-            background-color: #1A5CCC;
-        }
         .search-bar button img {
             width: 24px;
             height: 24px;
@@ -104,7 +98,7 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 25%;
+            width: 25%; /* 1/4 des Bildes */
             height: 25%;
             background-color: rgba(128, 128, 128, 0.5);
             color: white;
@@ -150,20 +144,17 @@
             width: 100%;
             background-color: #f9f9f9;
             border-top: 1px solid #ccc;
-            padding: 0;
+            padding: 5px;
             box-sizing: border-box;
             z-index: 1000;
-            height: 80px; /* Passe die Höhe nach Bedarf an */
-            overflow: hidden;
+            text-align: center;
         }
 
-        .radio-player iframe {
+        .radio-player audio {
             width: 100%;
-            height: 100%;
-            border: none;
+            max-width: 600px; /* Passe die Breite nach Bedarf an */
         }
 
-        /* Für kleinere Geräte */
         @media (max-width: 768px) {
             .overlay {
                 width: 50%;
@@ -173,13 +164,14 @@
                 font-size: 24px;
                 padding: 8px;
             }
-            .radio-player {
-                height: 60px;
+            .radio-player audio {
+                max-width: 100%;
             }
         }
     </style>
 </head>
 <body>
+
     <!-- Hamburger Menü -->
     <div id="menu-toggle" class="menu-icon">
         <div class="bar"></div>
@@ -204,7 +196,7 @@
     <!-- Banner mit Logo und Titel -->
     <header>
         <div class="banner-content">
-            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
+            <img src="dein-logo.png" alt="Logo" class="logo">
             <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
         </div>
     </header>
@@ -250,10 +242,70 @@
 
     <!-- Radioplayer als Taskleiste -->
     <div class="radio-player">
-        <iframe src="https://www.swr3.de/export/sites/swr3/mediaplayer/swr3_mediaplayer.html" scrolling="no"></iframe>
+        <audio id="audio-player" controls>
+            <source src="https://mp3-live.swr3.de/swr3_m.m3u" type="audio/mpeg">
+            Dein Browser unterstützt das Audio-Element nicht.
+        </audio>
     </div>
 
     <!-- JavaScript -->
-    <!-- Füge hier den aktualisierten JavaScript-Code von oben ein -->
+    <!-- Füge hier den aktualisierten JavaScript-Code ein -->
+    <script>
+        const feedUrl = 'https://www.tagesschau.de/infoservices/alle-meldungen-100~rss2.xml';
+        const slideInterval = 5000; // 5 Sekunden
+
+        let currentIndex = 0;
+        let slidesData = [];
+
+        async function fetchRSS() {
+            try {
+                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`);
+                const data = await response.json();
+                slidesData = data.items.filter(item => item.thumbnail && item.title);
+
+                if (slidesData.length > 0) {
+                    updateSlide();
+                    setInterval(nextSlide, slideInterval);
+                }
+            } catch (error) {
+                console.error('Fehler beim Laden des RSS-Feeds:', error);
+            }
+        }
+
+        function updateSlide() {
+            if (slidesData.length === 0) return;
+
+            const { title, thumbnail } = slidesData[currentIndex];
+            const newsImage = document.getElementById('news-image');
+            const newsOverlay = document.getElementById('news-overlay');
+
+            newsImage.src = thumbnail;
+            newsOverlay.innerHTML = `<h3>${title}</h3>`;
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slidesData.length;
+            updateSlide();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + slidesData.length) % slidesData.length;
+            updateSlide();
+        }
+
+        document.getElementById('next').addEventListener('click', nextSlide);
+        document.getElementById('prev').addEventListener('click', prevSlide);
+
+        // Initialer Aufruf
+        fetchRSS();
+
+        // Menü-Skript
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+    </script>
 </body>
 </html>
