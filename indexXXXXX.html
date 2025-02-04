@@ -68,17 +68,18 @@
                 <!-- Nachrichten Feed Überschrift -->
                 <h2 class="section-title">Nachrichten Feed</h2>
 
-                <!-- Nachrichten Slider -->
-                <div class="slider">
-                    <div class="slide" id="slide">
-                        <img src="" alt="News" id="news-image">
-                        <div class="overlay" id="news-overlay">
-                            <h3></h3>
-                        </div>
-                    </div>
-                    <button class="nav-button" id="prev">&#10094;</button>
-                    <button class="nav-button" id="next">&#10095;</button>
-                </div>
+             <!-- Nachrichten Slider -->
+<div class="slider">
+    <div class="slide" id="slide">
+        <img src="" alt="News" id="news-image">
+        <div class="overlay" id="news-overlay">
+            <h3></h3>
+        </div>
+    </div>
+    <button class="nav-button" id="prev">&#10094;</button>
+    <button class="nav-button" id="next">&#10095;</button>
+</div>
+
 
                 <!-- Wetter-Widget -->
                 <div class="weather-widget">
@@ -99,89 +100,115 @@
     </div>
 
     <!-- JavaScript -->
-    <script>
-        const feedUrl = 'https://www.tagesschau.de/infoservices/alle-meldungen-100~rss2.xml';
-        const slideInterval = 10000; // 10 Sekunden
-        const feedRefreshInterval = 300000; // 5 Minuten
+   <script>
+    const feedUrl = 'https://www.tagesschau.de/infoservices/alle-meldungen-100~rss2.xml';
+    const slideInterval = 10000; // 10 Sekunden
+    const feedRefreshInterval = 300000; // 5 Minuten
 
-        let currentIndex = 0;
-        let slidesData = [];
-        let slideTimer;
-        let feedTimer;
+    let currentIndex = 0;
+    let slidesData = [];
+    let slideTimer;
+    let feedTimer;
 
-        async function fetchRSS() {
-            try {
-                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`);
-                const data = await response.json();
+    async function fetchRSS() {
+        try {
+            const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`);
+            const data = await response.json();
 
-                slidesData = data.items.filter(item => item.thumbnail && item.title);
+            slidesData = data.items.map(item => {
+                let imageUrl = '';
 
-                if (slidesData.length > 0) {
-                    currentIndex = 0; // Zurück zum ersten Slide
-                    updateSlide();
+                // 1. Versuche, das Bild aus dem 'enclosure' Feld zu bekommen
+                if (item.enclosure && item.enclosure.link) {
+                    imageUrl = item.enclosure.link;
                 }
-            } catch (error) {
-                console.error('Fehler beim Laden des RSS-Feeds:', error);
+                // 2. Falls nicht vorhanden, versuche 'thumbnail'
+                else if (item.thumbnail) {
+                    imageUrl = item.thumbnail;
+                }
+                // 3. Falls nicht vorhanden, versuche das Bild aus dem 'description' Feld zu extrahieren
+                else {
+                    const imgMatch = item.description.match(/<img.*?src="(.*?)"/);
+                    if (imgMatch && imgMatch[1]) {
+                        imageUrl = imgMatch[1];
+                    } else {
+                        // Fallback-Bild verwenden
+                        imageUrl = 'https://via.placeholder.com/800x400?text=Keine+Vorschau';
+                    }
+                }
+
+                return {
+                    title: item.title,
+                    imageUrl: imageUrl
+                };
+            });
+
+            if (slidesData.length > 0) {
+                currentIndex = 0; // Zurück zum ersten Slide
+                updateSlide();
             }
+        } catch (error) {
+            console.error('Fehler beim Laden des RSS-Feeds:', error);
         }
+    }
 
-        function updateSlide() {
-            if (slidesData.length === 0) return;
+    function updateSlide() {
+        if (slidesData.length === 0) return;
 
-            const { title, thumbnail } = slidesData[currentIndex];
-            const newsImage = document.getElementById('news-image');
-            const newsOverlay = document.getElementById('news-overlay').querySelector('h3');
+        const { title, imageUrl } = slidesData[currentIndex];
+        const newsImage = document.getElementById('news-image');
+        const newsOverlay = document.getElementById('news-overlay').querySelector('h3');
 
-            newsImage.src = thumbnail;
-            newsOverlay.textContent = title;
-        }
+        newsImage.src = imageUrl;
+        newsOverlay.textContent = title;
+    }
 
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % slidesData.length;
-            updateSlide();
-        }
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % slidesData.length;
+        updateSlide();
+    }
 
-        function prevSlide() {
-            currentIndex = (currentIndex - 1 + slidesData.length) % slidesData.length;
-            updateSlide();
-        }
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + slidesData.length) % slidesData.length;
+        updateSlide();
+    }
 
-        document.getElementById('next').addEventListener('click', () => {
-            nextSlide();
-            resetSlideTimer();
-        });
+    document.getElementById('next').addEventListener('click', () => {
+        nextSlide();
+        resetSlideTimer();
+    });
 
-        document.getElementById('prev').addEventListener('click', () => {
-            prevSlide();
-            resetSlideTimer();
-        });
+    document.getElementById('prev').addEventListener('click', () => {
+        prevSlide();
+        resetSlideTimer();
+    });
 
-        function startSlideTimer() {
-            slideTimer = setInterval(nextSlide, slideInterval);
-        }
+    function startSlideTimer() {
+        slideTimer = setInterval(nextSlide, slideInterval);
+    }
 
-        function resetSlideTimer() {
-            clearInterval(slideTimer);
-            startSlideTimer();
-        }
+    function resetSlideTimer() {
+        clearInterval(slideTimer);
+        startSlideTimer();
+    }
 
-        function startFeedTimer() {
-            feedTimer = setInterval(fetchRSS, feedRefreshInterval);
-        }
+    function startFeedTimer() {
+        feedTimer = setInterval(fetchRSS, feedRefreshInterval);
+    }
 
-        // Initialer Aufruf
-        fetchRSS().then(() => {
-            startSlideTimer();
-            startFeedTimer();
-        });
+    // Initialer Aufruf
+    fetchRSS().then(() => {
+        startSlideTimer();
+        startFeedTimer();
+    });
 
-        // Menü-Skript
-        const menuToggle = document.getElementById('menu-toggle');
-        const sidebar = document.getElementById('sidebar');
+    // Menü-Skript
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
 
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-        });
-    </script>
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+    });
+</script>
 </body>
 </html>
