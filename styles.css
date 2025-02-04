@@ -16,20 +16,20 @@ header {
 
 .banner-content {
     display: flex;
-    flex-direction: column; /* Stack logo and title vertically */
+    flex-direction: column; /* Stapelt Logo und Titel vertikal */
     align-items: center;
     justify-content: center;
 }
 
 .logo {
-    width: 120px; /* Logo size */
-    margin-bottom: 10px; /* Space between logo and title */
+    width: 120px; /* Logo-Größe */
+    margin-bottom: 10px; /* Abstand zwischen Logo und Titel */
 }
 
 .banner-title {
-    font-family: 'Arial', sans-serif; /* Modern font */
-    font-size: 2.2em; /* Larger title */
-    font-weight: 700; /* Bold for emphasis */
+    font-family: 'Roboto', sans-serif; /* Schriftart angepasst */
+    font-size: 2.2em; /* Größerer Titel */
+    font-weight: 700; /* Fettgedruckt für Hervorhebung */
     color: #ffffff;
     margin: 0;
 }
@@ -55,14 +55,14 @@ header {
     position: fixed;
     top: 0;
     left: 0;
-    width: 12.5%; /* 1/8 der Seitenbreite */
+    width: 250px; /* Feste Breite für bessere Kontrolle */
     height: 100%;
     background-color: rgba(72, 81, 107, 0.9);
     color: white;
     transition: transform 0.3s ease;
     z-index: 999;
     padding-top: 100px;
-    transform: translateX(-100%); /* Sidebar vollständig nach links außerhalb des Bildschirms schieben */
+    transform: translateX(-100%); /* Sidebar außerhalb des Bildschirms */
 }
 
 .sidebar nav ul {
@@ -89,262 +89,182 @@ header {
 
 /* Aktive Sidebar */
 .sidebar.active {
-    transform: translateX(0); /* Sidebar in die Ansicht schieben */
+    transform: translateX(0); /* Sidebar sichtbar machen */
 }
 
 /* Main Content */
 main {
-    margin-left: 20px;
-    margin-right: 20px;
     padding-top: 100px;
 }
 
-.content {
-    background-color: white;
-    opacity: 0.9;
+.content-container {
+    background-color: rgba(255, 255, 255, 0.9);
     padding: 20px;
     border-radius: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 100px; /* Platz für den Musikplayer */
 }
 
-h1, h2, h3 {
-    color: #333;
+.section-title {
+    font-size: 48px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
 }
 
-p, li {
-    color: #555;
+/* Suchleiste */
+.search-bar {
+    text-align: center;
+    margin: 60px auto 40px auto;
+    position: relative;
 }
 
-/* Table in Food List */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+.search-bar form {
+    display: inline-block;
+    position: relative;
 }
 
-th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-th {
-    background-color: #f4f4f4;
-}
-
-td.red {
-    color: red;
-}
-
-td.blue {
-    color: blue;
-}
-
-/* Form in Comments */
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-label {
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-
-input, textarea {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-button {
-    margin-top: 15px;
-    padding: 10px;
-    font-size: 16px;
-    background-color: #333;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #555;
-}
-
-/* Comments List */
-#comments-list div {
-    margin-top: 10px;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-}
-
-#comments-list div:nth-child(odd) {
-    background-color: #f9f9f9;
-}
-
-#comments-list div:nth-child(even) {
-    background-color: #e9e9e9;
-}
-
-/* Style for the Comment Section */
-#comments-list .comment-item {
-    margin-top: 10px;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.comment-content {
+.search-bar input[type="text"] {
+    width: 600px;
     max-width: 80%;
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    outline: none;
+    background-color: white;
+    font-size: 18px;
+    box-sizing: border-box;
 }
 
-/* Style for the Like Button */
-.like-button {
-    background-color: #333;
+.search-bar button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border: none;
+    background-color: #4285F4;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.search-bar button img {
+    width: 24px;
+    height: 24px;
+}
+
+/* Nachrichten Slider */
+.slider {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+.slide {
+    position: relative;
+}
+
+.slide img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 25%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.overlay h3 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border: none;
-    padding: 5px 10px;
+    border-radius: 50%;
     cursor: pointer;
-    border-radius: 5px;
-    font-size: 0.9em;
+    font-size: 30px;
+    padding: 10px;
 }
 
-.like-button:hover {
-    background-color: #555;
+.nav-button#prev {
+    left: 10px;
 }
 
-/* Allgemeine Media Query für mobile Geräte */
-@media (max-width: 767px) {
+.nav-button#next {
+    right: 10px;
+}
+
+/* Wetter-Widget Anpassung */
+.weather-widget iframe {
+    width: 100%;
+    height: 600px;
+    border: none;
+    border-radius: 8px;
+}
+
+/* Musikplayer als Taskleiste */
+.music-player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000;
+    padding: 0;
+    box-sizing: border-box;
+    z-index: 1000;
+    text-align: center;
+}
+
+.music-player iframe {
+    width: 100%;
+    height: 80px;
+    border: none;
+}
+
+/* Responsives Design für Mobilgeräte */
+@media (max-width: 768px) {
+    .banner-title {
+        font-size: 32px;
+    }
+
+    .search-bar input[type="text"] {
+        width: 100%;
+    }
+
+    .overlay h3 {
+        font-size: 1.2em;
+    }
+
+    .nav-button {
+        font-size: 24px;
+        padding: 8px;
+    }
+
+    .music-player iframe {
+        height: 80px;
+    }
+
     .sidebar {
         width: 75%;
-    }
-}
-
-/* Spezifische Media Queries für die genannten Geräte */
-
-/* Samsung Galaxy Z Fold 4 Frontdisplay */
-@media (max-width: 360px) {
-    .sidebar {
-        width: 80%;
-    }
-}
-
-/* Samsung Galaxy Z Fold 4 Hauptdisplay */
-@media (min-width: 361px) and (max-width: 768px) {
-    .sidebar {
-        width: 65%;
-    }
-}
-
-/* iPhone 16 Pro */
-@media (max-width: 390px) {
-    .sidebar {
-        width: 80%;
-    }
-}
-
-/* Samsung Galaxy S24 Ultra */
-@media (max-width: 412px) {
-    .sidebar {
-        width: 80%;
-    }
-}
-/* Sudoku Styles */
-#sudoku-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-}
-
-#sudoku-board {
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-#sudoku-board td {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #000;
-    text-align: center;
-}
-
-#sudoku-board input {
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    font-size: 16px;
-}
-
-#sudoku-container button {
-    margin-top: 10px;
-    padding: 8px 16px;
-    font-size: 14px;
-    background-color: #333;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#sudoku-container button:hover {
-    background-color: #555;
-}
-
-/* Minigame Styles */
-#minigame-canvas {
-    border: 2px solid #333;
-    margin-top: 20px;
-    border-radius: 10px;
-}
-
-/* Chess Puzzle Styles */
-#chessboard {
-    display: grid;
-    grid-template-columns: repeat(8, 50px);
-    grid-template-rows: repeat(8, 50px);
-    width: 400px;
-    height: 400px;
-    margin-top: 20px;
-    border: 2px solid black;
-}
-
-#chessboard div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-#chessboard div:nth-child(odd) {
-    background-color: #f0d9b5;
-}
-
-#chessboard div:nth-child(even) {
-    background-color: #b58863;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 767px) {
-    #sudoku-board td, #sudoku-board input {
-        width: 30px;
-        height: 30px;
-        font-size: 14px;
-    }
-
-    #chessboard {
-        width: 300px;
-        height: 300px;
-        grid-template-columns: repeat(8, 37.5px);
-        grid-template-rows: repeat(8, 37.5px);
-    }
-
-    #minigame-canvas {
-        width: 250px;
-        height: 250px;
     }
 }
