@@ -268,3 +268,48 @@ main {
         width: 75%;
     }
 }
+/* Musikplayer als Taskleiste */
+.music-player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #002244; /* Passend zu deinem Header */
+    padding: 10px 0;
+    box-sizing: border-box;
+    z-index: 1000;
+    text-align: center;
+}
+
+.station-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.station-selector button {
+    background-color: #0055a5;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.station-selector button:hover {
+    background-color: #0077cc;
+}
+
+.station-selector button.active {
+    background-color: #ffcc00;
+    color: #002244;
+}
+
+#player-container iframe {
+    width: 100%;
+    height: 80px;
+    border: none;
+}
