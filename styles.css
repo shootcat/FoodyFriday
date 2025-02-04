@@ -107,10 +107,10 @@ main {
 }
 
 .section-title {
-    font-size: 48px;
+    font-size: 2em; /* Überschrift größer gemacht */
     margin-bottom: 20px;
     text-align: center;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif; /* Schriftart angepasst */
 }
 
 /* Suchleiste */
@@ -244,7 +244,7 @@ main {
 /* Responsives Design für Mobilgeräte */
 @media (max-width: 768px) {
     .banner-title {
-        font-size: 32px;
+        font-size: 1.5em;
     }
 
     .search-bar input[type="text"] {
