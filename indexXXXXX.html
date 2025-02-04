@@ -94,10 +94,16 @@
     </main>
 
     <!-- Musikplayer als Taskleiste -->
-    <div class="music-player">
-        <!-- Spotify-Embed-URL einfügen -->
-        <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1E4DTZUur7HqeC?utm_source=generator" width="100%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+<div class="music-player">
+    <div class="station-selector">
+        <button id="swr3-button">SWR3</button>
+        <button id="dasding-button">DAS DING</button>
+        <button id="badenfm-button">BADEN FM</button>
     </div>
+    <div id="player-container">
+        <!-- Hier wird der Player eingebettet -->
+    </div>
+</div>
 
  <script>
     const feedUrl = 'https://www.tagesschau.de/xml/rss2/';
@@ -201,7 +207,45 @@
         startFeedTimer();
     });
 </script>
-<script src="script.js"></script>
 
+<script>
+    const stationButtons = {
+        'swr3-button': {
+            name: "SWR3",
+            embedUrl: "https://www.swr3.de/webradio/webradio-102~player_json.json"
+        },
+        'dasding-button': {
+            name: "DAS DING",
+            embedUrl: "https://www.dasding.de/webradio/webradio-102~player_json.json"
+        },
+        'badenfm-button': {
+            name: "BADEN FM",
+            embedUrl: "https://www.baden.fm/player/"
+        }
+    };
+
+    const playerContainer = document.getElementById('player-container');
+
+    function loadStationEmbed(embedUrl) {
+        playerContainer.innerHTML = `<iframe src="${embedUrl}" allow="autoplay"></iframe>`;
+    }
+
+    // Event Listener für Buttons
+    for (const [buttonId, station] of Object.entries(stationButtons)) {
+        document.getElementById(buttonId).addEventListener('click', () => {
+            // Entferne die aktive Klasse von allen Buttons
+            document.querySelectorAll('.station-selector button').forEach(btn => btn.classList.remove('active'));
+            // Füge die aktive Klasse zum geklickten Button hinzu
+            document.getElementById(buttonId).classList.add('active');
+            // Lade den Player
+            loadStationEmbed(station.embedUrl);
+        });
+    }
+
+    // Initiale Station laden und Button markieren
+    document.getElementById('swr3-button').classList.add('active');
+    loadStationEmbed(stationButtons['swr3-button'].embedUrl);
+</script>
+<script src="script.js"></script>
 </body>
 </html>
