@@ -30,7 +30,7 @@
             margin: 0 auto;
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
-            padding-bottom: 80px; /* Platz für den Radioplayer unten */
+            padding-bottom: 80px; /* Platz für den Musikplayer unten */
         }
 
         /* Widgets-Container */
@@ -145,23 +145,24 @@
             border-radius: 8px;
         }
 
-        /* Radioplayer als Taskleiste */
-        .radio-player {
+        /* Musikplayer als Taskleiste */
+        .music-player {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: #f9f9f9;
-            border-top: 1px solid #ccc;
-            padding: 5px;
+            background-color: #000; /* Schwarzer Hintergrund */
+            padding: 5px 0;
             box-sizing: border-box;
             z-index: 1000;
             text-align: center;
         }
 
-        .radio-player audio {
+        .music-player iframe {
             width: 100%;
-            max-width: 600px; /* Passe die Breite nach Bedarf an */
+            max-width: 1200px;
+            height: 70px; /* Höhe des YouTube-Players angepasst */
+            border: none;
         }
 
         /* Responsives Design für Mobilgeräte */
@@ -173,14 +174,14 @@
                 font-size: 24px;
                 padding: 8px;
             }
-            .radio-player audio {
-                max-width: 100%;
-            }
             .section-title {
                 font-size: 1.5em;
             }
             .search-bar input[type="text"] {
                 width: 100%;
+            }
+            .music-player iframe {
+                height: 60px;
             }
         }
     </style>
@@ -264,12 +265,9 @@
         </div>
     </main>
 
-    <!-- Radioplayer als Taskleiste -->
-    <div class="radio-player">
-        <audio id="audio-player" controls>
-            <source src="https://mp3-live.swr3.de/swr3_m.m3u" type="audio/mpeg">
-            Dein Browser unterstützt das Audio-Element nicht.
-        </audio>
+    <!-- Musikplayer als Taskleiste -->
+    <div class="music-player">
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID?controls=1&autoplay=0&loop=1&playlist=VIDEO_ID" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
     <!-- JavaScript -->
