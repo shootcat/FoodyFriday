@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Foody Friday NewsBlog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <!-- Favicon Links -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Weitere Favicon-Links -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Swiper CSS für den Slider (Nachrichten-API) -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+   
+    <!-- Zusätzliche CSS-Styles -->
+    <style>
+        /* Transparenter Hintergrund für den gesamten Body */
+        body {
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        /* Container für alle Widgets */
+        .content-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+        }
+
+        /* Allgemeine Boxen für den Inhalt */
+        .widgets-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            justify-content: space-between;
+        }
+
+        /* Radio Player */
+        .microsite.embedded-radio-player {
+            background-color: rgba(0, 0, 0, 0);
+            width: 100%;
+            max-width: 100%;
+            margin: 20px 0;
+            height: 100px;
+        }
+        .microsite.embedded-radio-player h2 {
+            background-color: rgba(0, 0, 0, 0);
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Wetter-Widget Anpassung */
+        .weather-widget iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        /* Suchleiste */
+        .search-bar {
+            text-align: center;
+            margin: 40px auto;
+            position: relative;
+        }
+        .search-bar form {
+            display: inline-block;
+            position: relative;
+        }
+        .search-bar input[type="text"] {
+            width: 600px; /* Passe die Breite nach Bedarf an */
+            max-width: 80%;
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            outline: none;
+            background-color: white;
+            font-size: 18px;
+            box-sizing: border-box;
+        }
+        .search-bar button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px; /* 1/5 der Breite des Eingabefelds */
+            height: 50px;
+            border: none;
+            background-color: #4285F4; /* Google-Blau */
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .search-bar button:hover {
+            background-color: #3071E8;
+        }
+        .search-bar button:active {
+            background-color: #1A5CCC;
+        }
+        .search-bar button img {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Nachrichten Slider */
+        .swiper-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+        .swiper-slide {
+            text-align: center;
+            background-color: #fff;
+        }
+        .swiper-slide img {
+            width: 100%;
+            height: auto;
+        }
+        .swiper-slide h3 {
+            margin: 10px 0 5px;
+            font-size: 1.2em;
+        }
+        .swiper-slide p {
+            padding: 0 20px;
+            font-size: 0.9em;
+        }
+
+        /* Für kleinere Geräte */
+        @media (max-width: 768px) {
+            .widgets-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .search-bar input[type="text"] {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hamburger Menü -->
+    <div id="menu-toggle" class="menu-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <!-- Seitenleiste -->
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="daily-news.html">Daily News</a></li>
+                <li><a href="essensliste.html">Essensliste</a></li>
+                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
+                <li><a href="undefiniert.html">FUN</a></li>
+                <li><a href="comments.html">Kommentare</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Banner mit Logo und Titel -->
+    <header>
+        <div class="banner-content">
+            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
+            <span class="banner-title">FOODY FRIDAY NEWSBLOG</span>
+        </div>
+    </header>
+
+
+    <!-- Hauptinhalt -->
+    <main>
+        <div class="content-container">
+            <h2>Willkommen auf unserem Foody Friday NewsBlog!</h2>
+                     
+            <!-- Widgets Container -->
+            <div class="widgets-container">
+
+<!-- Suchleiste -->
+    <div class="search-bar">
+        <!-- Google Suche Formular -->
+        <form action="https://www.google.com/search" method="get" target="_blank">
+            <input type="text" name="q" placeholder="Google durchsuchen" required>
+            <button type="submit">
+                <!-- Such-Icon -->
+                <img src="https://www.freeiconspng.com/uploads/search-icon-png-21.png" alt="Suchen">
+            </button>
+        </form>
+    </div>
+
+                <!-- Nachrichten Slider -->
+                <div class="swiper-container">
+                    <div class="swiper-wrapper" id="news-slider">
+                        <!-- Nachrichten-Slides werden dynamisch eingefügt -->
+                    </div>
+                    <!-- Navigationspfeile -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <!-- Pagination -->
+                    <div class="swiper-pagination"></div>
+                </div>
+
+                <!-- Eingebetteter Radio Player -->
+            <div class="microsite embedded-radio-player">
+                <h2>Dein neuer Radioplayer: SWR3</h2>
+                <p>Falls ihr euch einen anderen Radiosender wünscht, lasst es uns in den Kommentaren wissen</p>
+                <script>
+                    (function(d, s) {
+                        if (!window.rel) {
+                            s = d.createElement("script");
+                            s.type = "text/javascript";
+                            s.async = true;
+                            s.id = "radio-de-embedded";
+                            s.src = "https://www.radio.de/inc/microsite/js/full.js";
+                            d.getElementsByTagName("head")[0].appendChild(s);
+                            window.rel = true;
+                        }
+                    }(document));
+                </script>
+                <div class="ng-app-embedded">
+                    <div ui-view class="microsite embedded-radio-player" 
+                         data-playerwidth="300px" 
+                         data-playertype="web_embedded" 
+                         data-playstation="swr3" 
+                         data-autoplay="true" 
+                         data-apikey="df04ff67dd3339a6fc19c9b8be164d5b5245ae93">
+                    </div>
+                </div>
+                <noscript>
+                    <a href="https://www.radio.de/s/swr3" target="_blank">SWR3 auf radio.de</a>
+                </noscript>
+            </div>
+
+                <!-- Wetter-Widget -->
+                <div class="weather-widget">
+                    <h2>Wetter</h2>
+                    <iframe 
+                        src="https://www.meteoblue.com/de/wetter/widget/three/maulburg_de_2872372?geoloc=fixed&nocurrent=0&nocity=0&noforecast=0&days=5" 
+                        style="height: 600px;">
+                    </iframe>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Nachrichten aus der NewsAPI laden -->
+    <script>
+        // Ersetze 'DEIN_API_KEY' durch deinen tatsächlichen API-Schlüssel von newsapi.org
+        const apiKey = 'dd193c27863c408aa8406d4d1fec1588';
+        const newsSlider = document.getElementById('news-slider');
+
+        fetch(`https://newsapi.org/v2/top-headlines?country=de&apiKey=${apiKey}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.articles && data.articles.length > 0) {
+                    data.articles.forEach(article => {
+                        // Erstelle Slide-Element
+                        const slide = document.createElement('div');
+                        slide.classList.add('swiper-slide');
+                        
+                        // Bild
+                        const img = document.createElement('img');
+                        img.src = article.urlToImage || 'placeholder.jpg'; // Fallback-Bild
+                        img.alt = article.title;
+                        
+                        // Schlagzeile
+                        const headline = document.createElement('h3');
+                        headline.textContent = article.title;
+                        
+                        // Kurzbeschreibung
+                        const description = document.createElement('p');
+                        description.textContent = article.description || '';
+                        
+                        // Link zum Artikel
+                        const link = document.createElement('a');
+                        link.href = article.url;
+                        link.target = '_blank';
+                        link.appendChild(img);
+                        link.appendChild(headline);
+                        link.appendChild(description);
+                        
+                        // Füge alles zum Slide hinzu
+                        slide.appendChild(link);
+                        
+                        // Füge den Slide zum Slider hinzu
+                        newsSlider.appendChild(slide);
+                    });
+                    // Aktualisiere den Swiper nach dem dynamischen Hinzufügen der Slides
+                    swiper.update();
+                } else {
+                    newsSlider.innerHTML = '<p>Keine Nachrichten verfügbar.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Fehler beim Laden der Nachrichten:', error);
+                newsSlider.innerHTML = '<p>Nachrichten konnten nicht geladen werden.</p>';
+            });
+    </script>
+
+    <!-- Initialisierung des Swipers -->
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            loop: true,
+            autoplay: {
+                delay: 4000,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+    </script>
+
+    <!-- Menü-Skript -->
+    <script>
+        // Zugriff auf das Menü-Icon und die Sidebar
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        // Event-Listener für das Menü
+        menuToggle.addEventListener('click', () => {
+            // Toggle-Klasse für das Menü, um es zu öffnen oder zu schließen
+            sidebar.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
