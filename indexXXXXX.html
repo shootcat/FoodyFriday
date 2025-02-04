@@ -98,25 +98,27 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 25%; /* 1/4 des Bildes */
-            height: 25%;
-            background-color: rgba(128, 128, 128, 0.5);
-            color: white;
+            width: 100%; /* Bedeckt die gesamte Breite */
+            height: 25%;  /* Unteres Viertel des Bildes */
+            background-color: rgba(0, 0, 0, 0.6); /* Dunkleres Transparent */
+            color: #fff;  /* Weißer Text */
+            display: flex;
+            align-items: center;
             padding: 10px;
             box-sizing: border-box;
         }
         .overlay h3 {
             margin: 0;
-            font-size: 1em;
+            font-size: 1.5em; /* Größerer Text */
         }
         .nav-button {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background-color: rgba(128, 128, 128, 0.5);
+            background-color: rgba(0, 0, 0, 0.5); /* Dunkleres Transparent */
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 50%;
             cursor: pointer;
             font-size: 30px;
             padding: 10px;
@@ -156,9 +158,8 @@
         }
 
         @media (max-width: 768px) {
-            .overlay {
-                width: 50%;
-                height: 30%;
+            .overlay h3 {
+                font-size: 1.2em;
             }
             .nav-button {
                 font-size: 24px;
@@ -222,7 +223,9 @@
                 <div class="slider">
                     <div class="slide" id="slide">
                         <img src="" alt="News" id="news-image">
-                        <div class="overlay" id="news-overlay"></div>
+                        <div class="overlay" id="news-overlay">
+                            <h3></h3>
+                        </div>
                     </div>
                     <button class="nav-button" id="prev">&#10094;</button>
                     <button class="nav-button" id="next">&#10095;</button>
@@ -249,13 +252,15 @@
     </div>
 
     <!-- JavaScript -->
-    <!-- Füge hier den aktualisierten JavaScript-Code ein -->
     <script>
         const feedUrl = 'https://www.tagesschau.de/infoservices/alle-meldungen-100~rss2.xml';
-        const slideInterval = 5000; // 5 Sekunden
+        const slideInterval = 10000; // 10 Sekunden
+        const feedRefreshInterval = 300000; // 5 Minuten in Millisekunden
 
         let currentIndex = 0;
         let slidesData = [];
+        let slideTimer;
+        let feedTimer;
 
         async function fetchRSS() {
             try {
@@ -264,8 +269,8 @@
                 slidesData = data.items.filter(item => item.thumbnail && item.title);
 
                 if (slidesData.length > 0) {
+                    currentIndex = 0; // Zurück zum ersten Slide
                     updateSlide();
-                    setInterval(nextSlide, slideInterval);
                 }
             } catch (error) {
                 console.error('Fehler beim Laden des RSS-Feeds:', error);
@@ -277,10 +282,10 @@
 
             const { title, thumbnail } = slidesData[currentIndex];
             const newsImage = document.getElementById('news-image');
-            const newsOverlay = document.getElementById('news-overlay');
+            const newsOverlay = document.getElementById('news-overlay').querySelector('h3');
 
             newsImage.src = thumbnail;
-            newsOverlay.innerHTML = `<h3>${title}</h3>`;
+            newsOverlay.textContent = title;
         }
 
         function nextSlide() {
@@ -293,11 +298,34 @@
             updateSlide();
         }
 
-        document.getElementById('next').addEventListener('click', nextSlide);
-        document.getElementById('prev').addEventListener('click', prevSlide);
+        document.getElementById('next').addEventListener('click', () => {
+            nextSlide();
+            resetSlideTimer();
+        });
+
+        document.getElementById('prev').addEventListener('click', () => {
+            prevSlide();
+            resetSlideTimer();
+        });
+
+        function startSlideTimer() {
+            slideTimer = setInterval(nextSlide, slideInterval);
+        }
+
+        function resetSlideTimer() {
+            clearInterval(slideTimer);
+            startSlideTimer();
+        }
+
+        function startFeedTimer() {
+            feedTimer = setInterval(fetchRSS, feedRefreshInterval);
+        }
 
         // Initialer Aufruf
-        fetchRSS();
+        fetchRSS().then(() => {
+            startSlideTimer();
+            startFeedTimer();
+        });
 
         // Menü-Skript
         const menuToggle = document.getElementById('menu-toggle');
