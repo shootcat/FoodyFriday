@@ -40,10 +40,17 @@
             gap: 40px;
         }
 
+        /* Überschriften */
+        .section-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
         /* Suchleiste */
         .search-bar {
             text-align: center;
-            margin: 40px auto;
+            margin: 60px auto 40px auto; /* Abstand oben erhöht */
             position: relative;
         }
         .search-bar form {
@@ -100,7 +107,7 @@
             left: 0;
             width: 100%; /* Bedeckt die gesamte Breite */
             height: 25%;  /* Unteres Viertel des Bildes */
-            background-color: rgba(0, 0, 0, 0.6); /* Dunkleres Transparent */
+            background-color: rgba(0, 0, 0, 0.7); /* Dunkleres Transparent */
             color: #fff;  /* Weißer Text */
             display: flex;
             align-items: center;
@@ -157,6 +164,7 @@
             max-width: 600px; /* Passe die Breite nach Bedarf an */
         }
 
+        /* Responsives Design für Mobilgeräte */
         @media (max-width: 768px) {
             .overlay h3 {
                 font-size: 1.2em;
@@ -167,6 +175,12 @@
             }
             .radio-player audio {
                 max-width: 100%;
+            }
+            .section-title {
+                font-size: 1.5em;
+            }
+            .search-bar input[type="text"] {
+                width: 100%;
             }
         }
     </style>
@@ -207,6 +221,10 @@
         <div class="content-container">
             <!-- Widgets Container -->
             <div class="widgets-container">
+
+                <!-- Suchmaschine Überschrift -->
+                <h2 class="section-title">Suchmaschine</h2>
+
                 <!-- Suchleiste -->
                 <div class="search-bar">
                     <!-- Google Suche Formular -->
@@ -218,6 +236,9 @@
                         </button>
                     </form>
                 </div>
+
+                <!-- Nachrichten Feed Überschrift -->
+                <h2 class="section-title">Nachrichten Feed</h2>
 
                 <!-- Nachrichten Slider -->
                 <div class="slider">
@@ -233,9 +254,9 @@
 
                 <!-- Wetter-Widget -->
                 <div class="weather-widget">
-                    <h2>Wetter</h2>
-                    <iframe 
-                        src="https://www.meteoblue.com/de/wetter/widget/three/maulburg_de_2872372?geoloc=fixed&amp;nocurrent=0&amp;nocity=0&amp;noforecast=0&amp;days=5" 
+                    <h2 class="section-title">Wetter</h2>
+                    <iframe
+                        src="https://www.meteoblue.com/de/wetter/widget/three/maulburg_de_2872372?geoloc=fixed&amp;nocurrent=0&amp;nocity=0&amp;noforecast=0&amp;days=5"
                         style="height: 600px;">
                     </iframe>
                 </div>
