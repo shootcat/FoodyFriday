@@ -260,52 +260,45 @@
         const apiKey = 'dd193c27863c408aa8406d4d1fec1588';
         const newsSlider = document.getElementById('news-slider');
 
-        fetch(`https://newsapi.org/v2/top-headlines?country=de&apiKey=${apiKey}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.articles && data.articles.length > 0) {
-                    data.articles.forEach(article => {
-                        // Erstelle Slide-Element
-                        const slide = document.createElement('div');
-                        slide.classList.add('swiper-slide');
-                        
-                        // Bild
-                        const img = document.createElement('img');
-                        img.src = article.urlToImage || 'placeholder.jpg'; // Fallback-Bild
-                        img.alt = article.title;
-                        
-                        // Schlagzeile
-                        const headline = document.createElement('h3');
-                        headline.textContent = article.title;
-                        
-                        // Kurzbeschreibung
-                        const description = document.createElement('p');
-                        description.textContent = article.description || '';
-                        
-                        // Link zum Artikel
-                        const link = document.createElement('a');
-                        link.href = article.url;
-                        link.target = '_blank';
-                        link.appendChild(img);
-                        link.appendChild(headline);
-                        link.appendChild(description);
-                        
-                        // Füge alles zum Slide hinzu
-                        slide.appendChild(link);
-                        
-                        // Füge den Slide zum Slider hinzu
-                        newsSlider.appendChild(slide);
-                    });
-                    // Aktualisiere den Swiper nach dem dynamischen Hinzufügen der Slides
-                    swiper.update();
-                } else {
-                    newsSlider.innerHTML = '<p>Keine Nachrichten verfügbar.</p>';
-                }
-            })
-            .catch(error => {
-                console.error('Fehler beim Laden der Nachrichten:', error);
-                newsSlider.innerHTML = '<p>Nachrichten konnten nicht geladen werden.</p>';
+       fetch('https://newsapi.org/v2/top-headlines?country=de&apiKey=dd193c27863c408aa8406d4d1fec1588')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data); // Überprüfe die Antwort in der Konsole
+        if (data.articles && data.articles.length > 0) {
+            data.articles.forEach(article => {
+                const slide = document.createElement('div');
+                slide.classList.add('swiper-slide');
+                const img = document.createElement('img');
+                img.src = article.urlToImage || 'placeholder.jpg';
+                img.alt = article.title;
+                const headline = document.createElement('h3');
+                headline.textContent = article.title;
+                const description = document.createElement('p');
+                description.textContent = article.description || '';
+                const link = document.createElement('a');
+                link.href = article.url;
+                link.target = '_blank';
+                link.appendChild(img);
+                link.appendChild(headline);
+                link.appendChild(description);
+                slide.appendChild(link);
+                newsSlider.appendChild(slide);
             });
+            swiper.update();
+        } else {
+            newsSlider.innerHTML = '<p>Keine Nachrichten verfügbar.</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Fehler beim Laden der Nachrichten:', error);
+        newsSlider.innerHTML = '<p>Nachrichten konnten nicht geladen werden.</p>';
+    });
+
     </script>
 
     <!-- Initialisierung des Swipers -->
