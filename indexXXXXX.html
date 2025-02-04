@@ -207,43 +207,75 @@
 </script>
 
 <script>
-    const stationButtons = {
+    // URLs der Radio-Streams
+    const radioStreams = {
         'swr3-button': {
-            name: "SWR3",
-            embedUrl: "https://www.swr3.de/webradio/webradio-102~player_json.json"
+            name: 'SWR3',
+            streamUrl: 'https://swr-edge-201a.fra-lg.cdn.addradio.net/swr/swr3/live/mp3/128/stream.mp3'
         },
         'dasding-button': {
-            name: "DAS DING",
-            embedUrl: "https://www.dasding.de/webradio/webradio-102~player_json.json"
+            name: 'DAS DING',
+            streamUrl: 'https://swr-edge-204a.fra-lg.cdn.addradio.net/swr/dasding/live/mp3/128/stream.mp3'
         },
         'badenfm-button': {
-            name: "BADEN FM",
-            embedUrl: "https://www.baden.fm/player/"
+            name: 'BADEN FM',
+            streamUrl: 'https://stream.baden.fm/badenfm-live/mp3-192/stream.baden.fm/'
         }
     };
 
-    const playerContainer = document.getElementById('player-container');
+    let currentStationId = 'swr3-button';
+    let isPlaying = false;
+    const audioPlayer = new Audio();
+    audioPlayer.src = radioStreams[currentStationId].streamUrl;
 
-    function loadStationEmbed(embedUrl) {
-        playerContainer.innerHTML = `<iframe src="${embedUrl}" allow="autoplay"></iframe>`;
+    const stationButtons = document.querySelectorAll('.station-button');
+    const playPauseButton = document.getElementById('play-pause-button');
+    const currentStationLabel = document.getElementById('current-station');
+
+    // Funktion zum Wechseln der Radiostation
+    function switchStation(stationId) {
+        currentStationId = stationId;
+        audioPlayer.src = radioStreams[stationId].streamUrl;
+        currentStationLabel.textContent = radioStreams[stationId].name;
+
+        // Aktive Klasse aktualisieren
+        stationButtons.forEach(btn => btn.classList.remove('active'));
+        document.getElementById(stationId).classList.add('active');
+
+        if (isPlaying) {
+            audioPlayer.play();
+        }
     }
 
-    // Event Listener für Buttons
-    for (const [buttonId, station] of Object.entries(stationButtons)) {
-        document.getElementById(buttonId).addEventListener('click', () => {
-            // Entferne die aktive Klasse von allen Buttons
-            document.querySelectorAll('.station-selector button').forEach(btn => btn.classList.remove('active'));
-            // Füge die aktive Klasse zum geklickten Button hinzu
-            document.getElementById(buttonId).classList.add('active');
-            // Lade den Player
-            loadStationEmbed(station.embedUrl);
+    // Event Listener für Stationswechsel
+    stationButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            switchStation(button.id);
         });
-    }
+    });
 
-    // Initiale Station laden und Button markieren
+    // Play/Pause-Funktion
+    playPauseButton.addEventListener('click', () => {
+        if (isPlaying) {
+            audioPlayer.pause();
+            playPauseButton.textContent = 'Play';
+        } else {
+            audioPlayer.play();
+            playPauseButton.textContent = 'Pause';
+        }
+        isPlaying = !isPlaying;
+    });
+
+    // Initialisierung
     document.getElementById('swr3-button').classList.add('active');
-    loadStationEmbed(stationButtons['swr3-button'].embedUrl);
+    currentStationLabel.textContent = radioStreams[currentStationId].name;
+
+    // Fehlerbehandlung
+    audioPlayer.addEventListener('error', () => {
+        alert('Fehler beim Laden des Streams. Bitte versuche es später erneut.');
+    });
 </script>
+
 <script src="script.js"></script>
 </body>
 </html>
