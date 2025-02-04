@@ -195,17 +195,14 @@
         </form>
     </div>
 
-                <!-- Nachrichten Slider -->
-                <div class="swiper-container">
-                    <div class="swiper-wrapper" id="news-slider">
-                        <!-- Nachrichten-Slides werden dynamisch eingefügt -->
-                    </div>
-                    <!-- Navigationspfeile -->
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                    <!-- Pagination -->
-                    <div class="swiper-pagination"></div>
-                </div>
+                 <div class="slider">
+        <div class="slides" id="slides">
+            <!-- Dynamisch eingefügte Slides -->
+        </div>
+        <div class="navigation">
+            <button class="nav-button" id="prev">&#10094;</button>
+            <button class="nav-button" id="next">&#10095;</button>
+        </div>
 
                 <!-- Eingebetteter Radio Player -->
             <div class="microsite embedded-radio-player">
@@ -251,72 +248,62 @@
         </div>
     </main>
 
-    <!-- Swiper JS -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+ <script>
+        const feedUrl = 'https://www.tagesschau.de/infoservices/alle-meldungen-100~rss2.xml';
+        const slideInterval = 5000; // 5 Sekunden
+        const feedRefreshInterval = 300000; // 5 Minuten
 
-    <!-- Nachrichten aus der NewsAPI laden -->
-    <script>
-        // Ersetze 'DEIN_API_KEY' durch deinen tatsächlichen API-Schlüssel von newsapi.org
-        const apiKey = 'dd193c27863c408aa8406d4d1fec1588';
-        const newsSlider = document.getElementById('news-slider');
+        let currentIndex = 0;
+        let slidesData = [];
 
-       fetch('https://newsapi.org/v2/top-headlines?country=de&apiKey=dd193c27863c408aa8406d4d1fec1588')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
+        async function fetchRSS() {
+            const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`);
+            const data = await response.json();
+            slidesData = data.items.filter(item => item.thumbnail);
+            updateSlides();
         }
-        return response.json();
-    })
-    .then(data => {
-        console.log(data); // Überprüfe die Antwort in der Konsole
-        if (data.articles && data.articles.length > 0) {
-            data.articles.forEach(article => {
+
+        function updateSlides() {
+            const slidesContainer = document.getElementById('slides');
+            slidesContainer.innerHTML = '';
+            slidesData.forEach(item => {
                 const slide = document.createElement('div');
-                slide.classList.add('swiper-slide');
-                const img = document.createElement('img');
-                img.src = article.urlToImage || 'placeholder.jpg';
-                img.alt = article.title;
-                const headline = document.createElement('h3');
-                headline.textContent = article.title;
-                const description = document.createElement('p');
-                description.textContent = article.description || '';
-                const link = document.createElement('a');
-                link.href = article.url;
-                link.target = '_blank';
-                link.appendChild(img);
-                link.appendChild(headline);
-                link.appendChild(description);
-                slide.appendChild(link);
-                newsSlider.appendChild(slide);
+                slide.className = 'slide';
+                slide.innerHTML = `
+                    <img src="${item.thumbnail}" alt="${item.title}">
+                    <div class="overlay">${item.title}</div>
+                `;
+                slidesContainer.appendChild(slide);
             });
-            swiper.update();
-        } else {
-            newsSlider.innerHTML = '<p>Keine Nachrichten verfügbar.</p>';
+            showSlide(currentIndex);
         }
-    })
-    .catch(error => {
-        console.error('Fehler beim Laden der Nachrichten:', error);
-        newsSlider.innerHTML = '<p>Nachrichten konnten nicht geladen werden.</p>';
-    });
 
-    </script>
+        function showSlide(index) {
+            const slidesContainer = document.getElementById('slides');
+            const totalSlides = slidesData.length;
+            if (index >= totalSlides) currentIndex = 0;
+            if (index < 0) currentIndex = totalSlides - 1;
+            slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
 
-    <!-- Initialisierung des Swipers -->
-    <script>
-        var swiper = new Swiper('.swiper-container', {
-            loop: true,
-            autoplay: {
-                delay: 4000,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-        });
+        function nextSlide() {
+            currentIndex++;
+            showSlide(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex--;
+            showSlide(currentIndex);
+        }
+
+        document.getElementById('next').addEventListener('click', nextSlide);
+        document.getElementById('prev').addEventListener('click', prevSlide);
+
+        setInterval(nextSlide, slideInterval);
+        setInterval(fetchRSS, feedRefreshInterval);
+
+        // Initialer Aufruf
+        fetchRSS();
     </script>
 
     <!-- Menü-Skript -->
