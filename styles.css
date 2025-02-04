@@ -16,20 +16,20 @@ header {
 
 .banner-content {
     display: flex;
-    flex-direction: column; /* Stapelt Logo und Titel vertikal */
+    flex-direction: column; /* Stack logo and title vertically */
     align-items: center;
     justify-content: center;
 }
 
 .logo {
-    width: 120px; /* Logo-Größe */
-    margin-bottom: 10px; /* Abstand zwischen Logo und Titel */
+    width: 120px; /* Logo size */
+    margin-bottom: 10px; /* Space between logo and title */
 }
 
 .banner-title {
-    font-family: 'Arial', sans-serif; /* Schriftart */
-    font-size: 2.2em; /* Größerer Titel */
-    font-weight: 700; /* Fettgedruckt für Hervorhebung */
+    font-family: 'Arial', sans-serif; /* Modern font */
+    font-size: 2.2em; /* Larger title */
+    font-weight: 700; /* Bold for emphasis */
     color: #ffffff;
     margin: 0;
 }
@@ -252,7 +252,6 @@ button:hover {
         width: 80%;
     }
 }
-
 /* Sudoku Styles */
 #sudoku-container {
     display: flex;
@@ -348,90 +347,4 @@ button:hover {
         width: 250px;
         height: 250px;
     }
-}
-
-/* Musikplayer als Taskleiste - spezifisch für die Musikplayer-Seite */
-.music-player-page .music-player {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #002244; /* Passend zu deinem Header */
-    padding: 10px 0;
-    box-sizing: border-box;
-    z-index: 1000;
-    text-align: center;
-    color: #fff;
-}
-
-.music-player-page .station-selector {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 5px;
-}
-
-.music-player-page .station-selector .station-button {
-    background-color: #0055a5;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    margin: 0 5px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-.music-player-page .station-selector .station-button:hover {
-    background-color: #0077cc;
-}
-
-.music-player-page .station-selector .station-button.active {
-    background-color: #ffcc00;
-    color: #002244;
-}
-
-.music-player-page .player-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.music-player-page .control-button {
-    background-color: transparent;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.music-player-page .control-button:hover {
-    color: #ffcc00;
-}
-
-.music-player-page #current-station {
-    margin-left: 15px;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* Musikplayer-Seite spezifische Media Queries */
-@media (max-width: 767px) {
-    .music-player-page .station-selector .station-button {
-        font-size: 14px;
-        padding: 6px 12px;
-    }
-    .music-player-page .control-button {
-        font-size: 14px;
-        padding: 6px 12px;
-    }
-    .music-player-page #current-station {
-        font-size: 16px;
-    }
-}
-
-/* Weitere Anpassungen für die Musikplayer-Seite */
-.music-player-page .content {
-    margin-bottom: 120px; /* Platz für den Musikplayer */
 }
