@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <title>Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+   
     <!-- Verknüpfung der CSS-Datei -->
     <link rel="stylesheet" href="styles.css">
 
-    <!-- Google Fonts für die Überschrift -->
+    <!-- Google Fonts für Überschriften -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+   
 </head>
 <body>
     <!-- Hamburger Menü -->
@@ -93,14 +94,15 @@
 
     <!-- Musikplayer als Taskleiste -->
     <div class="music-player">
-        <iframe src="https://open.spotify.com/embed/playlist/37i9dQZEVXbK8BKKMArIyl?utm_source=generator" width="100%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        <!-- Spotify-Embed-URL einfügen -->
+        <iframe src="SPOTIFY_EMBED_URL" width="100%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     </div>
 
     <!-- JavaScript -->
     <script>
-        const feedUrl = 'https://www.tagesschau.de/xml/rss2/';
+        const feedUrl = 'https://www.tagesschau.de/infoservices/alle-meldungen-100~rss2.xml';
         const slideInterval = 10000; // 10 Sekunden
-        const feedRefreshInterval = 300000; // 5 Minuten in Millisekunden
+        const feedRefreshInterval = 300000; // 5 Minuten
 
         let currentIndex = 0;
         let slidesData = [];
@@ -109,28 +111,10 @@
 
         async function fetchRSS() {
             try {
-                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`);
+                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`);
                 const data = await response.json();
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(data.contents, "text/xml");
-                const items = xmlDoc.querySelectorAll('item');
-                slidesData = [];
 
-                items.forEach(item => {
-                    const title = item.querySelector('title').textContent;
-                    let imageUrl = '';
-
-                    // Bild aus dem media:content-Tag extrahieren
-                    const mediaContent = item.getElementsByTagName('media:content')[0];
-                    if (mediaContent && mediaContent.getAttribute('url')) {
-                        imageUrl = mediaContent.getAttribute('url');
-                    } else {
-                        // Fallback: Standardbild verwenden
-                        imageUrl = 'https://via.placeholder.com/800x400?text=Keine+Vorschau';
-                    }
-
-                    slidesData.push({ title, imageUrl });
-                });
+                slidesData = data.items.filter(item => item.thumbnail && item.title);
 
                 if (slidesData.length > 0) {
                     currentIndex = 0; // Zurück zum ersten Slide
@@ -144,11 +128,11 @@
         function updateSlide() {
             if (slidesData.length === 0) return;
 
-            const { title, imageUrl } = slidesData[currentIndex];
+            const { title, thumbnail } = slidesData[currentIndex];
             const newsImage = document.getElementById('news-image');
             const newsOverlay = document.getElementById('news-overlay').querySelector('h3');
 
-            newsImage.src = imageUrl;
+            newsImage.src = thumbnail;
             newsOverlay.textContent = title;
         }
 
