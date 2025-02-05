@@ -16,20 +16,20 @@ header {
 
 .banner-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Stack logo and title vertically */
     align-items: center;
     justify-content: center;
 }
 
 .logo {
-    width: 120px;
-    margin-bottom: 10px;
+    width: 120px; /* Logo size */
+    margin-bottom: 10px; /* Space between logo and title */
 }
 
 .banner-title {
-    font-family: 'Arial', sans-serif;
-    font-size: 2.2em;
-    font-weight: 700;
+    font-family: 'Arial', sans-serif; /* Modern font */
+    font-size: 2.2em; /* Larger title */
+    font-weight: 700; /* Bold for emphasis */
     color: #ffffff;
     margin: 0;
 }
@@ -55,14 +55,14 @@ header {
     position: fixed;
     top: 0;
     left: 0;
-    width: 12.5%;
+    width: 12.5%; /* 1/8 der Seitenbreite */
     height: 100%;
     background-color: rgba(72, 81, 107, 0.9);
     color: white;
     transition: transform 0.3s ease;
     z-index: 999;
     padding-top: 100px;
-    transform: translateX(-100%);
+    transform: translateX(-100%); /* Sidebar vollständig nach links außerhalb des Bildschirms schieben */
 }
 
 .sidebar nav ul {
@@ -89,7 +89,7 @@ header {
 
 /* Aktive Sidebar */
 .sidebar.active {
-    transform: translateX(0);
+    transform: translateX(0); /* Sidebar in die Ansicht schieben */
 }
 
 /* Main Content */
@@ -99,11 +99,252 @@ main {
     padding-top: 100px;
 }
 
-.content-container, .content {
+.content {
     background-color: white;
     opacity: 0.9;
     padding: 20px;
     border-radius: 10px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding
+}
+
+h1, h2, h3 {
+    color: #333;
+}
+
+p, li {
+    color: #555;
+}
+
+/* Table in Food List */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+td.red {
+    color: red;
+}
+
+td.blue {
+    color: blue;
+}
+
+/* Form in Comments */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+input, textarea {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+/* Comments List */
+#comments-list div {
+    margin-top: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+#comments-list div:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+#comments-list div:nth-child(even) {
+    background-color: #e9e9e9;
+}
+
+/* Style for the Comment Section */
+#comments-list .comment-item {
+    margin-top: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-content {
+    max-width: 80%;
+}
+
+/* Style for the Like Button */
+.like-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+.like-button:hover {
+    background-color: #555;
+}
+
+/* Allgemeine Media Query für mobile Geräte */
+@media (max-width: 767px) {
+    .sidebar {
+        width: 75%;
+    }
+}
+
+/* Spezifische Media Queries für die genannten Geräte */
+
+/* Samsung Galaxy Z Fold 4 Frontdisplay */
+@media (max-width: 360px) {
+    .sidebar {
+        width: 80%;
+    }
+}
+
+/* Samsung Galaxy Z Fold 4 Hauptdisplay */
+@media (min-width: 361px) and (max-width: 768px) {
+    .sidebar {
+        width: 65%;
+    }
+}
+
+/* iPhone 16 Pro */
+@media (max-width: 390px) {
+    .sidebar {
+        width: 80%;
+    }
+}
+
+/* Samsung Galaxy S24 Ultra */
+@media (max-width: 412px) {
+    .sidebar {
+        width: 80%;
+    }
+}
+/* Sudoku Styles */
+#sudoku-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#sudoku-board {
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#sudoku-board td {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #000;
+    text-align: center;
+}
+
+#sudoku-board input {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 16px;
+}
+
+#sudoku-container button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#sudoku-container button:hover {
+    background-color: #555;
+}
+
+/* Minigame Styles */
+#minigame-canvas {
+    border: 2px solid #333;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+/* Chess Puzzle Styles */
+#chessboard {
+    display: grid;
+    grid-template-columns: repeat(8, 50px);
+    grid-template-rows: repeat(8, 50px);
+    width: 400px;
+    height: 400px;
+    margin-top: 20px;
+    border: 2px solid black;
+}
+
+#chessboard div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#chessboard div:nth-child(odd) {
+    background-color: #f0d9b5;
+}
+
+#chessboard div:nth-child(even) {
+    background-color: #b58863;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+    #sudoku-board td, #sudoku-board input {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+
+    #chessboard {
+        width: 300px;
+        height: 300px;
+        grid-template-columns: repeat(8, 37.5px);
+        grid-template-rows: repeat(8, 37.5px);
+    }
+
+    #minigame-canvas {
+        width: 250px;
+        height: 250px;
+    }
+}
