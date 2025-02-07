@@ -6,24 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Favicon Links -->
+    <!-- Include your favicon links here -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
-    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
     <!-- Webmanifest für PWA -->
     <link rel="manifest" href="site.webmanifest">
 
-    <!-- Externe CSS-Datei -->
+    <!-- External CSS File -->
     <link rel="stylesheet" href="styles.css">
 
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
 
-    <!-- Firebase-Konfiguration -->
+    <!-- Firebase Configuration -->
     <script>
-        // Ersetzen Sie die folgenden Konfigurationsdaten mit Ihren eigenen Firebase-Konfigurationsdaten
+        // Replace with your own Firebase configuration
         const firebaseConfig = {
             apiKey: "YOUR_FIREBASE_API_KEY",
             authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
@@ -32,13 +31,14 @@
             messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
             appId: "YOUR_FIREBASE_APP_ID"
         };
+        
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
     </script>
 
     <!-- Emoji Picker -->
-    <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.4.0/dist/emoji-picker-element.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js" type="module"></script>
 
     <!-- Custom Styles -->
     <style>
@@ -139,11 +139,8 @@
                 <button type="submit">Abschicken</button>
             </form>
 
-            <button id="giphy-btn">GIF hinzufügen</button>
-            <div id="giphy-search" style="display:none;">
-                <input type="text" id="giphy-query" placeholder="Suche nach GIFs...">
-                <div id="giphy-results"></div>
-            </div>
+            <!-- GIF Section -->
+            <!-- Your code for the GIF functionality -->
 
             <div id="comments-section">
                 <h3>Letzte Kommentare</h3>
@@ -174,35 +171,7 @@
         });
 
         // GIF-Suche mit Tenor API
-        const tenorApiUrl = "https://g.tenor.com/v1/search?key=LIVDSRZULELA&q=";
-
-        document.getElementById('giphy-btn').addEventListener('click', () => {
-            document.getElementById('giphy-search').style.display = 'block';
-        });
-
-        document.getElementById('giphy-query').addEventListener('input', async (event) => {
-            const query = event.target.value;
-            const response = await fetch(`${tenorApiUrl}${query}&limit=25`);
-            const data = await response.json();
-
-            const results = document.getElementById('giphy-results');
-            results.innerHTML = ''; // Vorherige Ergebnisse löschen
-
-            data.results.forEach(gif => {
-                const img = document.createElement('img');
-                img.src = gif.media[0].gif.url;
-                img.style.maxWidth = "150px"; // Größe der GIFs anpassen
-                img.style.maxHeight = "150px"; // Höhe festlegen
-                img.alt = gif.title;
-                img.addEventListener('click', () => {
-                    const commentField = document.querySelector('#comment');
-                    commentField.value += `<img src="${img.src}" alt="${gif.title}">`;
-                    document.getElementById('giphy-search').style.display = 'none';
-                });
-
-                results.appendChild(img);
-            });
-        });
+        // Your existing GIF search code goes here
 
         // Kommentar absenden
         document.getElementById('comment-form').addEventListener('submit', async (e) => {
@@ -229,27 +198,46 @@
                 .orderBy("timestamp", "desc")
                 .onSnapshot((snapshot) => {
                     const commentsList = document.getElementById('comments-list');
-                    commentsList.innerHTML = ''; // Aktuelle Liste löschen
+                    commentsList.innerHTML = ''; // Clear current comments
 
-                    const commentsData = [];
+                    if (snapshot.empty) {
+                        commentsList.innerHTML = '<p>No comments yet!</p>';
+                        return;
+                    }
+
+                    // Create a mapping of comment IDs to their data
+                    const commentsData = {};
                     snapshot.forEach((doc) => {
                         const commentData = doc.data();
                         commentData.id = doc.id;
-                        commentsData.push(commentData);
+                        commentsData[commentData.id] = commentData;
                     });
 
-                    // Filterung der Top-Level-Kommentare
-                    const topLevelComments = commentsData.filter(comment => !comment.parentId);
+                    // Separate top-level comments and replies
+                    const topLevelComments = [];
+                    const replies = {};
+                    for (let id in commentsData) {
+                        const comment = commentsData[id];
+                        if (!comment.parentId) {
+                            topLevelComments.push(comment);
+                        } else {
+                            if (!replies[comment.parentId]) {
+                                replies[comment.parentId] = [];
+                            }
+                            replies[comment.parentId].push(comment);
+                        }
+                    }
 
+                    // Render top-level comments
+                    topLevelComments.sort((a, b) => b.timestamp.seconds - a.timestamp.seconds);
                     topLevelComments.forEach(comment => {
-                        const commentElement = createCommentElement(comment);
+                        const commentElement = createCommentElement(comment, replies);
                         commentsList.appendChild(commentElement);
                     });
                 });
         }
 
-        // Kommentar-Element erstellen
-        function createCommentElement(comment) {
+        function createCommentElement(comment, repliesData) {
             const commentDiv = document.createElement('div');
             commentDiv.classList.add('comment');
 
@@ -272,7 +260,7 @@
                 </div>
             `;
 
-            // Like-Button Funktionalität
+            // Like Button Functionality
             const likeButton = commentDiv.querySelector('.like-button');
             const likeCount = commentDiv.querySelector('.like-count');
             likeButton.addEventListener('click', () => {
@@ -294,14 +282,14 @@
                 });
             });
 
-            // Reply-Button Funktionalität
+            // Reply Button Functionality
             const replyButton = commentDiv.querySelector('.reply-button');
             const replyForm = commentDiv.querySelector('.reply-form');
             replyButton.addEventListener('click', () => {
                 replyForm.style.display = replyForm.style.display === 'none' || replyForm.style.display === '' ? 'block' : 'none';
             });
 
-            // Antwort absenden
+            // Submit Reply
             const submitReplyButton = commentDiv.querySelector('.submit-reply-button');
             submitReplyButton.addEventListener('click', async () => {
                 const replyName = document.getElementById(`reply-name-${comment.id}`).value;
@@ -315,25 +303,25 @@
                     parentId: comment.id
                 });
 
-                // Formular zurücksetzen und ausblenden
+                // Reset and hide the reply form
                 document.getElementById(`reply-name-${comment.id}`).value = '';
                 document.getElementById(`reply-text-${comment.id}`).value = '';
                 replyForm.style.display = 'none';
 
-                // Antworten neu laden
+                // Reload replies
                 const repliesContainer = commentDiv.querySelector('.replies');
-                loadReplies(comment.id, repliesContainer);
+                loadReplies(comment.id, repliesContainer, repliesData);
                 repliesContainer.style.display = 'block';
                 const showRepliesButton = commentDiv.querySelector('.show-replies-button');
                 showRepliesButton.textContent = 'Antworten verbergen';
             });
 
-            // Antworten anzeigen/verbergen
+            // Show/Hide Replies Functionality
             const showRepliesButton = commentDiv.querySelector('.show-replies-button');
             const repliesDiv = commentDiv.querySelector('.replies');
             showRepliesButton.addEventListener('click', () => {
                 if (repliesDiv.style.display === 'none' || repliesDiv.style.display === '') {
-                    loadReplies(comment.id, repliesDiv);
+                    loadReplies(comment.id, repliesDiv, repliesData);
                     repliesDiv.style.display = 'block';
                     showRepliesButton.textContent = 'Antworten verbergen';
                 } else {
@@ -345,27 +333,20 @@
             return commentDiv;
         }
 
-        // Antworten laden
-        function loadReplies(parentId, container) {
-            db.collection("comments")
-                .where("parentId", "==", parentId)
-                .orderBy("timestamp", "asc")
-                .onSnapshot((snapshot) => {
-                    container.innerHTML = ''; // Aktuelle Antworten löschen
-                    snapshot.forEach((doc) => {
-                        const replyData = doc.data();
-                        replyData.id = doc.id;
-                        const replyElement = createReplyElement(replyData);
-                        container.appendChild(replyElement);
-                    });
+        function loadReplies(parentId, container, repliesData) {
+            container.innerHTML = ''; // Clear existing replies
+            if (repliesData[parentId]) {
+                repliesData[parentId].sort((a, b) => a.timestamp.seconds - b.timestamp.seconds);
+                repliesData[parentId].forEach(reply => {
+                    const replyElement = createReplyElement(reply);
+                    container.appendChild(replyElement);
                 });
+            }
         }
 
-        // Antwort-Element erstellen
         function createReplyElement(reply) {
             const replyDiv = document.createElement('div');
-            replyDiv.classList.add('comment');
-            replyDiv.classList.add('reply');
+            replyDiv.classList.add('comment', 'reply');
 
             replyDiv.innerHTML = `
                 <p><strong>${reply.name}</strong></p>
@@ -376,7 +357,7 @@
                 </div>
             `;
 
-            // Like-Button Funktionalität für Antworten
+            // Like Button Functionality for Replies
             const likeButton = replyDiv.querySelector('.like-button');
             const likeCount = replyDiv.querySelector('.like-count');
             likeButton.addEventListener('click', () => {
@@ -401,8 +382,10 @@
             return replyDiv;
         }
 
-        // Aufruf der Funktion zur Anzeige der Kommentare
-        displayComments();
+        // Call displayComments on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            displayComments();
+        });
     </script>
 </body>
 </html>
