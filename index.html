@@ -5,137 +5,14 @@
     <title>Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <!-- Favicon Links -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
-    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="android-chrome-192x192.png" sizes="192x192" type="image/png">
-    <link rel="icon" href="android-chrome-512x512.png" sizes="512x512" type="image/png">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png">
+    <!-- Verknüpfung der CSS-Datei -->
+    <link rel="stylesheet" href="stylesIND.css">
 
-    <!-- Webmanifest für PWA -->
-    <link rel="manifest" href="site.webmanifest">
+    <!-- Google Fonts für Überschriften -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
    
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Transparenter Hintergrund für den gesamten Body */
-        body {
-            background-color: rgba(0, 0, 0, 0.1); /* leichter transparenter Hintergrund */
-            padding: 0;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            color: #333;
-        }
-
-        /* Container für alle Widgets */
-        .content-container {
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.9); /* Hintergrund für Inhalt */
-            border-radius: 8px;
-        }
-
-        /* Allgemeine Boxen für den Inhalt */
-        .widgets-container {
-            display: flex;
-            flex-direction: column;
-            gap: 40px; /* Vergrößerter Abstand zwischen den Widgets */
-            justify-content: space-between;
-        }
-
-          .microsite.embedded-radio-player {
-            background-color: rgba(0, 0, 0, 0); /* Hintergrund transparent */
-            width: 100%;
-            max-width: 100%; /* Sicherstellen, dass der Player nicht breiter als der Container ist */
-            margin: 20px 0;
-            height: 100px;
-        }
-        
-        .microsite.embedded-radio-player h2 {
-        background-color: rgba(0, 0, 0, 0); /* Hintergrund transparent */
-        color: #000; /* Textfarbe schwarz */
-        margin: 0; /* Entfernt den Abstand */
-        padding: 0; /* Entfernt das Padding */
-        }
-       
-        /* Wetter-Widget Anpassung */
-        .weather-widget iframe {
-            width: 100%;
-            height: 600px; /* Erhöhte Höhe für das Wetter-Widget */
-            border: none;
-            border-radius: 8px;
-        }
-
-        /* Newsfeed Styling */
-        .news-feed article {
-            display: flex;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 10px;
-        }
-
-        .news-feed img {
-            width: 100px;
-            height: 100px;
-            margin-right: 15px;
-            object-fit: cover;
-        }
-
-        .news-feed h3 {
-            font-size: 1.2em;
-            margin: 0;
-        }
-
-        .news-feed p {
-            font-size: 0.9em;
-            color: #555;
-        }
-
-        /* Für kleinere Geräte */
-        @media (max-width: 768px) {
-            /* Radio Player für mobile Geräte optimieren */
-            .microsite.embedded-radio-player {
-                height: 70px; /* Kleinere Höhe auf mobilen Geräten */
-                margin-bottom: 20px; /* Etwas mehr Abstand */
-            }
-
-            /* Flexbox für Widgets */
-            .widgets-container {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            /* Wetter-Widget auf kleineren Geräten */
-            .weather-widget iframe {
-                height: 450px; /* Reduzierte Höhe für kleinere Geräte */
-            }
-
-            /* Newsfeed optimieren */
-            .news-feed {
-                font-size: 0.9em;
-            }
-
-            .news-feed article {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .news-feed img {
-                margin-right: 0;
-                margin-bottom: 10px;
-                width: 80px;
-                height: 80px;
-            }
-        }
-
-        /* Zusätzlich für sehr kleine Geräte, um sicherzustellen, dass der Radio Player nicht breiter wird */
-        @media (max-width: 480px) {
-            .microsite.embedded-radio-player {
-                max-width: 100%; /* Player bleibt innerhalb der Bildschirmbreite */
-            }
-        }
-    </style>
 </head>
 <body>
     <!-- Hamburger Menü -->
@@ -169,118 +46,164 @@
 
     <!-- Hauptinhalt -->
     <main>
-        <div class="content-container">
-            <h2>Willkommen auf unserem Foody Friday NewsBlog!</h2>
-            <h2>Nur für GAB Mitarbeiter und Mitarbeiterinnen</h2>
-            <p>Hier findest du alle Informationen rund um bevorstehende Events, alle Informationen rund um die Gerichte an bevorstehenden Freitagen sowie spontane Änderungen.</p>
-            <p>Auch einen NewsFeed für aktuelle News und auch eine Seite für Kommentare.</p>
-            <br><br>
-            <p>JETZT NEU!!! Wetter, Radio und aktuelle Nachrichten</p>
-            <p>Und für die beste Pause gibt es jetzt auch Spiele für Mobil und Browser</p>
-            <p>Solltest du dich mal ausdrücken wollen aber findest keine Worte?</p>
-            <p>In den Kommentaren findest du absofort auch Gifs</p>
-            <br>
-            <p>Willkommen auf deiner neuen Lieblingsseite</p>
-           <br><br><br>
-
-            
-            <!-- Eingebetteter Radio Player -->
-            <div class="microsite embedded-radio-player">
-                <h2>Dein neuer Radioplayer: SWR3</h2>
-                <p>Falls ihr euch einen anderen Radiosender wünscht, lasst es uns in den Kommentaren wissen</p>
-                <script>
-                    (function(d, s) {
-                        if (!window.rel) {
-                            s = d.createElement("script");
-                            s.type = "text/javascript";
-                            s.async = true;
-                            s.id = "radio-de-embedded";
-                            s.src = "https://www.radio.de/inc/microsite/js/full.js";
-                            d.getElementsByTagName("head")[0].appendChild(s);
-                            window.rel = true;
-                        }
-                    }(document));
-                </script>
-                <div class="ng-app-embedded">
-                    <div ui-view class="microsite embedded-radio-player" 
-                         data-playerwidth="300px" 
-                         data-playertype="web_embedded" 
-                         data-playstation="swr3" 
-                         data-autoplay="true" 
-                         data-apikey="df04ff67dd3339a6fc19c9b8be164d5b5245ae93">
-                    </div>
-                </div>
-                <noscript>
-                    <a href="https://www.radio.de/s/swr3" target="_blank">SWR3 auf radio.de</a>
-                </noscript>
-            </div>
-
-            <!-- Mehr Abstand zwischen Radio Player und Wetter -->
+        <div class="content">
+            <!-- Widgets Container -->
             <div class="widgets-container">
-                <!-- Wetter-Widget unter dem Radio Player -->
+<br><br><br><br><br><br><br><br>
+                <!-- Suchmaschine Überschrift -->
+                <h2 class="section-title">Suchmaschine</h2>
+
+                <!-- Suchleiste -->
+                <div class="search-bar">
+                    <!-- Google Suche Formular -->
+                    <form action="https://www.google.com/search" method="get" target="_blank">
+                        <input type="text" name="q" placeholder="Google durchsuchen" required>
+                        <button type="submit">
+                            <!-- Such-Icon -->
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Vector_search_icon.svg/1890px-Vector_search_icon.svg.png" alt="Suchen">
+                        </button>
+                     </form>
+           	 </div>
+     	 
+                <!-- Nachrichten Feed Überschrift -->
+                <h2 class="section-title">Nachrichten Feed</h2>
+
+                <!-- Nachrichten Slider -->
+                <div class="slider">
+                    <div class="slide" id="slide">
+                        <img src="" alt="News" id="news-image">
+                        <div class="overlay" id="news-overlay">
+                            <h3></h3>
+                        </div>
+                    </div>
+                    <button class="nav-button" id="prev">&#10094;</button>
+                    <button class="nav-button" id="next">&#10095;</button>
+                </div>
+
+                <!-- Wetter-Widget -->
                 <div class="weather-widget">
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <h2>Wetter</h2>
-                    <iframe 
-                        src="https://www.meteoblue.com/de/wetter/widget/three/maulburg_de_2872372?geoloc=fixed&nocurrent=0&nocity=0&noforecast=0&days=5" 
-                        style="height: 600px;">
+                    <h2 class="section-title">Wetter</h2>
+                    <iframe
+                        src="https://www.meteoblue.com/de/wetter/widget/three/maulburg_de_2872372"
+                        frameborder="0" scrolling="NO" allowtransparency="true"
+                        sandbox="allow-same-origin allow-scripts"
+                        style="width: 100%; height: 600px;">
                     </iframe>
                 </div>
-
-                 <!-- Newsfeed -->
-                <div class="news-feed">
-                    <h2>Aktuelle Nachrichten</h2>
-                    <div id="news-list">Nachrichten werden geladen...</div>
-                </div>
             </div>
+<br><br><br><br>
         </div>
     </main>
 
+    <!-- Musikplayer als Taskleiste -->
+    <div class="music-player">
+        <!-- Spotify-Embed-URL einfügen -->
+        <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4jP4eebSWR9?utm_source=generator" width="100%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    </div>
+
+    <!-- JavaScript -->
     <script>
-        // Lade RSS-Feed von Tagesschau.de und zeige Bilder
-        async function fetchNews() {
-            const response = await fetch('https://www.tagesschau.de/xml/rss2');
-            const text = await response.text();
-            const parser = new DOMParser();
-            const xml = parser.parseFromString(text, 'application/xml');
-            const items = xml.querySelectorAll('item');
+    const feedUrl = 'https://www.tagesschau.de/xml/rss2/';
+    const slideInterval = 10000; // 10 Sekunden
+    const feedRefreshInterval = 300000; // 5 Minuten
 
-            const newsList = document.getElementById('news-list');
-            newsList.innerHTML = ''; // Vorherige Einträge entfernen
+    let currentIndex = 0;
+    let slidesData = [];
+    let slideTimer;
+    let feedTimer;
 
-            items.forEach((item, index) => {
-                if (index < 5) { // Zeige nur die ersten 5 Artikel
-                    const title = item.querySelector('title').textContent;
-                    const link = item.querySelector('link').textContent;
-                    const description = item.querySelector('description').textContent;
-                    const imageUrl = item.querySelector('media\\:content') ? item.querySelector('media\\:content').getAttribute('url') : '';
+    async function fetchRSS() {
+        try {
+            const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`);
+            const data = await response.json();
 
-                    const article = document.createElement('article');
-                    const img = imageUrl ? `<img src="${imageUrl}" alt="Bild">` : '';
-                    const content = `
-                        <div>
-                            ${img}
-                            <h3><a href="${link}" target="_blank">${title}</a></h3>
-                            <p>${description}</p>
-                        </div>
-                    `;
-                    article.innerHTML = content;
-                    newsList.appendChild(article);
+            slidesData = data.items.map(item => {
+                let imageUrl = '';
+
+                // Versuche, das Bild aus dem 'media:content' Feld zu bekommen
+                if (item.enclosure && item.enclosure.link) {
+                    imageUrl = item.enclosure.link;
+                } else if (item.thumbnail) {
+                    imageUrl = item.thumbnail;
+                } else if (item.content) {
+                    const imgMatch = item.content.match(/<img.*?src="(.*?)"/);
+                    if (imgMatch && imgMatch[1]) {
+                        imageUrl = imgMatch[1];
+                    }
                 }
+
+                // Fallback-Bild verwenden, wenn kein Bild gefunden wurde
+                if (!imageUrl) {
+                    imageUrl = 'https://via.placeholder.com/800x400?text=Keine+Vorschau';
+                }
+
+                return {
+                    title: item.title,
+                    imageUrl: imageUrl
+                };
             });
+
+            if (slidesData.length > 0) {
+                currentIndex = 0; // Zurück zum ersten Slide
+                updateSlide();
+            }
+        } catch (error) {
+            console.error('Fehler beim Laden des RSS-Feeds:', error);
         }
+    }
 
-        fetchNews();
+    function updateSlide() {
+        if (slidesData.length === 0) return;
 
-        // Automatische Aktualisierung des Newsfeeds alle 10 Minuten (600000 ms)
-        setInterval(fetchNews, 600000); // alle 10 Minuten
+        const { title, imageUrl } = slidesData[currentIndex];
+
+        const newsImage = document.getElementById('news-image');
+        const newsOverlay = document.getElementById('news-overlay').querySelector('h3');
+
+        newsImage.src = imageUrl;
+        newsOverlay.textContent = title;
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % slidesData.length;
+        updateSlide();
+    }
+
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + slidesData.length) % slidesData.length;
+        updateSlide();
+    }
+
+    document.getElementById('next').addEventListener('click', () => {
+        nextSlide();
+        resetSlideTimer();
+    });
+
+    document.getElementById('prev').addEventListener('click', () => {
+        prevSlide();
+        resetSlideTimer();
+    });
+
+    function startSlideTimer() {
+        slideTimer = setInterval(nextSlide, slideInterval);
+    }
+
+    function resetSlideTimer() {
+        clearInterval(slideTimer);
+        startSlideTimer();
+    }
+
+    function startFeedTimer() {
+        feedTimer = setInterval(fetchRSS, feedRefreshInterval);
+    }
+
+    // Initialer Aufruf
+    fetchRSS().then(() => {
+        startSlideTimer();
+        startFeedTimer();
+    });
     </script>
-      <script>
+  <script>
     // Zugriff auf das Menü-Icon und die Sidebar
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
