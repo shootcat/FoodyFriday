@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Kommentare - Foody Friday NewsBlog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Favicon Links -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png">
+
+    <!-- Webmanifest für PWA -->
+    <link rel="manifest" href="site.webmanifest">
+    
+    <!-- Externe CSS-Datei -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Firebase SDKs Version 8.6.8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+
+    <!-- Firebase-Konfiguration -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCnJByYr-O4k174w1IXRz1QcrS1b-TVPow",
+            authDomain: "ff-komentare.firebaseapp.com",
+            projectId: "ff-komentare",
+            storageBucket: "ff-komentare.appspot.com",
+            messagingSenderId: "1007258832780",
+            appId: "1:1007258832780:web:779e56da27b0948f5350a9"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+
+    <!-- Emoji Picker -->
+    <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.4.0/dist/emoji-picker-element.js"></script>
+
+    <!-- Custom Styles -->
+    <style>
+        /* Maximale Größe für die angezeigten GIFs im Chat */
+        .comment img {
+            max-width: 150px;
+            max-height: 150px;
+            object-fit: contain;
+        }
+        /* Stil für Kommentare und Antworten */
+        .comment {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .comment .comment-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .like-button {
+            cursor: pointer;
+            color: #888;
+            font-size: 1.2em;
+            border: none;
+            background: none;
+        }
+        .like-button.liked {
+            color: #e25555;
+        }
+        .like-count {
+            font-size: 0.9em;
+            color: #555;
+        }
+        .reply-button, .show-replies-button {
+            cursor: pointer;
+            color: #0066cc;
+            background: none;
+            border: none;
+            font-size: 0.9em;
+        }
+        .reply-form {
+            margin-top: 10px;
+            margin-left: 20px;
+            display: none;
+        }
+        .replies {
+            margin-left: 20px;
+            border-left: 2px solid #e0e0e0;
+            padding-left: 10px;
+            display: none;
+        }
+        .reply {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hamburger Menü -->
+    <div id="menu-toggle" class="menu-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="daily-news.html">Daily News</a></li>
+                <li><a href="essensliste.html">Essensliste</a></li>
+                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
+                <li><a href="undefiniert.html">FUN</a></li>
+                <li><a href="comments.html">Kommentare</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Header Banner -->
+    <header>
+        <div class="banner-content">
+            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
+            <h1 class="banner-title">FOODY FRIDAY NEWSBLOG</h1>
+        </div>
+    </header>
+    
+    <!-- Hauptinhalt -->
+    <main>
+        <div class="content">
+            <h2>Hinterlasse einen Kommentar</h2>
+            <form id="comment-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" required>
+                <label for="comment">Kommentar:</label>
+                <textarea id="comment" required></textarea>
+                <div id="emoji-picker"></div>
+                <button type="submit">Abschicken</button>
+            </form>
+            
+            <button id="giphy-btn">GIF hinzufügen</button>
+            <div id="giphy-search" style="display:none;">
+                <input type="text" id="giphy-query" placeholder="Suche nach GIFs...">
+                <div id="giphy-results"></div>
+            </div>
+            
+            <div id="comments-section">
+                <h3>Letzte Kommentare</h3>
+                <div id="comments-list"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        // Hamburger Menü
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        menuToggle.addEventListener('click', () => {
+            sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Emoji Picker
+        document.querySelector('#comment').addEventListener('focus', function() {
+            const emojiPicker = document.createElement('emoji-picker');
+            document.getElementById('emoji-picker').appendChild(emojiPicker);
+
+            emojiPicker.addEventListener('emoji-click', (event) => {
+                document.querySelector('#comment').value += event.detail.unicode;
+            });
+        });
+
+        // GIF-Suche mit Tenor API
+        const tenorApiUrl = "https://g.tenor.com/v1/search?key=LIVDSRZULELA&q=";
+
+        document.getElementById('giphy-btn').addEventListener('click', () => {
+            document.getElementById('giphy-search').style.display = 'block';
+        });
+
+        document.getElementById('giphy-query').addEventListener('input', async (event) => {
+            const query = event.target.value;
+            const response = await fetch(`${tenorApiUrl}${query}&limit=25`);
+            const data = await response.json();
+
+            const results = document.getElementById('giphy-results');
+            results.innerHTML = ''; // Vorherige Ergebnisse löschen
+
+            data.results.forEach(gif => {
+                const img = document.createElement('img');
+                img.src = gif.media[0].gif.url;
+                img.style.maxWidth = "150px"; // Größe der GIFs anpassen
+                img.style.maxHeight = "150px"; // Höhe festlegen
+                img.alt = gif.title;
+                img.addEventListener('click', () => {
+                    const commentField = document.querySelector('#comment');
+                    commentField.value += `<img src="${img.src}" alt="${gif.title}">`;
+                    document.getElementById('giphy-search').style.display = 'none';
+                });
+
+                results.appendChild(img);
+            });
+        });
+
+        // Kommentar absenden
+        document.getElementById('comment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            let commentText = document.getElementById('comment').value;
+            commentText = commentText.replace(/\n/g, "<br>");
+
+            await db.collection("comments").add({
+                name: name,
+                comment: commentText,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                likes: 0,
+                parentId: null
+            });
+
+            document.getElementById('comment-form').reset();
+        });
+
+        // Kommentare anzeigen
+        function displayComments() {
+            db.collection("comments")
+                .orderBy("timestamp", "desc")
+                .onSnapshot((snapshot) => {
+                    const commentsList = document.getElementById('comments-list');
+                    commentsList.innerHTML = ''; // Aktuelle Liste löschen
+
+                    const commentsData = [];
+                    snapshot.forEach((doc) => {
+                        const commentData = doc.data();
+                        commentData.id = doc.id;
+                        commentsData.push(commentData);
+                    });
+
+                    // Filterung der Top-Level-Kommentare (Kommentare ohne parentId oder mit parentId == null)
+                    const topLevelComments = commentsData.filter(comment => !comment.parentId);
+
+                    topLevelComments.forEach(comment => {
+                        const commentElement = createCommentElement(comment);
+                        commentsList.appendChild(commentElement);
+                    });
+                });
+        }
+
+        // Kommentar-Element erstellen
+        function createCommentElement(comment) {
+            const commentDiv = document.createElement('div');
+            commentDiv.classList.add('comment');
+
+            commentDiv.innerHTML = `
+                <p><strong>${comment.name}</strong></p>
+                <p>${comment.comment}</p>
+                <div class="comment-actions">
+                    <button class="like-button" data-id="${comment.id}">❤</button>
+                    <span class="like-count">${comment.likes || 0}</span>
+                    <button class="reply-button" data-id="${comment.id}">Kommentieren</button>
+                    <button class="show-replies-button" data-id="${comment.id}">Antworten anzeigen</button>
+                </div>
+                <div class="reply-form" id="reply-form-${comment.id}" style="display: none;">
+                    <input type="text" placeholder="Dein Name" id="reply-name-${comment.id}" required>
+                    <textarea placeholder="Deine Antwort" id="reply-text-${comment.id}" required></textarea>
+                    <button class="submit-reply-button" data-id="${comment.id}">Antwort abschicken</button>
+                </div>
+                <div class="replies" id="replies-${comment.id}" style="display: none;">
+                    <!-- Antworten werden hier hinzugefügt -->
+                </div>
+            `;
+
+            // Like-Button Funktionalität
+            const likeButton = commentDiv.querySelector('.like-button');
+            const likeCount = commentDiv.querySelector('.like-count');
+            likeButton.addEventListener('click', () => {
+                const commentRef = db.collection("comments").doc(comment.id);
+                db.runTransaction((transaction) => {
+                    return transaction.get(commentRef).then((doc) => {
+                        if (!doc.exists) {
+                            throw "Dokument existiert nicht!";
+                        }
+                        const newLikes = (doc.data().likes || 0) + 1;
+                        transaction.update(commentRef, { likes: newLikes });
+                        return newLikes;
+                    });
+                }).then((newLikes) => {
+                    likeCount.textContent = newLikes;
+                    likeButton.classList.add('liked');
+                }).catch((error) => {
+                    console.error("Transaktion fehlgeschlagen: ", error);
+                });
+            });
+
+            // Reply-Button Funktionalität
+            const replyButton = commentDiv.querySelector('.reply-button');
+            const replyForm = commentDiv.querySelector('.reply-form');
+            replyButton.addEventListener('click', () => {
+                replyForm.style.display = replyForm.style.display === 'none' || replyForm.style.display === '' ? 'block' : 'none';
+            });
+
+            // Antwort absenden
+            const submitReplyButton = commentDiv.querySelector('.submit-reply-button');
+            submitReplyButton.addEventListener('click', async () => {
+                const replyName = document.getElementById(`reply-name-${comment.id}`).value;
+                const replyText = document.getElementById(`reply-text-${comment.id}`).value.replace(/\n/g, "<br>");
+
+                await db.collection("comments").add({
+                    name: replyName,
+                    comment: replyText,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    likes: 0,
+                    parentId: comment.id
+                });
+
+                // Formular zurücksetzen und ausblenden
+                document.getElementById(`reply-name-${comment.id}`).value = '';
+                document.getElementById(`reply-text-${comment.id}`).value = '';
+                replyForm.style.display = 'none';
+
+                // Antworten neu laden
+                const repliesContainer = commentDiv.querySelector('.replies');
+                loadReplies(comment.id, repliesContainer);
+                repliesContainer.style.display = 'block';
+                const showRepliesButton = commentDiv.querySelector('.show-replies-button');
+                showRepliesButton.textContent = 'Antworten verbergen';
+            });
+
+            // Antworten anzeigen/verbergen
+            const showRepliesButton = commentDiv.querySelector('.show-replies-button');
+            const repliesDiv = commentDiv.querySelector('.replies');
+            showRepliesButton.addEventListener('click', () => {
+                if (repliesDiv.style.display === 'none' || repliesDiv.style.display === '') {
+                    loadReplies(comment.id, repliesDiv);
+                    repliesDiv.style.display = 'block';
+                    showRepliesButton.textContent = 'Antworten verbergen';
+                } else {
+                    repliesDiv.style.display = 'none';
+                    showRepliesButton.textContent = 'Antworten anzeigen';
+                }
+            });
+
+            return commentDiv;
+        }
+
+        // Antworten laden
+        function loadReplies(parentId, container) {
+            db.collection("comments")
+                .where("parentId", "==", parentId)
+                .orderBy("timestamp", "asc")
+                .get()
+                .then((snapshot) => {
+                    container.innerHTML = ''; // Aktuelle Antworten löschen
+                    snapshot.forEach((doc) => {
+                        const replyData = doc.data();
+                        replyData.id = doc.id;
+                        const replyElement = createReplyElement(replyData);
+                        container.appendChild(replyElement);
+                    });
+                });
+        }
+
+        // Antwort-Element erstellen
+        function createReplyElement(reply) {
+            const replyDiv = document.createElement('div');
+            replyDiv.classList.add('comment');
+            replyDiv.classList.add('reply');
+
+            replyDiv.innerHTML = `
+                <p><strong>${reply.name}</strong></p>
+                <p>${reply.comment}</p>
+                <div class="comment-actions">
+                    <button class="like-button" data-id="${reply.id}">❤</button>
+                    <span class="like-count">${reply.likes || 0}</span>
+                </div>
+            `;
+
+            // Like-Button Funktionalität für Antworten
+            const likeButton = replyDiv.querySelector('.like-button');
+            const likeCount = replyDiv.querySelector('.like-count');
+            likeButton.addEventListener('click', () => {
+                const replyRef = db.collection("comments").doc(reply.id);
+                db.runTransaction((transaction) => {
+                    return transaction.get(replyRef).then((doc) => {
+                        if (!doc.exists) {
+                            throw "Dokument existiert nicht!";
+                        }
+                        const newLikes = (doc.data().likes || 0) + 1;
+                        transaction.update(replyRef, { likes: newLikes });
+                        return newLikes;
+                    });
+                }).then((newLikes) => {
+                    likeCount.textContent = newLikes;
+                    likeButton.classList.add('liked');
+                }).catch((error) => {
+                    console.error("Transaktion fehlgeschlagen: ", error);
+                });
+            });
+
+            return replyDiv;
+        }
+
+        // Aufruf der Funktion zur Anzeige der Kommentare
+        displayComments();
+    </script>
+</body>
+</html>
