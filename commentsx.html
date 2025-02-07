@@ -24,12 +24,7 @@
     <!-- Firebase-Konfiguration -->
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyCnJByYr-O4k174w1IXRz1QcrS1b-TVPow",
-            authDomain: "ff-komentare.firebaseapp.com",
-            projectId: "ff-komentare",
-            storageBucket: "ff-komentare.appspot.com",
-            messagingSenderId: "1007258832780",
-            appId: "1:1007258832780:web:779e56da27b0948f5350a9"
+            // ... Ihre Firebase-Konfigurationsdaten ...
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
@@ -86,7 +81,7 @@
             margin-left: 20px;
             border-left: 2px solid #e0e0e0;
             padding-left: 10px;
-            display: none;
+            margin-top: 10px;
         }
         .reply {
             margin-bottom: 10px;
@@ -95,33 +90,10 @@
 </head>
 <body>
     <!-- Hamburger Menü -->
-    <div id="menu-toggle" class="menu-icon">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
-
-    <!-- Sidebar Navigation -->
-    <div class="sidebar" id="sidebar">
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="daily-news.html">Daily News</a></li>
-                <li><a href="essensliste.html">Essensliste</a></li>
-                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
-                <li><a href="undefiniert.html">FUN</a></li>
-                <li><a href="comments.html">Kommentare</a></li>
-            </ul>
-        </nav>
-    </div>
+    <!-- ... Ihr vorhandener Code ... -->
 
     <!-- Header Banner -->
-    <header>
-        <div class="banner-content">
-            <img src="https://github.com/shootcat/FoodyFriday/blob/main/2024041111152226%20(Benutzerdefiniert).png?raw=true" alt="Logo" class="logo">
-            <h1 class="banner-title">FOODY FRIDAY NEWSBLOG</h1>
-        </div>
-    </header>
+    <!-- ... Ihr vorhandener Code ... -->
     
     <!-- Hauptinhalt -->
     <main>
@@ -136,11 +108,8 @@
                 <button type="submit">Abschicken</button>
             </form>
             
-            <button id="giphy-btn">GIF hinzufügen</button>
-            <div id="giphy-search" style="display:none;">
-                <input type="text" id="giphy-query" placeholder="Suche nach GIFs...">
-                <div id="giphy-results"></div>
-            </div>
+            <!-- GIF Section -->
+            <!-- ... Ihr vorhandener Code ... -->
             
             <div id="comments-section">
                 <h3>Letzte Kommentare</h3>
@@ -152,52 +121,13 @@
     <!-- Scripts -->
     <script>
         // Hamburger Menü
-        const menuToggle = document.getElementById('menu-toggle');
-        const sidebar = document.getElementById('sidebar');
-        menuToggle.addEventListener('click', () => {
-            sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block';
-        });
+        // ... Ihr vorhandener Code ...
 
         // Emoji Picker
-        document.querySelector('#comment').addEventListener('focus', function() {
-            const emojiPicker = document.createElement('emoji-picker');
-            document.getElementById('emoji-picker').appendChild(emojiPicker);
-
-            emojiPicker.addEventListener('emoji-click', (event) => {
-                document.querySelector('#comment').value += event.detail.unicode;
-            });
-        });
+        // ... Ihr vorhandener Code ...
 
         // GIF-Suche mit Tenor API
-        const tenorApiUrl = "https://g.tenor.com/v1/search?key=LIVDSRZULELA&q=";
-
-        document.getElementById('giphy-btn').addEventListener('click', () => {
-            document.getElementById('giphy-search').style.display = 'block';
-        });
-
-        document.getElementById('giphy-query').addEventListener('input', async (event) => {
-            const query = event.target.value;
-            const response = await fetch(`${tenorApiUrl}${query}&limit=25`);
-            const data = await response.json();
-
-            const results = document.getElementById('giphy-results');
-            results.innerHTML = ''; // Vorherige Ergebnisse löschen
-
-            data.results.forEach(gif => {
-                const img = document.createElement('img');
-                img.src = gif.media[0].gif.url;
-                img.style.maxWidth = "150px"; // Größe der GIFs anpassen
-                img.style.maxHeight = "150px"; // Höhe festlegen
-                img.alt = gif.title;
-                img.addEventListener('click', () => {
-                    const commentField = document.querySelector('#comment');
-                    commentField.value += `<img src="${img.src}" alt="${gif.title}">`;
-                    document.getElementById('giphy-search').style.display = 'none';
-                });
-
-                results.appendChild(img);
-            });
-        });
+        // ... Ihr vorhandener Code ...
 
         // Kommentar absenden
         document.getElementById('comment-form').addEventListener('submit', async (e) => {
@@ -345,8 +275,7 @@
             db.collection("comments")
                 .where("parentId", "==", parentId)
                 .orderBy("timestamp", "asc")
-                .get()
-                .then((snapshot) => {
+                .onSnapshot((snapshot) => {
                     container.innerHTML = ''; // Aktuelle Antworten löschen
                     snapshot.forEach((doc) => {
                         const replyData = doc.data();
