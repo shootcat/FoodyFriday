@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Kommentare - Foody Friday NewsBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <!-- Favicon Links -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
@@ -13,19 +13,26 @@
 
     <!-- Webmanifest für PWA -->
     <link rel="manifest" href="site.webmanifest">
-    
+
     <!-- Externe CSS-Datei -->
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- Firebase SDKs Version 8.6.8 -->
+
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
 
     <!-- Firebase-Konfiguration -->
     <script>
+        // Ersetzen Sie die folgenden Konfigurationsdaten mit Ihren eigenen Firebase-Konfigurationsdaten
         const firebaseConfig = {
-            // ... Ihre Firebase-Konfigurationsdaten ...
+            apiKey: "YOUR_FIREBASE_API_KEY",
+            authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
+            projectId: "YOUR_FIREBASE_PROJECT_ID",
+            storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
+            appId: "YOUR_FIREBASE_APP_ID"
         };
+        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
     </script>
@@ -82,6 +89,7 @@
             border-left: 2px solid #e0e0e0;
             padding-left: 10px;
             margin-top: 10px;
+            display: none;
         }
         .reply {
             margin-bottom: 10px;
@@ -90,11 +98,34 @@
 </head>
 <body>
     <!-- Hamburger Menü -->
-    <!-- ... Ihr vorhandener Code ... -->
+    <div id="menu-toggle" class="menu-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="daily-news.html">Daily News</a></li>
+                <li><a href="essensliste.html">Essensliste</a></li>
+                <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
+                <li><a href="undefiniert.html">FUN</a></li>
+                <li><a href="comments.html">Kommentare</a></li>
+            </ul>
+        </nav>
+    </div>
 
     <!-- Header Banner -->
-    <!-- ... Ihr vorhandener Code ... -->
-    
+    <header>
+        <div class="banner-content">
+            <img src="YOUR_LOGO_URL" alt="Logo" class="logo">
+            <h1 class="banner-title">FOODY FRIDAY NEWSBLOG</h1>
+        </div>
+    </header>
+
     <!-- Hauptinhalt -->
     <main>
         <div class="content">
@@ -107,10 +138,13 @@
                 <div id="emoji-picker"></div>
                 <button type="submit">Abschicken</button>
             </form>
-            
-            <!-- GIF Section -->
-            <!-- ... Ihr vorhandener Code ... -->
-            
+
+            <button id="giphy-btn">GIF hinzufügen</button>
+            <div id="giphy-search" style="display:none;">
+                <input type="text" id="giphy-query" placeholder="Suche nach GIFs...">
+                <div id="giphy-results"></div>
+            </div>
+
             <div id="comments-section">
                 <h3>Letzte Kommentare</h3>
                 <div id="comments-list"></div>
@@ -121,13 +155,54 @@
     <!-- Scripts -->
     <script>
         // Hamburger Menü
-        // ... Ihr vorhandener Code ...
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        menuToggle.addEventListener('click', () => {
+            sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block';
+        });
 
         // Emoji Picker
-        // ... Ihr vorhandener Code ...
+        document.querySelector('#comment').addEventListener('focus', function() {
+            if (!document.querySelector('emoji-picker')) {
+                const emojiPicker = document.createElement('emoji-picker');
+                document.getElementById('emoji-picker').appendChild(emojiPicker);
+
+                emojiPicker.addEventListener('emoji-click', (event) => {
+                    document.querySelector('#comment').value += event.detail.unicode;
+                });
+            }
+        });
 
         // GIF-Suche mit Tenor API
-        // ... Ihr vorhandener Code ...
+        const tenorApiUrl = "https://g.tenor.com/v1/search?key=LIVDSRZULELA&q=";
+
+        document.getElementById('giphy-btn').addEventListener('click', () => {
+            document.getElementById('giphy-search').style.display = 'block';
+        });
+
+        document.getElementById('giphy-query').addEventListener('input', async (event) => {
+            const query = event.target.value;
+            const response = await fetch(`${tenorApiUrl}${query}&limit=25`);
+            const data = await response.json();
+
+            const results = document.getElementById('giphy-results');
+            results.innerHTML = ''; // Vorherige Ergebnisse löschen
+
+            data.results.forEach(gif => {
+                const img = document.createElement('img');
+                img.src = gif.media[0].gif.url;
+                img.style.maxWidth = "150px"; // Größe der GIFs anpassen
+                img.style.maxHeight = "150px"; // Höhe festlegen
+                img.alt = gif.title;
+                img.addEventListener('click', () => {
+                    const commentField = document.querySelector('#comment');
+                    commentField.value += `<img src="${img.src}" alt="${gif.title}">`;
+                    document.getElementById('giphy-search').style.display = 'none';
+                });
+
+                results.appendChild(img);
+            });
+        });
 
         // Kommentar absenden
         document.getElementById('comment-form').addEventListener('submit', async (e) => {
@@ -163,7 +238,7 @@
                         commentsData.push(commentData);
                     });
 
-                    // Filterung der Top-Level-Kommentare (Kommentare ohne parentId oder mit parentId == null)
+                    // Filterung der Top-Level-Kommentare
                     const topLevelComments = commentsData.filter(comment => !comment.parentId);
 
                     topLevelComments.forEach(comment => {
