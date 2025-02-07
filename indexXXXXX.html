@@ -46,7 +46,7 @@
 
     <!-- Hauptinhalt -->
     <main>
-        <div class="content-container">
+        <div class="content">
             <!-- Widgets Container -->
             <div class="widgets-container">
 
@@ -94,7 +94,7 @@
     <!-- Musikplayer als Taskleiste -->
     <div class="music-player">
         <div class="station-selector">
-            <button class="station-button" id="swr3-button">SWR3</button>
+            <button class="station-button active" id="swr3-button">SWR3</button>
             <button class="station-button" id="dasding-button">DAS DING</button>
             <button class="station-button" id="badenfm-button">BADEN FM</button>
         </div>
@@ -123,21 +123,15 @@
                 slidesData = data.items.map(item => {
                     let imageUrl = '';
 
-                    // Versuche, das Bild aus dem 'enclosure' Feld zu bekommen
                     if (item.enclosure && item.enclosure.link) {
                         imageUrl = item.enclosure.link;
-                    }
-                    // Falls nicht vorhanden, versuche 'thumbnail'
-                    else if (item.thumbnail) {
+                    } else if (item.thumbnail) {
                         imageUrl = item.thumbnail;
-                    }
-                    // Falls nicht vorhanden, versuche das Bild aus dem 'description' Feld zu extrahieren
-                    else {
+                    } else {
                         const imgMatch = item.description.match(/<img.*?src="(.*?)"/);
                         if (imgMatch && imgMatch[1]) {
                             imageUrl = imgMatch[1];
                         } else {
-                            // Fallback-Bild verwenden
                             imageUrl = 'https://via.placeholder.com/800x400?text=Keine+Vorschau';
                         }
                     }
@@ -149,7 +143,7 @@
                 });
 
                 if (slidesData.length > 0) {
-                    currentIndex = 0; // Zurück zum ersten Slide
+                    currentIndex = 0;
                     updateSlide();
                 }
             } catch (error) {
@@ -201,7 +195,6 @@
             feedTimer = setInterval(fetchRSS, feedRefreshInterval);
         }
 
-        // Initialer Aufruf
         fetchRSS().then(() => {
             startSlideTimer();
             startFeedTimer();
@@ -210,7 +203,6 @@
 
     <!-- JavaScript für den Musikplayer -->
     <script>
-        // URLs der Radio-Streams
         const radioStreams = {
             'swr3-button': {
                 name: 'SWR3',
@@ -235,13 +227,11 @@
         const playPauseButton = document.getElementById('play-pause-button');
         const currentStationLabel = document.getElementById('current-station');
 
-        // Funktion zum Wechseln der Radiostation
         function switchStation(stationId) {
             currentStationId = stationId;
             audioPlayer.src = radioStreams[stationId].streamUrl;
             currentStationLabel.textContent = radioStreams[stationId].name;
 
-            // Aktive Klasse aktualisieren
             stationButtons.forEach(btn => btn.classList.remove('active'));
             document.getElementById(stationId).classList.add('active');
 
@@ -250,14 +240,12 @@
             }
         }
 
-        // Event Listener für Stationswechsel
         stationButtons.forEach(button => {
             button.addEventListener('click', () => {
                 switchStation(button.id);
             });
         });
 
-        // Play/Pause-Funktion
         playPauseButton.addEventListener('click', () => {
             if (isPlaying) {
                 audioPlayer.pause();
@@ -269,17 +257,12 @@
             isPlaying = !isPlaying;
         });
 
-        // Initialisierung
         document.getElementById('swr3-button').classList.add('active');
         currentStationLabel.textContent = radioStreams[currentStationId].name;
 
-        // Fehlerbehandlung
         audioPlayer.addEventListener('error', () => {
             alert('Fehler beim Laden des Streams. Bitte versuche es später erneut.');
         });
     </script>
-
-    <!-- Optional: Verknüpfung von zusätzlichem Skript -->
-    <!-- <script src="script.js"></script> -->
 </body>
 </html>
